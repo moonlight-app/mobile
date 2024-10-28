@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hiltAndroid) apply false
     kotlin("kapt") version libs.versions.kotlin.get() apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.jetbrains.kotlin.serialization) apply false
 }
 
 buildscript {

@@ -53,10 +53,15 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:data"))
+    implementation(project(":feature-auth"))
+    implementation(project(":feature-catalog"))
+    implementation(project(":feature-cart"))
+    implementation(project(":feature-profile"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
