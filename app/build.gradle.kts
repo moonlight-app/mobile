@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
     implementation(project(":feature-auth"))
     implementation(project(":feature-catalog"))
     implementation(project(":feature-cart"))

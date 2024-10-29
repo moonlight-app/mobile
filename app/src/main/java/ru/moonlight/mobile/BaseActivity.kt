@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -19,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -28,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_cart.navigation.navigateToCartScreen
 import ru.moonlight.feature_catalog.navigation.navigateToCatalogScreen
-import ru.moonlight.mobile.ui.theme.MoonlightTheme
+import ru.moonlight.theme.MoonlightTheme
 
 @AndroidEntryPoint
 class BaseActivity : ComponentActivity() {
@@ -88,11 +91,13 @@ class BaseActivity : ComponentActivity() {
                                     unselectedIcon = painterResource(id = R.drawable.baseline_apps_24),
                                 ),
                             ),
-
-                            )
+                        )
                     }
                 ) { innerPadding ->
-                    MoonlightNavHost(modifier = Modifier.padding(innerPadding), navController = navController)
+                    MoonlightNavHost(
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController
+                    )
                 }
             }
         }
