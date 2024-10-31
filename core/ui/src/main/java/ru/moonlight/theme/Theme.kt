@@ -21,13 +21,14 @@ import androidx.compose.ui.unit.dp
 @Immutable
 data class MoonlightThemeColors (
     val background: Color,
-    val button: Color,
-    val outlineButton: Color,
+    val component: Color,
+    val highlightComponent: Color,
+    val outlineHighlightComponent: Color,
     val card: Color,
     val highlightText: Color,
     val text: Color,
-    val hint: Color,
-    val disabledButton: Color,
+    val hintText: Color,
+    val disabledComponent: Color,
     val disabledText: Color,
     val error: Color,
 )
@@ -35,6 +36,7 @@ data class MoonlightThemeColors (
 @Immutable
 data class MoonlightThemeTypography(
     val title: TextStyle,
+    val subTitle: TextStyle,
     val secondTitle: TextStyle,
     val textField: TextStyle,
     val button: TextStyle,
@@ -44,10 +46,14 @@ data class MoonlightThemeTypography(
 
 @Immutable
 data class MoonlightThemeDimens(
+    /* height/width */
     val buttonHeight: Dp,
     val smallButtonHeight: Dp,
     val textFieldHeight: Dp,
     val secondTextFieldHeight: Dp,
+    val buttonBorderWidth: Dp,
+    val progressBarWidth: Dp,
+    val smallProgressBarWidth: Dp,
 
     /* corner radius */
     val textFieldRadius: Dp,
@@ -71,18 +77,20 @@ data class MoonlightThemeDimens(
 @Immutable
 data class MoonlightThemeShapes(
     val buttonShape: RoundedCornerShape,
+    val textFieldShape: RoundedCornerShape,
 )
 
 internal val LocalCustomColors = staticCompositionLocalOf {
     MoonlightThemeColors(
         background = Color.Unspecified,
-        button = Color.Unspecified,
-        outlineButton = Color.Unspecified,
+        component = Color.Unspecified,
+        highlightComponent = Color.Unspecified,
+        outlineHighlightComponent = Color.Unspecified,
         card = Color.Unspecified,
         highlightText = Color.Unspecified,
         text = Color.Unspecified,
-        hint = Color.Unspecified,
-        disabledButton = Color.Unspecified,
+        hintText = Color.Unspecified,
+        disabledComponent = Color.Unspecified,
         disabledText = Color.Unspecified,
         error = Color.Unspecified,
     )
@@ -91,6 +99,7 @@ internal val LocalCustomColors = staticCompositionLocalOf {
 internal val LocalCustomTypography = staticCompositionLocalOf {
     MoonlightThemeTypography (
         title = TextStyle.Default,
+        subTitle = TextStyle.Default,
         secondTitle = TextStyle.Default,
         textField = TextStyle.Default,
         button = TextStyle.Default,
@@ -105,7 +114,8 @@ internal val LocalCustomDimens = staticCompositionLocalOf {
 
 internal val LocalCustomShapes = staticCompositionLocalOf {
     MoonlightThemeShapes(
-        buttonShape = RoundedCornerShape(24.dp)
+        buttonShape = RoundedCornerShape(24.dp),
+        textFieldShape = RoundedCornerShape(50.dp),
     )
 }
 
@@ -120,13 +130,14 @@ fun MoonlightTheme(
     val customColors: MoonlightThemeColors = if (darkTheme) {
         MoonlightThemeColors(
             background = DarkGray,
-            button = LightBlue,
-            outlineButton = DarkBlue,
+            component = Gray30,
+            highlightComponent = LightBlue,
+            outlineHighlightComponent = DarkBlue,
             card = DarkOcean,
-            highlightText = LightBlue,
+            highlightText = DarkBlue,
             text = White,
-            hint = White.copy(alpha = 0.5f),
-            disabledButton = Gray60,
+            hintText = Gray60,
+            disabledComponent = Gray60,
             disabledText = Gray30,
             error = Red,
         )
@@ -134,13 +145,14 @@ fun MoonlightTheme(
         //TODO("Add light theme in the future")
         MoonlightThemeColors(
             background = DarkGray,
-            button = LightBlue,
-            outlineButton = DarkBlue,
+            component = Gray30,
+            highlightComponent = LightBlue,
+            outlineHighlightComponent = DarkBlue,
             card = DarkOcean,
-            highlightText = LightBlue,
+            highlightText = DarkBlue,
             text = White,
-            hint = White.copy(alpha = 0.5f),
-            disabledButton = Gray60,
+            hintText = Gray60,
+            disabledComponent = Gray60,
             disabledText = Gray30,
             error = Red,
         )
@@ -148,6 +160,7 @@ fun MoonlightTheme(
 
     val customTypography = MoonlightThemeTypography (
         title = titleTextStyle,
+        subTitle = subTitleTextStyle,
         secondTitle = secondTitleTextStyle,
         textField = textFieldTextStyle,
         button = buttonTextStyle,
@@ -180,7 +193,8 @@ fun MoonlightTheme(
     }
 
     val customShapes = MoonlightThemeShapes(
-        buttonShape = RoundedCornerShape(customDimens.buttonRadius)
+        buttonShape = RoundedCornerShape(customDimens.buttonRadius),
+        textFieldShape = RoundedCornerShape(customDimens.textFieldRadius),
     )
 
     CompositionLocalProvider(
