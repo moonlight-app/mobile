@@ -65,8 +65,8 @@ fun TextAuthComponent(
     onAnnotatedTextClick: () -> Unit = {},
     modifier: Modifier = Modifier,
     titleText: String = stringResource(id = R.string.app_name),
-    subTitleText: String,
-    bodyText: String,
+    subTitleText: String? = null,
+    bodyText: String? = null,
     bodyPart2Text : String? = null,
     bodyPart3Text : String? = null,
     titleTextColor: Color = MoonlightTheme.colors.highlightComponent,
@@ -89,29 +89,32 @@ fun TextAuthComponent(
             color = titleTextColor,
         )
         Spacer(modifier = Modifier.height(2.dp))
-        Text(
-            modifier = Modifier,
-            text = subTitleText,
-            style = subTitleTextStyle,
-            color = subTitleTextColor,
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        if (bodyPart2Text != null && bodyPart3Text != null) {
-            TextAnnotatedComponent(
-                onClick = onAnnotatedTextClick,
-                textPart1 = bodyText,
-                textPart2 = bodyPart2Text,
-                textPart3 = bodyPart3Text,
-                withLineBreaks = true,
-            )
-        } else {
+        if (!subTitleText.isNullOrEmpty()) {
             Text(
                 modifier = Modifier,
-                text = bodyText,
-                style = MoonlightTheme.typography.description,
-                color = bodyTextColor,
+                text = subTitleText,
+                style = subTitleTextStyle,
+                color = subTitleTextColor,
             )
         }
-
+        Spacer(modifier = Modifier.height(5.dp))
+        if (!bodyText.isNullOrEmpty()) {
+            if (bodyPart2Text != null && bodyPart3Text != null) {
+                TextAnnotatedComponent(
+                    onClick = onAnnotatedTextClick,
+                    textPart1 = bodyText,
+                    textPart2 = bodyPart2Text,
+                    textPart3 = bodyPart3Text,
+                    withLineBreaks = true,
+                )
+            } else {
+                Text(
+                    modifier = Modifier,
+                    text = bodyText,
+                    style = MoonlightTheme.typography.description,
+                    color = bodyTextColor,
+                )
+            }
+        }
     }
 }

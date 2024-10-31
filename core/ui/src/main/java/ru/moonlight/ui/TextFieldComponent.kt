@@ -1,5 +1,6 @@
 package ru.moonlight.ui
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,7 +50,8 @@ fun TextFieldComponent(
     textStyle: TextStyle = MoonlightTheme.typography.textField,
 ) {
     OutlinedTextField(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth(),
         value = value,
         onValueChange = { newValue ->
             onValueChange(newValue)
@@ -115,7 +117,8 @@ fun TextFieldPasswordComponent(
     var passwordVisible by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth(),
         value = value,
         onValueChange = { newValue ->
             onValueChange(newValue)
