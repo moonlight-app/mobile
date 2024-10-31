@@ -15,4 +15,7 @@
     <string name="codeWasSendedOn">Код отправлен на</string>
     <string name="dontGetCode">Не пришло письмо с кодом восстановления?\n</string>
     <string name="tryAgain">Отправить еще раз</string>
+    <string name="accountComplete">Ваш аккаунт готов!</string>
+    <string name="accountWasCreatedAndConfirmed">Ваш новый аккаунт был успешно создан\nи подтверждён, можно начинать работу!</string>
+    <string name="getStart">Начать работу</string>
 </resources>
