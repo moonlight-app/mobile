@@ -23,6 +23,10 @@ internal val CompactSmallDimens = MoonlightThemeDimens(
     buttonFontSize = 16.sp,
     smallButtonFontSize = 14.sp,
     descriptionFontSize = 14.sp,
+    paddingFromEdges = 24.dp,
+    paddingBetweenComponentsHorizontal = 12.dp,
+    paddingBetweenComponentsSmallVertical = 12.dp,
+    paddingBetweenComponentsBigVertical = 36.dp,
 )
 
 internal val CompactMediumDimens = MoonlightThemeDimens(
@@ -45,6 +49,10 @@ internal val CompactMediumDimens = MoonlightThemeDimens(
     buttonFontSize = 16.sp,
     smallButtonFontSize = 14.sp,
     descriptionFontSize = 14.sp,
+    paddingFromEdges = 24.dp,
+    paddingBetweenComponentsHorizontal = 12.dp,
+    paddingBetweenComponentsSmallVertical = 12.dp,
+    paddingBetweenComponentsBigVertical = 36.dp,
 )
 
 internal val CompactDimens = MoonlightThemeDimens(
@@ -67,4 +75,8 @@ internal val CompactDimens = MoonlightThemeDimens(
     buttonFontSize = 16.sp,
     smallButtonFontSize = 14.sp,
     descriptionFontSize = 14.sp,
+    paddingFromEdges = 24.dp,
+    paddingBetweenComponentsHorizontal = 12.dp,
+    paddingBetweenComponentsSmallVertical = 12.dp,
+    paddingBetweenComponentsBigVertical = 36.dp,
 )

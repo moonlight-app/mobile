@@ -72,6 +72,12 @@ data class MoonlightThemeDimens(
     val buttonFontSize: TextUnit,
     val smallButtonFontSize: TextUnit,
     val descriptionFontSize: TextUnit,
+
+    /* padding */
+    val paddingFromEdges: Dp,
+    val paddingBetweenComponentsHorizontal: Dp,
+    val paddingBetweenComponentsSmallVertical: Dp,
+    val paddingBetweenComponentsBigVertical: Dp,
 )
 
 @Immutable

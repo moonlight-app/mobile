@@ -1,0 +1,11 @@
+<resources>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="email">Почта</string>
+    <string name="password">Пароль</string>
+    <string name="signInAccount">Войти в аккаунт</string>
+    <string name="createAccount">Создать аккаунт</string>
+    <string name="registration">Регистрация</string>
+    <string name="name">Имя</string>
+    <string name="sex">Пол</string>
+    <string name="age">Возраст</string>
+</resources>
