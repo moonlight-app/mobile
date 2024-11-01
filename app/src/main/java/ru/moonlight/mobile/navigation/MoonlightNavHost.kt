@@ -1,11 +1,9 @@
-package ru.moonlight.mobile
+package ru.moonlight.mobile.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import ru.moonlight.feature_auth.sign_in.navigation.SignInRoute
 import ru.moonlight.feature_auth.sign_in.navigation.signInScreen
 import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.confirmCodeScreen
 import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.navigateToConfirmCode
@@ -16,31 +14,35 @@ import ru.moonlight.feature_auth.sign_up.registration_complete.navigation.regist
 import ru.moonlight.feature_cart.navigation.cartScreen
 import ru.moonlight.feature_catalog.navigation.CatalogRoute
 import ru.moonlight.feature_catalog.navigation.catalogScreen
+import ru.moonlight.feature_profile.navigation.profileScreen
+import ru.moonlight.mobile.ui.MoonlightAppState
 
 @Composable
 fun MoonlightNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
+    appState: MoonlightAppState,
 ) {
+    val navController: NavHostController = appState.navController
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = CatalogRoute,
     ) {
         signInScreen(
-            onAuthorizeClick = { navController.navigateUp() },
-            onRegistrationClick = { navController.navigateToRegistration() },
+            onAuthorizeClick = navController::navigateUp,
+            onRegistrationClick = navController::navigateToRegistration,
         )
         registrationScreen(
-            onCreateAccountClick = { navController.navigateToConfirmCode() },
+            onCreateAccountClick = navController::navigateToConfirmCode,
         )
         confirmCodeScreen(
-            onContinueClick = { navController.navigateToRegistrationComplete() }
+            onContinueClick = navController::navigateToRegistrationComplete
         )
         registrationCompleteScreen(
             onGetStartClick = {  } //TODO Add update profileScreen logic
         )
         catalogScreen()
         cartScreen()
+        profileScreen()
     }
 }
