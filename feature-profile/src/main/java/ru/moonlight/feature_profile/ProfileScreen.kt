@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProfileScreen(
+internal fun ProfileScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -16,7 +16,7 @@ fun ProfileScreen(
             .fillMaxSize(),
     ) {
         Text(
-            text = "CatalogScreen",
+            text = "ProfileScreen",
             fontSize = 30.sp,
         )
 
