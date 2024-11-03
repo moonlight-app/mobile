@@ -16,6 +16,7 @@ import kotlin.reflect.KClass
 enum class TopLevelDestination(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
+    val badgeCount: Int? = null,
     val route: KClass<*>,
 ) {
     CATALOG(
@@ -27,6 +28,7 @@ enum class TopLevelDestination(
         selectedIcon = Icons.Filled.ShoppingCart,
         unselectedIcon = Icons.Outlined.ShoppingCart,
         route = CartRoute::class,
+        badgeCount = 2
     ),
     PROFILE(
         selectedIcon = Icons.Filled.Face,

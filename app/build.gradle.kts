@@ -54,12 +54,14 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":core:network"))
     implementation(project(":feature-auth"))
     implementation(project(":feature-catalog"))
     implementation(project(":feature-cart"))
     implementation(project(":feature-profile"))
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.material3.adaptive.navigation.suite.android)
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.navigation.compose)
@@ -71,7 +73,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
