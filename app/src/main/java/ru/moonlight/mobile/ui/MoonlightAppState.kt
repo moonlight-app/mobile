@@ -26,17 +26,17 @@ import ru.moonlight.network.utils.NetworkMonitor
 fun rememberMoonlightAppState(
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    //networkMonitor: NetworkMonitor,
+    networkMonitor: NetworkMonitor,
 ): MoonlightAppState {
     return remember(
         navController,
         coroutineScope,
-        //networkMonitor,
+        networkMonitor,
     ) {
         MoonlightAppState(
             navController = navController,
             coroutineScope = coroutineScope,
-            //networkMonitor = networkMonitor
+            networkMonitor = networkMonitor
         )
     }
 }
@@ -45,7 +45,7 @@ fun rememberMoonlightAppState(
 class MoonlightAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
-    //networkMonitor: NetworkMonitor,
+    networkMonitor: NetworkMonitor,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController
@@ -58,13 +58,13 @@ class MoonlightAppState(
             }
         }
 
-//    val isOffline = networkMonitor.isOnline
-//        .map(Boolean::not)
-//        .stateIn(
-//            scope = coroutineScope,
-//            started = SharingStarted.WhileSubscribed(5_000),
-//            initialValue = false,
-//        )
+    val isOffline = networkMonitor.isOnline
+        .map(Boolean::not)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false,
+        )
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
