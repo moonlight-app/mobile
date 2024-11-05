@@ -2,8 +2,12 @@ package ru.moonlight.mobile.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -12,7 +16,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -31,11 +34,10 @@ fun MoonlightScreen(
 
     Surface(
         modifier = modifier
-            .fillMaxSize()
-            .background(Color.White),
-        color = MoonlightTheme.colors.card
+            .fillMaxSize(),
     ) {
         Scaffold(
+            contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
             bottomBar = {
                 BottomNavigationComponent {
                     appState.topLevelDestinations.forEach { destination ->
@@ -65,20 +67,17 @@ fun MoonlightScreen(
                     }
                 }
             }
-        ) {
-            Box(
+        ) { paddingValues ->
+        Box(
                 modifier = modifier
                     .fillMaxSize()
+                    .padding(bottom = paddingValues.calculateBottomPadding())
                     .background(color = MoonlightTheme.colors.background),
-
-
             ) {
-                MoonlightNavHost(appState = appState, modifier = modifier.padding(it))
+                MoonlightNavHost(appState = appState)
             }
         }
     }
-
-
 }
 
 private fun NavDestination?.isRouteInHierarchy(route: KClass<*>) =
