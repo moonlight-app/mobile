@@ -2,6 +2,7 @@ package ru.moonlight.mobile.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.util.trace
@@ -16,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_cart.navigation.navigateToCartScreen
 import ru.moonlight.feature_catalog.navigation.navigateToCatalogScreen
 import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
@@ -58,6 +60,15 @@ class MoonlightAppState(
             }
         }
 
+    val isCurrentTopLevelDestination: Boolean
+        @Composable get() {
+            val currentDestination = currentDestination
+            return currentDestination != null &&
+                    TopLevelDestination.entries.any { topLevelDestination ->
+                        currentDestination.hasRoute(topLevelDestination.route)
+                    }
+        }
+
     val isOffline = networkMonitor.isOnline
         .map(Boolean::not)
         .stateIn(
@@ -67,6 +78,9 @@ class MoonlightAppState(
         )
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
+
+    //will implement when appear user repository
+    val isUserAuthorized = mutableStateOf<Boolean>(true)
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         trace("Navigation: ${topLevelDestination.name}") {
@@ -85,9 +99,19 @@ class MoonlightAppState(
             }
 
             when (topLevelDestination) {
-                TopLevelDestination.CATALOG -> navController.navigateToCatalogScreen(topLevelNavOptions)
-                TopLevelDestination.CART -> navController.navigateToCartScreen(topLevelNavOptions)
-                TopLevelDestination.PROFILE -> navController.navigateToProfileScreen(topLevelNavOptions)
+                TopLevelDestination.CATALOG -> {
+                    navController.navigateToCatalogScreen(topLevelNavOptions)
+                }
+                TopLevelDestination.CART -> {
+                    navController.navigateToCartScreen(topLevelNavOptions)
+                }
+                TopLevelDestination.PROFILE -> {
+                    if (isUserAuthorized.value) {
+                        navController.navigateToProfileScreen(topLevelNavOptions)
+                    } else {
+                        navController.navigateToSignIn()
+                    }
+                }
             }
         }
     }

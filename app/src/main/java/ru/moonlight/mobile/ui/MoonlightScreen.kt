@@ -1,5 +1,10 @@
 package ru.moonlight.mobile.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -31,39 +36,51 @@ fun MoonlightScreen(
     appState: MoonlightAppState,
 ) {
     val currentDestination = appState.currentDestination
+    val isUserAuthorized = appState.isUserAuthorized
 
     Surface(
         modifier = modifier
             .fillMaxSize(),
+        color = MoonlightTheme.colors.card
     ) {
         Scaffold(
+            containerColor = MoonlightTheme.colors.card,
             contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
             bottomBar = {
-                BottomNavigationComponent {
-                    appState.topLevelDestinations.forEach { destination ->
-                        val selected = currentDestination.isRouteInHierarchy(destination.route)
-                        NavigationBarItemComponent(
-                            selected = selected,
-                            onClick = { appState.navigateToTopLevelDestination(destination) },
-                            icon = {
-                                BadgedBox(
-                                    badge = {
-                                        if(destination.badgeCount != null) {
-                                            Badge {
-                                                Text(text = destination.badgeCount.toString())
+                AnimatedVisibility(
+                    visible = isUserAuthorized.value || appState.isCurrentTopLevelDestination,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically(),
+                ) {
+                    BottomNavigationComponent {
+                        appState.topLevelDestinations.forEach { destination ->
+                            val selected = currentDestination.isRouteInHierarchy(destination.route)
+                            NavigationBarItemComponent(
+                                selected = selected,
+                                onClick = { appState.navigateToTopLevelDestination(destination) },
+                                icon = {
+                                    BadgedBox(
+                                        badge = {
+                                            if(destination.badgeCount != null) {
+                                                Badge(
+                                                    containerColor = MoonlightTheme.colors.highlightComponent,
+                                                    contentColor = MoonlightTheme.colors.text,
+                                                ) {
+                                                    Text(text = destination.badgeCount.toString())
+                                                }
                                             }
                                         }
+                                    ) {
+                                        Icon(
+                                            imageVector = if (selected) {
+                                                destination.selectedIcon
+                                            } else destination.unselectedIcon,
+                                            contentDescription = null
+                                        )
                                     }
-                                ) {
-                                    Icon(
-                                        imageVector = if (selected) {
-                                            destination.selectedIcon
-                                        } else destination.unselectedIcon,
-                                        contentDescription = null
-                                    )
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
