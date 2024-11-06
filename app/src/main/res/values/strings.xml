@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Moonlight</string>
+    <string name="checkInternetConnection">Проверьте подключение к интернету</string>
 </resources>

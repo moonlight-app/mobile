@@ -17,17 +17,27 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import ru.moonlight.mobile.R
 import ru.moonlight.mobile.navigation.MoonlightNavHost
 import ru.moonlight.theme.MoonlightTheme
 import ru.moonlight.ui.BottomNavigationComponent
 import ru.moonlight.ui.NavigationBarItemComponent
+import ru.moonlight.ui.SnackbarHostComponent
 import kotlin.reflect.KClass
 
 @Composable
@@ -35,8 +45,21 @@ fun MoonlightScreen(
     modifier: Modifier = Modifier,
     appState: MoonlightAppState,
 ) {
+    val context = LocalContext.current
     val currentDestination = appState.currentDestination
     val isUserAuthorized = appState.isUserAuthorized
+    val snackbarHostState = remember { SnackbarHostState() }
+    val isOffline by appState.isOffline.collectAsStateWithLifecycle()
+
+    // If user is not connected to the internet show a snack bar to inform them
+    LaunchedEffect(isOffline) {
+        if (isOffline) {
+            snackbarHostState.showSnackbar(
+                message = context.getString(R.string.checkInternetConnection),
+                duration = SnackbarDuration.Indefinite,
+            )
+        }
+    }
 
     Surface(
         modifier = modifier
@@ -59,31 +82,22 @@ fun MoonlightScreen(
                                 selected = selected,
                                 onClick = { appState.navigateToTopLevelDestination(destination) },
                                 icon = {
-                                    BadgedBox(
-                                        badge = {
-                                            if(destination.badgeCount != null) {
-                                                Badge(
-                                                    containerColor = MoonlightTheme.colors.highlightComponent,
-                                                    contentColor = MoonlightTheme.colors.text,
-                                                ) {
-                                                    Text(text = destination.badgeCount.toString())
-                                                }
-                                            }
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = if (selected) {
-                                                destination.selectedIcon
-                                            } else destination.unselectedIcon,
-                                            contentDescription = null
-                                        )
-                                    }
+                                    BadgedBoxComponent(
+                                        badgeCount = destination.badgeCount,
+                                        selected = selected,
+                                        selectedIcon = destination.selectedIcon,
+                                        unselectedIcon = destination.unselectedIcon,
+                                    )
                                 }
                             )
                         }
                     }
                 }
-            }
+            },
+            snackbarHost = {
+                SnackbarHostComponent(snackbarHostState = snackbarHostState)
+            },
+
         ) { paddingValues ->
         Box(
                 modifier = modifier
@@ -94,6 +108,34 @@ fun MoonlightScreen(
                 MoonlightNavHost(appState = appState)
             }
         }
+    }
+}
+
+@Composable
+private fun BadgedBoxComponent(
+    badgeCount: Int?,
+    selected: Boolean,
+    selectedIcon: ImageVector,
+    unselectedIcon: ImageVector,
+) {
+    BadgedBox(
+        badge = {
+            if(badgeCount != null) {
+                Badge(
+                    containerColor = MoonlightTheme.colors.highlightComponent,
+                    contentColor = MoonlightTheme.colors.text,
+                ) {
+                    Text(text = badgeCount.toString())
+                }
+            }
+        }
+    ) {
+        Icon(
+            imageVector = if (selected) {
+                selectedIcon
+            } else unselectedIcon,
+            contentDescription = null,
+        )
     }
 }
 
