@@ -1,19 +1,29 @@
 package ru.moonlight.network.di
 
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.moonlight.network.utils.ConnectivityManagerNetworkMonitor
-import ru.moonlight.network.utils.NetworkMonitor
+import ru.moonlight.network.service.AuthService
+import ru.moonlight.network.utils.AuthDataSource
+import ru.moonlight.network.utils.TokenManager
+import ru.moonlight.network.utils.TokenManagerImpl
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class NetworkModule {
+object NetworkModule {
 
-    @Binds
-    internal abstract fun bindsNetworkMonitor(
-        networkMonitor: ConnectivityManagerNetworkMonitor,
-    ): NetworkMonitor
+    @Singleton
+    @Provides
+    fun providesAuthService(
+        tokenManager: TokenManager
+    ): AuthService = AuthService(tokenManager = tokenManager)
+
+    @Singleton
+    @Provides
+    fun providesTokenManager(
+        authDataSource: AuthDataSource
+    ): TokenManager = TokenManagerImpl(authDataSource = authDataSource)
 
 }
