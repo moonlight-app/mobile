@@ -32,6 +32,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:datastore"))
+    implementation(project(":core:network"))
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }

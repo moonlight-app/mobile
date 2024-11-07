@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "Moonlight"
 include(":app")
 include(":core:data")
+include(":core:datastore")
 include(":core:network")
 include(":core:common")
 include(":core:ui")
@@ -29,4 +30,3 @@ include(":feature-auth")
 include(":feature-catalog")
 include(":feature-cart")
 include(":feature-profile")
-
