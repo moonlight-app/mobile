@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.moonlight.feature_auth.R
 import ru.moonlight.theme.MoonlightTheme
 import ru.moonlight.ui.ButtonComponent
@@ -33,6 +34,8 @@ fun SignInScreen(
     onRegistrationClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val viewModel = hiltViewModel<SignInViewModel>()
+
     var login by remember {
         mutableStateOf("")
     }
@@ -79,7 +82,11 @@ fun SignInScreen(
                 ButtonComponent(
                     modifier = Modifier
                         .fillMaxWidth(0.55f),
-                    onClick = { onAuthorizeClick() },
+                    onClick = {
+                        if (viewModel.login(login = login, password = password)) {
+                            onAuthorizeClick()
+                        }
+                    },
                     text = stringResource(R.string.signInAccount)
                 )
                 Spacer(modifier = Modifier.height(MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical))

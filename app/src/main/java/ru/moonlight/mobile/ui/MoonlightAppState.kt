@@ -2,7 +2,8 @@ package ru.moonlight.mobile.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.util.trace
@@ -14,12 +15,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_cart.navigation.navigateToCartScreen
-import ru.moonlight.feature_catalog.navigation.navigateToCatalogScreen
+import ru.moonlight.feature_catalog.navigation.navigateToCatalog
 import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
 import ru.moonlight.mobile.navigation.TopLevelDestination
 import ru.moonlight.network.utils.NetworkMonitor
@@ -29,7 +30,10 @@ fun rememberMoonlightAppState(
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     networkMonitor: NetworkMonitor,
+    isUserAuthorize: Flow<Boolean>,
 ): MoonlightAppState {
+    val localIsUserAuthorize = isUserAuthorize.collectAsState(initial = false)
+
     return remember(
         navController,
         coroutineScope,
@@ -38,7 +42,8 @@ fun rememberMoonlightAppState(
         MoonlightAppState(
             navController = navController,
             coroutineScope = coroutineScope,
-            networkMonitor = networkMonitor
+            networkMonitor = networkMonitor,
+            isUserAuthorize = localIsUserAuthorize,
         )
     }
 }
@@ -48,6 +53,7 @@ class MoonlightAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
     networkMonitor: NetworkMonitor,
+    val isUserAuthorize: State<Boolean>,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController
@@ -79,8 +85,7 @@ class MoonlightAppState(
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
-    //will implement when appear user repository
-    val isUserAuthorized = mutableStateOf<Boolean>(true)
+    val isUserAuthorized = isUserAuthorize
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         trace("Navigation: ${topLevelDestination.name}") {
@@ -100,17 +105,13 @@ class MoonlightAppState(
 
             when (topLevelDestination) {
                 TopLevelDestination.CATALOG -> {
-                    navController.navigateToCatalogScreen(topLevelNavOptions)
+                    navController.navigateToCatalog(topLevelNavOptions)
                 }
                 TopLevelDestination.CART -> {
                     navController.navigateToCartScreen(topLevelNavOptions)
                 }
                 TopLevelDestination.PROFILE -> {
-                    if (isUserAuthorized.value) {
-                        navController.navigateToProfileScreen(topLevelNavOptions)
-                    } else {
-                        navController.navigateToSignIn()
-                    }
+                    navController.navigateToProfileScreen(topLevelNavOptions)
                 }
             }
         }

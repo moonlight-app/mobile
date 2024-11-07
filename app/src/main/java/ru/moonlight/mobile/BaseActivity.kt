@@ -8,6 +8,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import ru.moonlight.data.repository.AuthRepository
 import ru.moonlight.mobile.ui.MoonlightScreen
 import ru.moonlight.mobile.ui.rememberMoonlightAppState
 import ru.moonlight.network.utils.NetworkMonitor
@@ -19,6 +20,9 @@ class BaseActivity : ComponentActivity() {
 
     @Inject
     lateinit var networkMonitor: NetworkMonitor
+
+    @Inject
+    lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +36,10 @@ class BaseActivity : ComponentActivity() {
             systemUiController.setStatusBarColor(color = Color.Transparent, darkIcons = darkTheme)
             systemUiController.setNavigationBarColor(color = Color.Transparent, darkIcons = darkTheme)
 
-            val appState = rememberMoonlightAppState(networkMonitor = networkMonitor)
+            val appState = rememberMoonlightAppState(
+                networkMonitor = networkMonitor,
+                isUserAuthorize = authRepository.isUserAuthorized,
+            )
 
             MoonlightTheme {
                 MoonlightScreen(appState = appState)

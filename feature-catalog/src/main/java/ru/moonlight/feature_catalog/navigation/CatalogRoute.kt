@@ -10,7 +10,7 @@ import ru.moonlight.feature_catalog.CatalogScreen
 @Serializable
 data object CatalogRoute
 
-fun NavController.navigateToCatalogScreen(navOptions: NavOptions? = null) = navigate(route = CatalogRoute, navOptions = navOptions)
+fun NavController.navigateToCatalog(navOptions: NavOptions? = null) = navigate(route = CatalogRoute, navOptions = navOptions)
 
 fun NavGraphBuilder.catalogScreen() {
     composable<CatalogRoute> {

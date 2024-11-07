@@ -59,6 +59,7 @@ dependencies {
     implementation(project(":feature-catalog"))
     implementation(project(":feature-cart"))
     implementation(project(":feature-profile"))
+    implementation(project(":core:data"))
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.material3.adaptive.navigation.suite.android)

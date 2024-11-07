@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_auth.sign_in.navigation.signInScreen
 import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.confirmCodeScreen
 import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.navigateToConfirmCode
@@ -14,6 +15,7 @@ import ru.moonlight.feature_auth.sign_up.registration_complete.navigation.regist
 import ru.moonlight.feature_cart.navigation.cartScreen
 import ru.moonlight.feature_catalog.navigation.CatalogRoute
 import ru.moonlight.feature_catalog.navigation.catalogScreen
+import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
 import ru.moonlight.feature_profile.navigation.profileScreen
 import ru.moonlight.mobile.ui.MoonlightAppState
 
@@ -23,13 +25,23 @@ fun MoonlightNavHost(
     appState: MoonlightAppState,
 ) {
     val navController: NavHostController = appState.navController
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = CatalogRoute,
     ) {
+        catalogScreen()
+        cartScreen()
+        profileScreen(
+            onLogoutClick = {appState.navigateToTopLevelDestination(TopLevelDestination.CATALOG)},
+            onSignInClick = navController::navigateToSignIn,
+            isUserAuthorize = appState.isUserAuthorized
+        )
         signInScreen(
-            onAuthorizeClick = navController::navigateUp,
+            onAuthorizeClick = {
+                navController.navigateToProfileScreen()
+            },
             onRegistrationClick = navController::navigateToRegistration,
         )
         registrationScreen(
@@ -41,8 +53,5 @@ fun MoonlightNavHost(
         registrationCompleteScreen(
             onGetStartClick = {  } //TODO Add update profileScreen logic
         )
-        catalogScreen()
-        cartScreen()
-        profileScreen()
     }
 }
