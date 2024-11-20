@@ -10,7 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.moonlight.datastore.AuthLocalDataSource
 import ru.moonlight.datastore.accountDataStore
-import ru.moonlight.network.utils.AuthDataSource
+import ru.moonlight.network.datasource.AuthDataSource
 import javax.inject.Singleton
 
 @Module
