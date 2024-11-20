@@ -3,6 +3,7 @@ package ru.moonlight.mobile.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_auth.sign_in.navigation.signInScreen
@@ -15,6 +16,7 @@ import ru.moonlight.feature_auth.sign_up.registration_complete.navigation.regist
 import ru.moonlight.feature_cart.navigation.cartScreen
 import ru.moonlight.feature_catalog.navigation.CatalogRoute
 import ru.moonlight.feature_catalog.navigation.catalogScreen
+import ru.moonlight.feature_profile.navigation.ProfileRoute
 import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
 import ru.moonlight.feature_profile.navigation.profileScreen
 import ru.moonlight.mobile.ui.MoonlightAppState
@@ -34,24 +36,29 @@ fun MoonlightNavHost(
         catalogScreen()
         cartScreen()
         profileScreen(
-            onLogoutClick = {appState.navigateToTopLevelDestination(TopLevelDestination.CATALOG)},
+            onLogoutClick = { appState.navigateToTopLevelDestination(TopLevelDestination.CATALOG) },
             onSignInClick = navController::navigateToSignIn,
-            isUserAuthorize = appState.isUserAuthorized
+            isUserAuthorize = appState.isUserAuthorized,
         )
         signInScreen(
-            onAuthorizeClick = {
-                navController.navigateToProfileScreen()
-            },
+            onAuthorizeClick = navController::navigateToProfileScreen,
             onRegistrationClick = navController::navigateToRegistration,
         )
         registrationScreen(
-            onCreateAccountClick = navController::navigateToConfirmCode,
+            onCreateAccountClick = { name, sex, birthDate, email, password ->
+                navController.navigateToConfirmCode(name, sex, birthDate, email, password)
+            },
         )
         confirmCodeScreen(
             onContinueClick = navController::navigateToRegistrationComplete
         )
         registrationCompleteScreen(
-            onGetStartClick = {  } //TODO Add update profileScreen logic
+            onGetStartClick = {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(ProfileRoute, inclusive = true)
+                    .build()
+                navController.navigateToProfileScreen(navOptions = navOptions)
+            }
         )
     }
 }

@@ -13,20 +13,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
@@ -35,6 +30,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import ru.moonlight.mobile.R
 import ru.moonlight.mobile.navigation.MoonlightNavHost
 import ru.moonlight.theme.MoonlightTheme
+import ru.moonlight.ui.BadgedBoxComponent
 import ru.moonlight.ui.BottomNavigationComponent
 import ru.moonlight.ui.NavigationBarItemComponent
 import ru.moonlight.ui.SnackbarHostComponent
@@ -71,7 +67,7 @@ fun MoonlightScreen(
             contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
             bottomBar = {
                 AnimatedVisibility(
-                    visible = isUserAuthorized.value || appState.isCurrentTopLevelDestination,
+                    visible = appState.isCurrentTopLevelDestination,
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically(),
                 ) {
@@ -99,7 +95,7 @@ fun MoonlightScreen(
             },
 
         ) { paddingValues ->
-        Box(
+            Box(
                 modifier = modifier
                     .fillMaxSize()
                     .padding(bottom = paddingValues.calculateBottomPadding())
@@ -108,34 +104,6 @@ fun MoonlightScreen(
                 MoonlightNavHost(appState = appState)
             }
         }
-    }
-}
-
-@Composable
-private fun BadgedBoxComponent(
-    badgeCount: Int?,
-    selected: Boolean,
-    selectedIcon: ImageVector,
-    unselectedIcon: ImageVector,
-) {
-    BadgedBox(
-        badge = {
-            if(badgeCount != null) {
-                Badge(
-                    containerColor = MoonlightTheme.colors.highlightComponent,
-                    contentColor = MoonlightTheme.colors.text,
-                ) {
-                    Text(text = badgeCount.toString())
-                }
-            }
-        }
-    ) {
-        Icon(
-            imageVector = if (selected) {
-                selectedIcon
-            } else unselectedIcon,
-            contentDescription = null,
-        )
     }
 }
 
