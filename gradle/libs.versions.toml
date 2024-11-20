@@ -1,8 +1,12 @@
 [versions]
 gradle = "7.3.1"
 kotlinGradlePlugin = "1.9.10"
+loggingInterceptor = "4.10.0"
+okhttp = "4.10.0"
+retrofit = "2.11.0"
+converterKotlinxSerialization = "2.11.0"
 targetSdk = "34"
-minSdk = "24"
+minSdk = "26"
 versionCode = "1"
 versionName = "1.0"
 kotlinCompilerExtensionVersion = "1.5.3"
@@ -42,6 +46,8 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class-android", version.ref = "material3Android" }
 androidx-tracing = { module = "androidx.tracing:tracing", version.ref = "tracing" }
+
+
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -68,6 +74,11 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler" , version.
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 androidx-material3-adaptive-navigation-suite-android = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite-android", version.ref = "material3AdaptiveNavigationSuiteAndroid" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "converterKotlinxSerialization" }
+
 
 
 [plugins]

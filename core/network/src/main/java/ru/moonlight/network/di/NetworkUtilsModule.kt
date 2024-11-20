@@ -1,19 +1,44 @@
 package ru.moonlight.network.di
 
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.moonlight.network.datasource.AuthDataSource
+import ru.moonlight.network.interceptor.AuthInterceptor
+import ru.moonlight.network.interceptor.TokenAuthenticator
 import ru.moonlight.network.utils.ConnectivityManagerNetworkMonitor
 import ru.moonlight.network.utils.NetworkMonitor
+import ru.moonlight.network.utils.SessionManager
+import ru.moonlight.network.utils.SessionManagerImpl
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class NetworkUtilsModule {
+object NetworkUtilsModule {
 
-    @Binds
-    internal abstract fun bindsNetworkMonitor(
+    @Provides
+    @Singleton
+    internal fun providesNetworkMonitor(
         networkMonitor: ConnectivityManagerNetworkMonitor,
-    ): NetworkMonitor
+    ): NetworkMonitor = networkMonitor
+
+    @Provides
+    @Singleton
+    internal fun providesSessionManager(
+        authDataSource: AuthDataSource,
+    ): SessionManager = SessionManagerImpl(authDataSource = authDataSource)
+
+    @Provides
+    @Singleton
+    internal fun providesTokenAuthenticator(
+        sessionManager: SessionManager
+    ): TokenAuthenticator = TokenAuthenticator(sessionManager)
+
+    @Provides
+    @Singleton
+    internal fun providesAuthInterceptor(
+        sessionManager: SessionManager
+    ): AuthInterceptor = AuthInterceptor(sessionManager)
 
 }
