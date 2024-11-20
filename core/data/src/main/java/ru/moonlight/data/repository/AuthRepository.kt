@@ -1,39 +1,41 @@
 package ru.moonlight.data.repository
 
 import kotlinx.coroutines.flow.Flow
+import ru.moonlight.network.utils.ApiResponse
 import ru.moonlight.network.service.AuthService
-import ru.moonlight.network.utils.TokenManager
 import javax.inject.Inject
 
 interface AuthRepository {
-    suspend fun login(login: String, password: String)
-    suspend fun register(login: String, password: String, name: String, sex: String, age: Int)
-    suspend fun logout()
     val isUserAuthorized: Flow<Boolean>
+    suspend fun login(login: String, password: String): ApiResponse<Nothing>
+    suspend fun requestCode(email: String, name: String, renew: Boolean? = null): ApiResponse<Nothing>
+    suspend fun confirmCode(code: String, email: String, password: String, name: String, birthDate: String, sex: String): ApiResponse<Nothing>
+    suspend fun logout()
 }
 
 internal class AuthRepositoryImpl @Inject constructor(
-    private val api: AuthService,
-    private val tokenManager: TokenManager,
+    private val service: AuthService,
 ): AuthRepository {
-    override suspend fun login(login: String, password: String) {
-        api.login(login, password)
-    }
+    override val isUserAuthorized: Flow<Boolean>
+        get() = service.isUserAuthorize
 
-    override suspend fun register(
-        login: String,
+    override suspend fun login(login: String, password: String): ApiResponse<Nothing> =
+        service.login(email = login, password = password)
+
+    override suspend fun requestCode(email: String, name: String, renew: Boolean?): ApiResponse<Nothing> =
+        service.requestCode(email = email, name = name, renew = renew)
+
+    override suspend fun confirmCode(
+        code: String,
+        email: String,
         password: String,
         name: String,
+        birthDate: String,
         sex: String,
-        age: Int
-    ) {
-        TODO("Not yet implemented")
-    }
+    ): ApiResponse<Nothing> = service.confirmCodeCompleteSignUp(code = code, email = email, password = password, name = name, birthDate = birthDate, sex = sex)
 
     override suspend fun logout() {
-        tokenManager.clearTokens()
+        service.logout()
     }
-
-    override val isUserAuthorized: Flow<Boolean> = tokenManager.isUserAuthorized
 
 }

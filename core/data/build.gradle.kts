@@ -32,9 +32,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:datastore"))
-    implementation(project(":core:network"))
+    //modules
+    api(project(":core:datastore"))
+    api(project(":core:network"))
 
+    //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }
