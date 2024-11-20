@@ -36,6 +36,9 @@ android {
 }
 
 dependencies {
+    //modules
+    implementation(project(":core:common"))
+
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)

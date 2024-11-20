@@ -21,12 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import ru.moonlight.common.GenderOption
 import ru.moonlight.theme.MoonlightTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMenuComponent(
-    onSelected: (String) -> Unit,
+    onSelected: (GenderOption) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: String,
     focusedTextColor: Color = MoonlightTheme.colors.text,
@@ -44,20 +45,18 @@ fun DropdownMenuComponent(
     menuBackgroundColor: Color = MoonlightTheme.colors.card,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedChoose by remember { mutableStateOf<String?>(null) }
-    val genderOptions = listOf("Мужской", "Женский")
+    var selectedChoose by remember { mutableStateOf<GenderOption?>(null) }
+    val genderOptions = GenderOption.entries.toTypedArray()
 
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
         OutlinedTextField(
-            onValueChange = { newValue ->
-                selectedChoose = newValue
-            },
+            onValueChange = {},
             modifier = modifier
                 .menuAnchor(MenuAnchorType.PrimaryEditable),
-            value = selectedChoose ?: "",
+            value = selectedChoose?.displayName ?: "",
             shape = MoonlightTheme.shapes.textFieldShape,
             readOnly = true,
             textStyle = textStyle,
@@ -97,10 +96,10 @@ fun DropdownMenuComponent(
                         expanded = false
                         onSelected(gender)
                     },
-                    text = gender,
+                    text = gender.displayName,
                     backgroundColor = menuBackgroundColor,
                     textStyle = textStyle,
-                    textColor = MoonlightTheme.colors.text
+                    textColor = MoonlightTheme.colors.text,
                 )
             }
         }

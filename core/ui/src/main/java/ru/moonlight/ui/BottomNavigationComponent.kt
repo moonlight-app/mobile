@@ -1,12 +1,17 @@
 package ru.moonlight.ui
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import ru.moonlight.theme.MoonlightTheme
 
 @Composable
@@ -47,5 +52,33 @@ fun BottomNavigationComponent(
         contentColor = contentColor,
     ) {
         content()
+    }
+}
+
+@Composable
+fun BadgedBoxComponent(
+    badgeCount: Int?,
+    selected: Boolean,
+    selectedIcon: ImageVector,
+    unselectedIcon: ImageVector,
+) {
+    BadgedBox(
+        badge = {
+            if(badgeCount != null) {
+                Badge(
+                    containerColor = MoonlightTheme.colors.highlightComponent,
+                    contentColor = MoonlightTheme.colors.text,
+                ) {
+                    Text(text = badgeCount.toString())
+                }
+            }
+        }
+    ) {
+        Icon(
+            imageVector = if (selected) {
+                selectedIcon
+            } else unselectedIcon,
+            contentDescription = null,
+        )
     }
 }
