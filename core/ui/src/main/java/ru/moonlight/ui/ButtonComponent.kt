@@ -17,10 +17,7 @@ import ru.moonlight.theme.MoonlightTheme
 
 @Composable
 private fun ButtonTemplate(
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    enable: Boolean = true,
-    isLoading: Boolean,
     text: String,
     containerColor: Color,
     contentColor: Color,
@@ -28,6 +25,9 @@ private fun ButtonTemplate(
     disabledTextColor: Color,
     borderColor: Color,
     progressBarColor: Color,
+    modifier: Modifier = Modifier,
+    enable: Boolean = true,
+    isLoading: Boolean = false,
     textStyle: TextStyle = MoonlightTheme.typography.button
 ) {
     Button(
@@ -62,10 +62,10 @@ private fun ButtonTemplate(
 @Composable
 fun ButtonComponent(
     onClick: () -> Unit,
+    text: String,
     modifier: Modifier = Modifier,
     enable: Boolean = true,
     isLoading: Boolean = false,
-    text: String,
     containerColor: Color = MoonlightTheme.colors.highlightComponent,
     contentColor: Color = MoonlightTheme.colors.highlightText,
     borderColor: Color = Color.Transparent,
@@ -91,10 +91,10 @@ fun ButtonComponent(
 @Composable
 fun ButtonOutlinedComponent(
     onClick: () -> Unit,
+    text: String,
     modifier: Modifier = Modifier,
     enable: Boolean = true,
     isLoading: Boolean = false,
-    text: String,
     containerColor: Color = Color.Transparent,
     contentColor: Color = MoonlightTheme.colors.highlightText,
     disabledColor: Color = Color.Transparent,
@@ -103,11 +103,11 @@ fun ButtonOutlinedComponent(
     progressBarColor: Color = MoonlightTheme.colors.text,
 ) {
     ButtonTemplate(
-        modifier = modifier,
         onClick = onClick,
+        text = text,
+        modifier = modifier,
         enable = enable,
         isLoading = isLoading,
-        text = text,
         containerColor = containerColor,
         contentColor = contentColor,
         disabledColor = disabledColor,
@@ -120,9 +120,9 @@ fun ButtonOutlinedComponent(
 @Composable
 fun ButtonChipComponent(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
     selected: Boolean,
     text: String,
+    modifier: Modifier = Modifier,
     containerColor: Color = MoonlightTheme.colors.card,
     selectedContainerColor: Color = MoonlightTheme.colors.highlightComponent,
     labelColor: Color = MoonlightTheme.colors.text,

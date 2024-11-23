@@ -28,8 +28,8 @@ import ru.moonlight.theme.MoonlightTheme
 @Composable
 fun DropdownMenuComponent(
     onSelected: (GenderOption) -> Unit,
-    modifier: Modifier = Modifier,
     placeholder: String,
+    modifier: Modifier = Modifier,
     focusedTextColor: Color = MoonlightTheme.colors.text,
     unfocusedTextColor: Color = MoonlightTheme.colors.text,
     focusedContainerColor: Color = Color.Transparent,
@@ -109,11 +109,11 @@ fun DropdownMenuComponent(
 @Composable
 private fun DropdownMenuItem(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
     text: String,
     backgroundColor: Color,
     textStyle: TextStyle,
     textColor: Color,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

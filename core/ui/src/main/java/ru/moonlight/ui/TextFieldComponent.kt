@@ -27,14 +27,14 @@ import ru.moonlight.ui.otp.OtpTextFieldDefaults
 
 @Composable
 fun TextFieldComponent(
-    modifier: Modifier = Modifier,
-    value: String,
     onValueChange: (String) -> Unit,
+    value: String,
     placeholder: String,
+    modifier: Modifier = Modifier,
     singleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
-    isEnable: Boolean = true,
+    enable: Boolean = true,
     isError: Boolean = false,
     focusedTextColor: Color = MoonlightTheme.colors.text,
     unfocusedTextColor: Color = MoonlightTheme.colors.text,
@@ -63,7 +63,7 @@ fun TextFieldComponent(
             imeAction = ImeAction.Next,
         ),
         textStyle = textStyle,
-        enabled = (isEnable),
+        enabled = (enable),
         isError = isError,
         shape = MoonlightTheme.shapes.textFieldShape,
         colors = OutlinedTextFieldDefaults.colors(
@@ -91,15 +91,15 @@ fun TextFieldComponent(
 
 @Composable
 fun TextFieldPasswordComponent(
-    modifier: Modifier = Modifier,
-    value: String,
     onValueChange: (String) -> Unit,
+    value: String,
     placeholder: String,
+    modifier: Modifier = Modifier,
     singleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Password,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     imeAction: ImeAction = ImeAction.Done,
-    isEnable: Boolean = true,
+    enable: Boolean = true,
     isError: Boolean = false,
     focusedTextColor: Color = MoonlightTheme.colors.text,
     unfocusedTextColor: Color = MoonlightTheme.colors.text,
@@ -130,7 +130,7 @@ fun TextFieldPasswordComponent(
             imeAction = imeAction,
         ),
         textStyle = textStyle,
-        enabled = (isEnable),
+        enabled = (enable),
         isError = isError,
         shape = MoonlightTheme.shapes.textFieldShape,
         colors = OutlinedTextFieldDefaults.colors(
@@ -170,9 +170,9 @@ fun TextFieldPasswordComponent(
 
 @Composable
 fun TextFieldOTP(
-    modifier: Modifier = Modifier,
-    value: String,
     onValueChange: (String) -> Unit,
+    value: String,
+    modifier: Modifier = Modifier,
     containerColor: Color = Color.Transparent,
     focusedBorderColor: Color = MoonlightTheme.colors.highlightComponent,
     unfocusedBorderColor: Color = MoonlightTheme.colors.component,

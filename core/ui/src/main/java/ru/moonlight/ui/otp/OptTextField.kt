@@ -68,16 +68,15 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OTPTextField(
+    onTextChanged: (String) -> Unit,
     value: String,
     modifier: Modifier = Modifier,
-    onTextChanged: (String) -> Unit,
     @IntRange(from = 4, to = 6) numDigits: Int = 4,
     isMasked: Boolean = false,
     mask: @Composable() (() -> Unit)? = null,
     digitContainerStyle: DigitContainerStyle = DigitContainerStyle.Underlined(),
-    textStyle: TextStyle = MaterialTheme.typography.titleLarge.copy(
-        fontSize = 28.sp
-    ),
+    textStyle: TextStyle = MaterialTheme.typography.titleLarge.copy(fontSize = 28.sp),
+    enable: Boolean = true,
     isError: Boolean = false,
 ) {
     val focusManager = LocalFocusManager.current
@@ -114,6 +113,7 @@ fun OTPTextField(
                 focusManager.clearFocus()
             }
         },
+        enabled = enable,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.NumberPassword,
             imeAction = ImeAction.Done

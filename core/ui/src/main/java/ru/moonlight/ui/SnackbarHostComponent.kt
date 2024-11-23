@@ -19,8 +19,8 @@ import ru.moonlight.theme.MoonlightTheme
 
 @Composable
 fun SnackbarHostComponent(
-    modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
+    modifier: Modifier = Modifier,
 ) {
     SnackbarHost(
         modifier = modifier,

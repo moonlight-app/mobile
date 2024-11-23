@@ -31,13 +31,13 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun CalendarWithTextFieldComponent(
-    isCalendarOpen: Boolean,
     onClick: () -> Unit,
     onCalendarDismiss: () -> Unit,
-    placeholder: String,
     onDateSelected: (String) -> Unit,
+    isCalendarOpen: Boolean,
+    placeholder: String,
     modifier: Modifier = Modifier,
-    isEnable: Boolean = true,
+    enable: Boolean = true,
     isError: Boolean = false,
     focusedTextColor: Color = MoonlightTheme.colors.text,
     unfocusedTextColor: Color = MoonlightTheme.colors.text,
@@ -68,7 +68,7 @@ fun CalendarWithTextFieldComponent(
                 Text(placeholder)
             },
             isError = isError,
-            enabled = isEnable,
+            enabled = enable,
             singleLine = true,
             shape = MoonlightTheme.shapes.textFieldShape,
             colors = OutlinedTextFieldDefaults.colors(
@@ -114,9 +114,9 @@ fun CalendarWithTextFieldComponent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarView(
-    modifier: Modifier = Modifier,
     onDateSelected: (LocalDate) -> Unit,
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
     focusedTextColor: Color = MoonlightTheme.colors.text,
     unfocusedTextColor: Color = MoonlightTheme.colors.text,
     focusedContainerColor: Color = Color.Transparent,

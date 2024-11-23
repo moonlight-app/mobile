@@ -16,10 +16,10 @@ import ru.moonlight.theme.MoonlightTheme
 
 @Composable
 fun RowScope.NavigationBarItemComponent(
-    selected: Boolean,
     onClick: () -> Unit,
+    selected: Boolean,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    enable: Boolean = true,
     icon: @Composable () -> Unit,
     selectedIcon: @Composable () -> Unit = icon,
     selectedIconColor: Color = MoonlightTheme.colors.text,
@@ -30,7 +30,7 @@ fun RowScope.NavigationBarItemComponent(
         onClick = onClick,
         icon = if (selected) selectedIcon else icon,
         modifier = modifier,
-        enabled = enabled,
+        enabled = enable,
         colors = NavigationBarItemDefaults.colors(
             selectedIconColor = selectedIconColor,
             unselectedIconColor = unselectedIconColor,

@@ -14,9 +14,9 @@ import ru.moonlight.theme.MoonlightTheme
 
 @Composable
 fun CheckBoxComponent(
-    modifier: Modifier = Modifier,
-    checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
+    checked: Boolean,
+    modifier: Modifier = Modifier,
     checkedColor: Color = MoonlightTheme.colors.highlightComponent,
     uncheckedColor: Color = MoonlightTheme.colors.hintText,
     checkmarkColor: Color = MoonlightTheme.colors.text,
@@ -35,10 +35,10 @@ fun CheckBoxComponent(
 
 @Composable
 fun CheckBoxWithTextComponent(
-    modifier: Modifier = Modifier,
     onCheckedChange: (Boolean) -> Unit,
     checked: Boolean,
     text: String,
+    modifier: Modifier = Modifier,
     checkedColor: Color = MoonlightTheme.colors.highlightComponent,
     uncheckedColor: Color = MoonlightTheme.colors.hintText,
     checkmarkColor: Color = MoonlightTheme.colors.text,

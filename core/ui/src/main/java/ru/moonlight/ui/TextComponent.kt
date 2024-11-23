@@ -25,15 +25,15 @@ import ru.moonlight.theme.MoonlightTheme
 
 @Composable
 fun TextAnnotatedComponent(
-    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
     textPart1: String,
     textPart2: String,
     textPart3: String,
+    modifier: Modifier = Modifier,
+    withLineBreaks: Boolean = false,
     textDescriptionColor: Color = MoonlightTheme.colors.hintText,
     textHighlightColor: Color = MoonlightTheme.colors.text,
     textStyle: TextStyle = MoonlightTheme.typography.description,
-    withLineBreaks: Boolean = false,
-    onClick: () -> Unit
 ) {
     val annotatedText = buildAnnotatedString {
         withStyle(style = textStyle.copy(color = textDescriptionColor).toSpanStyle()) {
@@ -62,8 +62,8 @@ fun TextAnnotatedComponent(
 
 @Composable
 fun TextAuthComponent(
-    onAnnotatedTextClick: () -> Unit = {},
     modifier: Modifier = Modifier,
+    onAnnotatedTextClick: () -> Unit = {},
     titleText: String = stringResource(id = R.string.app_name),
     subTitleText: String? = null,
     bodyText: String? = null,

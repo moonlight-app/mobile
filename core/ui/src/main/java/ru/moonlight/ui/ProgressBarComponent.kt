@@ -10,10 +10,10 @@ import ru.moonlight.theme.MoonlightTheme
 
 @Composable
 private fun ProgressBarTemplate(
-    modifier: Modifier = Modifier,
     size: Dp,
     color: Color,
     strokeWidth: Dp,
+    modifier: Modifier = Modifier,
 ) {
     CircularProgressIndicator(
         modifier = modifier
