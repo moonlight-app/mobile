@@ -32,9 +32,13 @@ android {
 }
 
 dependencies {
+    implementation(libs.orbit.core)
+    implementation(libs.orbit.viewmodel)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
