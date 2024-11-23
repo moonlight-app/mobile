@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
@@ -28,7 +27,6 @@ fun SnackbarHostComponent(
     ) { data ->
         Snackbar(
             modifier = Modifier
-                .padding(bottom = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical)
                 .fillMaxWidth(0.9f)
                 .fillMaxHeight(0.07f),
             shape = MoonlightTheme.shapes.buttonShape,

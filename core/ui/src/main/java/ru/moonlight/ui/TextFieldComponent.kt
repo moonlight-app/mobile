@@ -89,6 +89,81 @@ fun TextFieldComponent(
     )
 }
 
+// remove when jetpack compose will support bottom padding 0.dp for supporting text
+@Composable
+fun TextFieldWithSupportingTextComponent(
+    onValueChange: (String) -> Unit,
+    value: String,
+    placeholder: String,
+    modifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
+    enable: Boolean = true,
+    isError: Boolean = false,
+    errorText: String = "",
+    focusedTextColor: Color = MoonlightTheme.colors.text,
+    unfocusedTextColor: Color = MoonlightTheme.colors.text,
+    focusedContainerColor: Color = Color.Transparent,
+    focusedLabelColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedLabelColor: Color = MoonlightTheme.colors.component,
+    focusedBorderColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedBorderColor: Color = MoonlightTheme.colors.component,
+    errorBorderColor: Color = MoonlightTheme.colors.error,
+    errorTextColor: Color = MoonlightTheme.colors.error,
+    disabledBorderColor: Color = MoonlightTheme.colors.disabledComponent,
+    disabledTextColor: Color = MoonlightTheme.colors.disabledText,
+    textStyle: TextStyle = MoonlightTheme.typography.textField,
+) {
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth(),
+        value = value,
+        onValueChange = { newValue ->
+            onValueChange(newValue)
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = keyboardCapitalization,
+            autoCorrectEnabled = true,
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Next,
+        ),
+        textStyle = textStyle,
+        enabled = (enable),
+        isError = isError,
+        shape = MoonlightTheme.shapes.textFieldShape,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = focusedTextColor,
+            unfocusedTextColor = unfocusedTextColor,
+            focusedContainerColor = focusedContainerColor,
+            focusedLabelColor = focusedLabelColor,
+            unfocusedLabelColor = unfocusedLabelColor,
+            focusedBorderColor = focusedBorderColor,
+            unfocusedBorderColor = unfocusedBorderColor,
+            errorBorderColor = errorBorderColor,
+            errorTextColor = errorTextColor,
+            disabledBorderColor = disabledBorderColor,
+            disabledTextColor = disabledTextColor,
+        ),
+        singleLine = singleLine,
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = textStyle,
+            )
+        },
+        supportingText = {
+            if (isError && errorText.isNotEmpty()) {
+                Text(
+                    text = errorText,
+                    style = textStyle,
+                    color = errorTextColor,
+                )
+            }
+        },
+    )
+}
+
 @Composable
 fun TextFieldPasswordComponent(
     onValueChange: (String) -> Unit,
@@ -162,6 +237,96 @@ fun TextFieldPasswordComponent(
                     painter = if (passwordVisible) painterResource(id = R.drawable.hide_no) else painterResource(id = R.drawable.hide_yes),
                     contentDescription = if (passwordVisible) "Hide password" else "Show password",
                     tint = MoonlightTheme.colors.hintText,
+                )
+            }
+        },
+    )
+}
+
+// remove when jetpack compose will support bottom padding 0.dp for supporting text
+@Composable
+fun TextFieldPasswordWithSupportingTextComponent(
+    onValueChange: (String) -> Unit,
+    value: String,
+    placeholder: String,
+    modifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Password,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
+    imeAction: ImeAction = ImeAction.Done,
+    enable: Boolean = true,
+    isError: Boolean = false,
+    errorText: String = "",
+    focusedTextColor: Color = MoonlightTheme.colors.text,
+    unfocusedTextColor: Color = MoonlightTheme.colors.text,
+    focusedContainerColor: Color = Color.Transparent,
+    focusedLabelColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedLabelColor: Color = MoonlightTheme.colors.component,
+    focusedBorderColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedBorderColor: Color = MoonlightTheme.colors.component,
+    errorBorderColor: Color = MoonlightTheme.colors.error,
+    errorTextColor: Color = MoonlightTheme.colors.error,
+    disabledBorderColor: Color = MoonlightTheme.colors.disabledComponent,
+    disabledTextColor: Color = MoonlightTheme.colors.disabledText,
+    textStyle: TextStyle = MoonlightTheme.typography.textField,
+) {
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth(),
+        value = value,
+        onValueChange = { newValue ->
+            onValueChange(newValue)
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = keyboardCapitalization,
+            autoCorrectEnabled = true,
+            keyboardType = keyboardType,
+            imeAction = imeAction,
+        ),
+        textStyle = textStyle,
+        enabled = (enable),
+        isError = isError,
+        shape = MoonlightTheme.shapes.textFieldShape,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = focusedTextColor,
+            unfocusedTextColor = unfocusedTextColor,
+            focusedContainerColor = focusedContainerColor,
+            focusedLabelColor = focusedLabelColor,
+            unfocusedLabelColor = unfocusedLabelColor,
+            focusedBorderColor = focusedBorderColor,
+            unfocusedBorderColor = unfocusedBorderColor,
+            errorBorderColor = errorBorderColor,
+            errorTextColor = errorTextColor,
+            disabledBorderColor = disabledBorderColor,
+            disabledTextColor = disabledTextColor,
+        ),
+        singleLine = singleLine,
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = textStyle,
+            )
+        },
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingIcon = {
+            IconButton(
+                onClick = { passwordVisible = !passwordVisible },
+            ) {
+                Icon(
+                    painter = if (passwordVisible) painterResource(id = R.drawable.hide_no) else painterResource(id = R.drawable.hide_yes),
+                    contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                    tint = MoonlightTheme.colors.hintText,
+                )
+            }
+        },
+        supportingText = {
+            if (isError && errorText.isNotEmpty()) {
+                Text(
+                    text = errorText,
+                    style = textStyle,
+                    color = errorTextColor,
                 )
             }
         },

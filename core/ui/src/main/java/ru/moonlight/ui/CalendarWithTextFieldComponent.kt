@@ -15,10 +15,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -34,6 +31,7 @@ fun CalendarWithTextFieldComponent(
     onClick: () -> Unit,
     onCalendarDismiss: () -> Unit,
     onDateSelected: (String) -> Unit,
+    date: String?,
     isCalendarOpen: Boolean,
     placeholder: String,
     modifier: Modifier = Modifier,
@@ -52,15 +50,13 @@ fun CalendarWithTextFieldComponent(
     disabledTextColor: Color = MoonlightTheme.colors.disabledText,
     textStyle: TextStyle = MoonlightTheme.typography.textField,
 ) {
-    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-
     Box(
         modifier = modifier
     ) {
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = selectedDate?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ?: "",
+            value = date ?: "",
             onValueChange = {},
             readOnly = true,
             textStyle = textStyle,
@@ -94,14 +90,12 @@ fun CalendarWithTextFieldComponent(
                         }
                     }
                 }
-
         )
 
         if (isCalendarOpen) {
             CalendarView(
                 modifier = Modifier.fillMaxWidth(),
                 onDateSelected = { date ->
-                    selectedDate = date
                     onCalendarDismiss()
                     onDateSelected(date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")))
                 },
@@ -136,6 +130,7 @@ fun CalendarView(
     )
 
     DatePickerDialog(
+        modifier = modifier,
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(

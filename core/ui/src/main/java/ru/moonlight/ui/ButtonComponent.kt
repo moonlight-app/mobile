@@ -24,6 +24,7 @@ private fun ButtonTemplate(
     disabledColor: Color,
     disabledTextColor: Color,
     borderColor: Color,
+    disabledBorderColor: Color,
     progressBarColor: Color,
     modifier: Modifier = Modifier,
     enable: Boolean = true,
@@ -44,7 +45,10 @@ private fun ButtonTemplate(
         ),
         shape = MoonlightTheme.shapes.buttonShape,
 
-        border = BorderStroke(MoonlightTheme.dimens.buttonBorderWidth, color = borderColor),
+        border = BorderStroke(
+            MoonlightTheme.dimens.buttonBorderWidth,
+            color = if (enable) borderColor else disabledBorderColor
+        ),
     ) {
         if (isLoading) {
             ProgressBarSmallComponent(color = progressBarColor)
@@ -69,6 +73,7 @@ fun ButtonComponent(
     containerColor: Color = MoonlightTheme.colors.highlightComponent,
     contentColor: Color = MoonlightTheme.colors.highlightText,
     borderColor: Color = Color.Transparent,
+    disabledBorderColor: Color = Color.Transparent,
     disabledColor: Color = MoonlightTheme.colors.disabledComponent,
     disabledTextColor: Color = MoonlightTheme.colors.disabledText,
     progressBarColor: Color = MoonlightTheme.colors.text,
@@ -82,6 +87,7 @@ fun ButtonComponent(
         containerColor = containerColor,
         contentColor = contentColor,
         borderColor = borderColor,
+        disabledBorderColor = disabledBorderColor,
         disabledColor = disabledColor,
         disabledTextColor = disabledTextColor,
         progressBarColor = progressBarColor,
@@ -100,6 +106,7 @@ fun ButtonOutlinedComponent(
     disabledColor: Color = Color.Transparent,
     disabledTextColor: Color = MoonlightTheme.colors.disabledText,
     borderColor: Color = MoonlightTheme.colors.outlineHighlightComponent,
+    disabledBorderColor: Color = MoonlightTheme.colors.disabledComponent,
     progressBarColor: Color = MoonlightTheme.colors.text,
 ) {
     ButtonTemplate(
@@ -111,6 +118,7 @@ fun ButtonOutlinedComponent(
         containerColor = containerColor,
         contentColor = contentColor,
         disabledColor = disabledColor,
+        disabledBorderColor = disabledBorderColor,
         disabledTextColor = disabledTextColor,
         borderColor = borderColor,
         progressBarColor = progressBarColor,

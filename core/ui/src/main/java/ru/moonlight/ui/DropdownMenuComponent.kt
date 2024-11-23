@@ -28,8 +28,11 @@ import ru.moonlight.theme.MoonlightTheme
 @Composable
 fun DropdownMenuComponent(
     onSelected: (GenderOption) -> Unit,
+    value: GenderOption?,
     placeholder: String,
     modifier: Modifier = Modifier,
+    enable: Boolean = true,
+    isError: Boolean = false,
     focusedTextColor: Color = MoonlightTheme.colors.text,
     unfocusedTextColor: Color = MoonlightTheme.colors.text,
     focusedContainerColor: Color = Color.Transparent,
@@ -45,7 +48,6 @@ fun DropdownMenuComponent(
     menuBackgroundColor: Color = MoonlightTheme.colors.card,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedChoose by remember { mutableStateOf<GenderOption?>(null) }
     val genderOptions = GenderOption.entries.toTypedArray()
 
     ExposedDropdownMenuBox(
@@ -56,7 +58,7 @@ fun DropdownMenuComponent(
             onValueChange = {},
             modifier = modifier
                 .menuAnchor(MenuAnchorType.PrimaryEditable),
-            value = selectedChoose?.displayName ?: "",
+            value = value?.displayName ?: "",
             shape = MoonlightTheme.shapes.textFieldShape,
             readOnly = true,
             textStyle = textStyle,
@@ -82,6 +84,8 @@ fun DropdownMenuComponent(
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
+            enabled = enable,
+            isError = isError,
         )
 
         ExposedDropdownMenu(
@@ -92,7 +96,6 @@ fun DropdownMenuComponent(
             genderOptions.forEach { gender ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedChoose = gender
                         expanded = false
                         onSelected(gender)
                     },
