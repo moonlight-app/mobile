@@ -4,6 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import ru.moonlight.common.di.Dispatcher
+import ru.moonlight.common.di.MoonlightDispatchers
 import ru.moonlight.data.repository.AuthRepository
 import ru.moonlight.data.repository.AuthRepositoryImpl
 import ru.moonlight.data.repository.ProfileRepository
@@ -20,12 +23,14 @@ object DataModule {
     @Singleton
     fun providesAuthRepository(
         authService: AuthService,
-    ): AuthRepository = AuthRepositoryImpl(service = authService)
+        @Dispatcher(MoonlightDispatchers.IO) dispatcher: CoroutineDispatcher,
+    ): AuthRepository = AuthRepositoryImpl(service = authService, dispatcherIO = dispatcher)
 
     @Provides
     @Singleton
     fun providesProfileRepository(
         profileService: ProfileService,
-    ): ProfileRepository = ProfileRepositoryImpl(service = profileService)
+        @Dispatcher(MoonlightDispatchers.IO) dispatcher: CoroutineDispatcher,
+    ): ProfileRepository = ProfileRepositoryImpl(service = profileService, dispatcherIO = dispatcher)
 
 }

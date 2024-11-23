@@ -35,6 +35,7 @@ dependencies {
     //modules
     api(project(":core:datastore"))
     api(project(":core:network"))
+    implementation(project(":core:common"))
 
     //hilt
     implementation(libs.hilt.android)

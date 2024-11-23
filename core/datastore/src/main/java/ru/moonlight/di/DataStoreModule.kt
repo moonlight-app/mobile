@@ -8,6 +8,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import ru.moonlight.common.di.Dispatcher
+import ru.moonlight.common.di.MoonlightDispatchers
 import ru.moonlight.datastore.AuthLocalDataSource
 import ru.moonlight.datastore.accountDataStore
 import ru.moonlight.network.datasource.AuthDataSource
@@ -27,6 +30,7 @@ object DataStoreModule {
     @Singleton
     fun providesAuthDataStore(
         dataStore: DataStore<Preferences>,
-    ): AuthDataSource = AuthLocalDataSource(dataStore = dataStore)
+        @Dispatcher(MoonlightDispatchers.IO) dispatcher: CoroutineDispatcher,
+    ): AuthDataSource = AuthLocalDataSource(dataStore = dataStore, dispatcherIO = dispatcher)
 
 }
