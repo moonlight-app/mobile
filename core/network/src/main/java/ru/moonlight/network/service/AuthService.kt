@@ -2,11 +2,10 @@ package ru.moonlight.network.service
 
 import kotlinx.coroutines.flow.Flow
 import ru.moonlight.network.api.AuthApi
-import ru.moonlight.network.utils.ApiResponse
 import ru.moonlight.network.utils.ApiCall
+import ru.moonlight.network.utils.ApiCallController
+import ru.moonlight.network.utils.ApiResponse
 import ru.moonlight.network.utils.SessionManager
-import ru.moonlight.network.utils.safeApiCall
-import ru.moonlight.network.utils.safeApiCallWithHeader
 import javax.inject.Inject
 
 interface AuthService {
@@ -20,6 +19,7 @@ interface AuthService {
 internal class AuthApiService @Inject constructor(
     private val api: AuthApi,
     private val sessionManager: SessionManager,
+    private val apiCallController: ApiCallController,
 ): AuthService {
     private var xProofKey = ""
 
@@ -27,7 +27,7 @@ internal class AuthApiService @Inject constructor(
         get() = sessionManager.isUserAuthorized
 
     override suspend fun login(email: String, password: String): ApiResponse<Nothing> {
-        val result = safeApiCall { api.signIn(email = email, password = password) }
+        val result = apiCallController.safeApiCall { api.signIn(email = email, password = password) }
         return when (result) {
             is ApiResponse.Error -> ApiResponse.Error(msg = result.msg)
             is ApiResponse.Success -> {
@@ -41,7 +41,7 @@ internal class AuthApiService @Inject constructor(
     }
 
     override suspend fun requestCode(email: String, name: String, renew: Boolean?): ApiResponse<Nothing> {
-        val result = safeApiCallWithHeader { api.requestCode(email = email, name = name, renew = renew) }
+        val result = apiCallController.safeApiCallWithHeader { api.requestCode(email = email, name = name, renew = renew) }
         return when(result) {
             is ApiCall.Error -> ApiResponse.Error(msg = result.msg)
             is ApiCall.Success -> {
@@ -59,9 +59,9 @@ internal class AuthApiService @Inject constructor(
         birthDate: String,
         sex: String
     ): ApiResponse<Nothing> {
-        return when(val confirmCodeResponse = safeApiCall { api.confirmCode(key = xProofKey, email = email, code = code) }) {
+        return when(val confirmCodeResponse = apiCallController.safeApiCall { api.confirmCode(key = xProofKey, email = email, code = code) }) {
             is ApiResponse.Success -> {
-                when (val result = safeApiCall { api.complete(
+                when (val result = apiCallController.safeApiCall { api.complete(
                     key = xProofKey,
                     email = email,
                     password = password,

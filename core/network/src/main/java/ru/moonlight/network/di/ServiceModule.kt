@@ -10,6 +10,7 @@ import ru.moonlight.network.service.AuthApiService
 import ru.moonlight.network.service.AuthService
 import ru.moonlight.network.service.ProfileApiService
 import ru.moonlight.network.service.ProfileService
+import ru.moonlight.network.utils.ApiCallController
 import ru.moonlight.network.utils.SessionManager
 import javax.inject.Singleton
 
@@ -22,12 +23,14 @@ object ServiceModule {
     internal fun providesAuthService(
         api: AuthApi,
         sessionManager: SessionManager,
-    ): AuthService = AuthApiService(api, sessionManager)
+        apiCallController: ApiCallController,
+    ): AuthService = AuthApiService(api = api, sessionManager = sessionManager, apiCallController = apiCallController)
 
     @Provides
     @Singleton
     internal fun providesProfileService(
         api: ProfileApi,
-    ): ProfileService = ProfileApiService(api = api)
+        apiCallController: ApiCallController,
+    ): ProfileService = ProfileApiService(api = api, apiCallController = apiCallController)
 
 }
