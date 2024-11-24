@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_cart.navigation.navigateToCartScreen
 import ru.moonlight.feature_catalog.navigation.navigateToCatalog
 import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
@@ -111,7 +112,10 @@ class MoonlightAppState(
                     navController.navigateToCartScreen(topLevelNavOptions)
                 }
                 TopLevelDestination.PROFILE -> {
-                    navController.navigateToProfileScreen(topLevelNavOptions)
+                    if (isUserAuthorized.value)
+                        navController.navigateToProfileScreen(topLevelNavOptions)
+                    else
+                        navController.navigateToSignIn(topLevelNavOptions)
                 }
             }
         }

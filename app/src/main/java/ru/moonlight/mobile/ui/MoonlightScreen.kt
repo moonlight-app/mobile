@@ -91,7 +91,11 @@ fun MoonlightScreen(
                 }
             },
             snackbarHost = {
-                SnackbarHostComponent(snackbarHostState = snackbarHostState)
+                SnackbarHostComponent(
+                    modifier = Modifier
+                        .padding(bottom = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical * 3),
+                    snackbarHostState = snackbarHostState
+                )
             },
 
         ) { paddingValues ->

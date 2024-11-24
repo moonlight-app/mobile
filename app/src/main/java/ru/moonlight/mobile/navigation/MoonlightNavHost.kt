@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
-import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_auth.sign_in.navigation.signInScreen
 import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.confirmCodeScreen
 import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.navigateToConfirmCode
@@ -16,7 +15,7 @@ import ru.moonlight.feature_auth.sign_up.registration_complete.navigation.regist
 import ru.moonlight.feature_cart.navigation.cartScreen
 import ru.moonlight.feature_catalog.navigation.CatalogRoute
 import ru.moonlight.feature_catalog.navigation.catalogScreen
-import ru.moonlight.feature_profile.navigation.ProfileRoute
+import ru.moonlight.feature_catalog.navigation.navigateToCatalog
 import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
 import ru.moonlight.feature_profile.navigation.profileScreen
 import ru.moonlight.mobile.ui.MoonlightAppState
@@ -36,12 +35,23 @@ fun MoonlightNavHost(
         catalogScreen()
         cartScreen()
         profileScreen(
-            onLogoutClick = { appState.navigateToTopLevelDestination(TopLevelDestination.CATALOG) },
-            onSignInClick = navController::navigateToSignIn,
-            isUserAuthorize = appState.isUserAuthorized,
+            onLogoutClick = {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(CatalogRoute, inclusive = true)
+                    .build()
+                navController.navigateToCatalog(navOptions = navOptions)
+            },
         )
         signInScreen(
-            onAuthorizeClick = navController::navigateToProfileScreen,
+            onAuthorizeClick = {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(CatalogRoute, inclusive = false)
+                    .setLaunchSingleTop(true)
+                    .setRestoreState(true)
+                    .build()
+
+                navController.navigateToProfileScreen(navOptions = navOptions)
+            },
             onRegistrationClick = navController::navigateToRegistration,
         )
         registrationScreen(
@@ -55,8 +65,11 @@ fun MoonlightNavHost(
         registrationCompleteScreen(
             onGetStartClick = {
                 val navOptions = NavOptions.Builder()
-                    .setPopUpTo(ProfileRoute, inclusive = true)
+                    .setPopUpTo(CatalogRoute, inclusive = false)
+                    .setLaunchSingleTop(true)
+                    .setRestoreState(true)
                     .build()
+
                 navController.navigateToProfileScreen(navOptions = navOptions)
             }
         )
