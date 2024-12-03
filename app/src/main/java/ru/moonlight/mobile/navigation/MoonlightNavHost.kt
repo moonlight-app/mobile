@@ -39,6 +39,7 @@ fun MoonlightNavHost(
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(CatalogRoute, inclusive = true)
                     .build()
+
                 navController.navigateToCatalog(navOptions = navOptions)
             },
         )
@@ -60,7 +61,15 @@ fun MoonlightNavHost(
             },
         )
         confirmCodeScreen(
-            onContinueClick = navController::navigateToRegistrationComplete
+            onContinueClick = {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(CatalogRoute, inclusive = false)
+                    .setLaunchSingleTop(true)
+                    .setRestoreState(true)
+                    .build()
+
+                navController.navigateToRegistrationComplete(navOptions)
+            }
         )
         registrationCompleteScreen(
             onGetStartClick = {
