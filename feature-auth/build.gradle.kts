@@ -43,6 +43,10 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:common"))
 
+    //orbit
+    implementation(libs.orbit.core)
+    implementation(libs.orbit.compose)
+
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.hilt.navigation.compose)
 
