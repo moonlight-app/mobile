@@ -4,9 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +18,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import ru.moonlight.theme.MoonlightTheme
 
 @Composable
@@ -80,7 +77,10 @@ fun TextAuthComponent(
             .fillMaxWidth()
             .wrapContentHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.spacedBy(
+            space = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical,
+            alignment = Alignment.Top,
+        ),
     ) {
         Text(
             modifier = Modifier,
@@ -88,7 +88,6 @@ fun TextAuthComponent(
             style = titleTextStyle,
             color = titleTextColor,
         )
-        Spacer(modifier = Modifier.height(2.dp))
         if (!subTitleText.isNullOrEmpty()) {
             Text(
                 modifier = Modifier,
@@ -97,7 +96,6 @@ fun TextAuthComponent(
                 color = subTitleTextColor,
             )
         }
-        Spacer(modifier = Modifier.height(5.dp))
         if (!bodyText.isNullOrEmpty()) {
             if (bodyPart2Text != null && bodyPart3Text != null) {
                 TextAnnotatedComponent(
