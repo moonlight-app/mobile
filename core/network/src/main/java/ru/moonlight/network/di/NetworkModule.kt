@@ -12,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import ru.moonlight.network.BuildConfig
 import ru.moonlight.network.interceptor.AuthInterceptor
-import ru.moonlight.network.interceptor.TokenAuthenticator
+import ru.moonlight.network.interceptor.UpdateTokenInterceptor
 import javax.inject.Singleton
 
 @Module
@@ -22,7 +22,7 @@ object NetworkModule {
     @Provides
     @Singleton
     internal fun provideOkHttpClient(
-        authenticator: TokenAuthenticator,
+        updateTokenInterceptor: UpdateTokenInterceptor,
         authInterceptor: AuthInterceptor,
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -34,8 +34,8 @@ object NetworkModule {
 
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
+            .addInterceptor(updateTokenInterceptor)
             .addInterceptor(loggingInterceptor)
-            .authenticator(authenticator)
             .connectTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
             .callTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
             .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)

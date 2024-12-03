@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.moonlight.network.datasource.AuthDataSource
 import ru.moonlight.network.interceptor.AuthInterceptor
-import ru.moonlight.network.interceptor.TokenAuthenticator
+import ru.moonlight.network.interceptor.UpdateTokenInterceptor
 import ru.moonlight.network.utils.ApiCallController
 import ru.moonlight.network.utils.ConnectivityManagerNetworkMonitor
 import ru.moonlight.network.utils.NetworkMonitor
@@ -32,15 +32,15 @@ object NetworkUtilsModule {
 
     @Provides
     @Singleton
-    internal fun providesTokenAuthenticator(
-        sessionManager: SessionManager
-    ): TokenAuthenticator = TokenAuthenticator(sessionManager = sessionManager)
-
-    @Provides
-    @Singleton
     internal fun providesAuthInterceptor(
         sessionManager: SessionManager
     ): AuthInterceptor = AuthInterceptor(sessionManager = sessionManager)
+
+    @Provides
+    @Singleton
+    internal fun providesUpdateTokenInterceptor(
+        sessionManager: SessionManager
+    ): UpdateTokenInterceptor = UpdateTokenInterceptor(sessionManager = sessionManager)
 
     @Provides
     @Singleton
