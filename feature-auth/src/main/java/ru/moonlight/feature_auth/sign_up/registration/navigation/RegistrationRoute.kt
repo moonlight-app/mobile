@@ -13,7 +13,7 @@ data object RegistrationRoute
 fun NavController.navigateToRegistration(navOptions: NavOptions? = null) = navigate(route = RegistrationRoute, navOptions = navOptions)
 
 fun NavGraphBuilder.registrationScreen(
-    onCreateAccountClick: () -> Unit,
+    onCreateAccountClick: (String, String, String, String, String) -> Unit,
 ) {
     composable<RegistrationRoute> {
         RegistrationScreen(
