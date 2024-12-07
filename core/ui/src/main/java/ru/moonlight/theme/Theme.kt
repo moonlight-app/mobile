@@ -25,6 +25,7 @@ data class MoonlightThemeColors (
     val highlightComponent: Color,
     val outlineHighlightComponent: Color,
     val card: Color,
+    val card2: Color,
     val highlightText: Color,
     val text: Color,
     val hintText: Color,
@@ -36,12 +37,13 @@ data class MoonlightThemeColors (
 @Immutable
 data class MoonlightThemeTypography(
     val title: TextStyle,
-    val subTitle: TextStyle,
     val secondTitle: TextStyle,
+    val subTitle: TextStyle,
     val textField: TextStyle,
     val button: TextStyle,
     val smallButton: TextStyle,
     val description: TextStyle,
+    val secondDescription: TextStyle,
 )
 
 @Immutable
@@ -93,6 +95,7 @@ internal val LocalCustomColors = staticCompositionLocalOf {
         highlightComponent = Color.Unspecified,
         outlineHighlightComponent = Color.Unspecified,
         card = Color.Unspecified,
+        card2 = Color.Unspecified,
         highlightText = Color.Unspecified,
         text = Color.Unspecified,
         hintText = Color.Unspecified,
@@ -105,12 +108,13 @@ internal val LocalCustomColors = staticCompositionLocalOf {
 internal val LocalCustomTypography = staticCompositionLocalOf {
     MoonlightThemeTypography (
         title = TextStyle.Default,
-        subTitle = TextStyle.Default,
         secondTitle = TextStyle.Default,
+        subTitle = TextStyle.Default,
         textField = TextStyle.Default,
         button = TextStyle.Default,
         smallButton = TextStyle.Default,
         description = TextStyle.Default,
+        secondDescription = TextStyle.Default
     )
 }
 
@@ -140,6 +144,7 @@ fun MoonlightTheme(
             highlightComponent = LightBlue,
             outlineHighlightComponent = DarkBlue,
             card = DarkOcean,
+            card2 = DarkCharcoalBlue,
             highlightText = DarkBlue,
             text = White,
             hintText = Gray60,
@@ -155,6 +160,7 @@ fun MoonlightTheme(
             highlightComponent = LightBlue,
             outlineHighlightComponent = DarkBlue,
             card = DarkOcean,
+            card2 = DarkCharcoalBlue,
             highlightText = DarkBlue,
             text = White,
             hintText = Gray60,
@@ -166,12 +172,13 @@ fun MoonlightTheme(
 
     val customTypography = MoonlightThemeTypography (
         title = titleTextStyle,
-        subTitle = subTitleTextStyle,
         secondTitle = secondTitleTextStyle,
+        subTitle = subTitleTextStyle,
         textField = textFieldTextStyle,
         button = buttonTextStyle,
         smallButton = smallButtonTextStyle,
         description = descriptionTextStyle,
+        secondDescription = secondDescriptionTextStyle
     )
 
     var customDimens: MoonlightThemeDimens = CompactSmallDimens

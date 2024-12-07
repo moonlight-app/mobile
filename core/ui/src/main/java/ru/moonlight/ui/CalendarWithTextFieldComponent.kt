@@ -33,8 +33,8 @@ fun CalendarWithTextFieldComponent(
     onDateSelected: (String) -> Unit,
     date: String?,
     isCalendarOpen: Boolean,
-    placeholder: String,
     modifier: Modifier = Modifier,
+    placeholder: String,
     enable: Boolean = true,
     isError: Boolean = false,
     focusedTextColor: Color = MoonlightTheme.colors.text,
@@ -61,7 +61,92 @@ fun CalendarWithTextFieldComponent(
             readOnly = true,
             textStyle = textStyle,
             placeholder = {
-                Text(placeholder)
+                Text(
+                    text = placeholder,
+                    style = textStyle
+                )
+            },
+            isError = isError,
+            enabled = enable,
+            singleLine = true,
+            shape = MoonlightTheme.shapes.textFieldShape,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = focusedTextColor,
+                unfocusedTextColor = unfocusedTextColor,
+                focusedContainerColor = focusedContainerColor,
+                focusedLabelColor = focusedLabelColor,
+                unfocusedLabelColor = unfocusedLabelColor,
+                focusedBorderColor = focusedBorderColor,
+                unfocusedBorderColor = unfocusedBorderColor,
+                errorBorderColor = errorBorderColor,
+                errorTextColor = errorTextColor,
+                disabledBorderColor = disabledBorderColor,
+                disabledTextColor = disabledTextColor,
+            ),
+            interactionSource = remember { MutableInteractionSource() }
+                .also { interactionSource ->
+                    LaunchedEffect(interactionSource) {
+                        interactionSource.interactions.collect {
+                            if (it is PressInteraction.Release) {
+                                onClick()
+                            }
+                        }
+                    }
+                }
+        )
+
+        if (isCalendarOpen) {
+            CalendarView(
+                modifier = Modifier.fillMaxWidth(),
+                onDateSelected = { date ->
+                    onCalendarDismiss()
+                    onDateSelected(date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                },
+                onDismiss = { onCalendarDismiss() }
+            )
+        }
+    }
+}
+
+@Composable
+fun CalendarWithTextFieldLabelComponent(
+    onClick: () -> Unit,
+    onCalendarDismiss: () -> Unit,
+    onDateSelected: (String) -> Unit,
+    date: String?,
+    isCalendarOpen: Boolean,
+    modifier: Modifier = Modifier,
+    label: String,
+    enable: Boolean = true,
+    isError: Boolean = false,
+    focusedTextColor: Color = MoonlightTheme.colors.text,
+    unfocusedTextColor: Color = MoonlightTheme.colors.text,
+    focusedContainerColor: Color = Color.Transparent,
+    focusedLabelColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedLabelColor: Color = MoonlightTheme.colors.component,
+    focusedBorderColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedBorderColor: Color = MoonlightTheme.colors.component,
+    errorBorderColor: Color = MoonlightTheme.colors.error,
+    errorTextColor: Color = MoonlightTheme.colors.error,
+    disabledBorderColor: Color = MoonlightTheme.colors.disabledComponent,
+    disabledTextColor: Color = MoonlightTheme.colors.disabledText,
+    textStyle: TextStyle = MoonlightTheme.typography.textField,
+) {
+    Box(
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = date ?: "",
+            onValueChange = {},
+            readOnly = true,
+            textStyle = textStyle,
+            label = {
+                Text(
+                    text = label,
+                    style = textStyle
+                )
             },
             isError = isError,
             enabled = enable,

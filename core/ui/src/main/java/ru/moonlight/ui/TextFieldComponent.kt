@@ -29,8 +29,8 @@ import ru.moonlight.ui.otp.OtpTextFieldDefaults
 fun TextFieldComponent(
     onValueChange: (String) -> Unit,
     value: String,
-    placeholder: String,
     modifier: Modifier = Modifier,
+    placeholder: String,
     singleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
@@ -53,9 +53,7 @@ fun TextFieldComponent(
         modifier = modifier
             .fillMaxWidth(),
         value = value,
-        onValueChange = { newValue ->
-            onValueChange(newValue)
-        },
+        onValueChange = { newValue -> onValueChange(newValue) },
         keyboardOptions = KeyboardOptions(
             capitalization = keyboardCapitalization,
             autoCorrectEnabled = true,
@@ -86,6 +84,68 @@ fun TextFieldComponent(
                 style = textStyle,
             )
         },
+    )
+}
+
+@Composable
+fun TextFieldWithLabelComponent(
+    onValueChange: (String) -> Unit,
+    value: String,
+    modifier: Modifier = Modifier,
+    label: String,
+    singleLine: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
+    enable: Boolean = true,
+    isError: Boolean = false,
+    focusedTextColor: Color = MoonlightTheme.colors.text,
+    unfocusedTextColor: Color = MoonlightTheme.colors.text,
+    focusedContainerColor: Color = Color.Transparent,
+    focusedLabelColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedLabelColor: Color = MoonlightTheme.colors.component,
+    focusedBorderColor: Color = MoonlightTheme.colors.highlightComponent,
+    unfocusedBorderColor: Color = MoonlightTheme.colors.component,
+    errorBorderColor: Color = MoonlightTheme.colors.error,
+    errorTextColor: Color = MoonlightTheme.colors.error,
+    disabledBorderColor: Color = MoonlightTheme.colors.disabledComponent,
+    disabledTextColor: Color = MoonlightTheme.colors.disabledText,
+    textStyle: TextStyle = MoonlightTheme.typography.textField,
+) {
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth(),
+        value = value,
+        onValueChange = { newValue -> onValueChange(newValue) },
+        keyboardOptions = KeyboardOptions(
+            capitalization = keyboardCapitalization,
+            autoCorrectEnabled = true,
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Next,
+        ),
+        textStyle = textStyle,
+        enabled = (enable),
+        isError = isError,
+        shape = MoonlightTheme.shapes.textFieldShape,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = focusedTextColor,
+            unfocusedTextColor = unfocusedTextColor,
+            focusedContainerColor = focusedContainerColor,
+            focusedLabelColor = focusedLabelColor,
+            unfocusedLabelColor = unfocusedLabelColor,
+            focusedBorderColor = focusedBorderColor,
+            unfocusedBorderColor = unfocusedBorderColor,
+            errorBorderColor = errorBorderColor,
+            errorTextColor = errorTextColor,
+            disabledBorderColor = disabledBorderColor,
+            disabledTextColor = disabledTextColor,
+        ),
+        singleLine = singleLine,
+        label = {
+            Text(
+                text = label,
+                style = textStyle,
+            )
+        }
     )
 }
 
