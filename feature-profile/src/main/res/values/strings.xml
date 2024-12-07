@@ -1,0 +1,13 @@
+<resources>
+    <string name="profileDetails">Мои данные</string>
+    <string name="profile">Профиль</string>
+    <string name="orders">Заказы</string>
+    <string name="favorites">Избранное</string>
+    <string name="changePassword">Сменить пароль</string>
+    <string name="logout">Выйти</string>
+    <string name="changingPassword">Изменение пароля</string>
+    <string name="inputOldPassword">Введите старый пароль</string>
+    <string name="inputNewPassword">Введите новый пароль</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+</resources>
