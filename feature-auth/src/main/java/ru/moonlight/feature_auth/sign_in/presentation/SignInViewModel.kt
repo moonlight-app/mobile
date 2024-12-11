@@ -4,7 +4,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
 import ru.moonlight.data.repository.AuthRepository
-import ru.moonlight.network.utils.ApiResponse
+import ru.moonlight.common.ApiResponse
 import javax.inject.Inject
 
 @HiltViewModel
