@@ -9,7 +9,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.moonlight.feature_cart.navigation.CartRoute
-import ru.moonlight.feature_catalog.navigation.CatalogRoute
+import ru.moonlight.feature_catalog_categories.navigation.CatalogCategoriesRoute
 import ru.moonlight.feature_profile.navigation.ProfileRoute
 import kotlin.reflect.KClass
 
@@ -22,7 +22,7 @@ enum class TopLevelDestination(
     CATALOG(
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
-        route = CatalogRoute::class,
+        route = CatalogCategoriesRoute::class,
     ),
     CART(
         selectedIcon = Icons.Filled.ShoppingCart,

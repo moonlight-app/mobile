@@ -57,8 +57,10 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":feature-auth"))
     implementation(project(":feature-catalog"))
+    implementation(project(":feature-catalog-categories"))
     implementation(project(":feature-cart"))
     implementation(project(":feature-profile"))
+    implementation(project(":feature-profile-edit"))
     implementation(project(":core:data"))
 
     implementation(libs.hilt.android)

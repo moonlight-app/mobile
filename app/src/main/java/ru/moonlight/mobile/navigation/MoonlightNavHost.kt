@@ -16,8 +16,13 @@ import ru.moonlight.feature_cart.navigation.cartScreen
 import ru.moonlight.feature_catalog.navigation.CatalogRoute
 import ru.moonlight.feature_catalog.navigation.catalogScreen
 import ru.moonlight.feature_catalog.navigation.navigateToCatalog
-import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
+import ru.moonlight.feature_catalog_categories.navigation.CatalogCategoriesRoute
+import ru.moonlight.feature_catalog_categories.navigation.catalogCategoriesScreen
+import ru.moonlight.feature_catalog_categories.navigation.navigateToCatalogCategories
+import ru.moonlight.feature_profile.navigation.navigateToProfile
 import ru.moonlight.feature_profile.navigation.profileScreen
+import ru.moonlight.feature_profile_edit.navigation.navigateToProfileEdit
+import ru.moonlight.feature_profile_edit.navigation.profileEditScreen
 import ru.moonlight.mobile.ui.MoonlightAppState
 
 @Composable
@@ -30,19 +35,28 @@ fun MoonlightNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = CatalogRoute,
+        startDestination = CatalogCategoriesRoute,
+        //startDestination = CatalogRoute,
     ) {
-        catalogScreen()
-        cartScreen()
+        /* Profile */
         profileScreen(
             onLogoutClick = {
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(CatalogRoute, inclusive = true)
                     .build()
 
-                navController.navigateToCatalog(navOptions = navOptions)
+                navController.navigateToCatalogCategories(navOptions = navOptions)
             },
+            onEditProfileClick = { name, sex, birthDate ->
+                navController.navigateToProfileEdit(name, sex, birthDate)
+            },
+            onOrderClick = {},
+            onFavoritesClick = {},
         )
+
+        profileEditScreen(onBackClick = navController::popBackStack)
+
+        /* Auth */
         signInScreen(
             onAuthorizeClick = {
                 val navOptions = NavOptions.Builder()
@@ -51,15 +65,17 @@ fun MoonlightNavHost(
                     .setRestoreState(true)
                     .build()
 
-                navController.navigateToProfileScreen(navOptions = navOptions)
+                navController.navigateToProfile(navOptions = navOptions)
             },
             onRegistrationClick = navController::navigateToRegistration,
         )
+
         registrationScreen(
             onCreateAccountClick = { name, sex, birthDate, email, password ->
                 navController.navigateToConfirmCode(name, sex, birthDate, email, password)
             },
         )
+
         confirmCodeScreen(
             onContinueClick = {
                 val navOptions = NavOptions.Builder()
@@ -71,6 +87,7 @@ fun MoonlightNavHost(
                 navController.navigateToRegistrationComplete(navOptions)
             }
         )
+
         registrationCompleteScreen(
             onGetStartClick = {
                 val navOptions = NavOptions.Builder()
@@ -79,8 +96,19 @@ fun MoonlightNavHost(
                     .setRestoreState(true)
                     .build()
 
-                navController.navigateToProfileScreen(navOptions = navOptions)
+                navController.navigateToProfile(navOptions = navOptions)
             }
         )
+
+        /* Catalog */
+        catalogCategoriesScreen(
+            onCategoryClick = { category ->
+                navController.navigateToCatalog(category = category)
+            }
+        )
+        catalogScreen()
+
+        /* Cart */
+        cartScreen()
     }
 }

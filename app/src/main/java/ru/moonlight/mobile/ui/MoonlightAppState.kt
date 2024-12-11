@@ -21,8 +21,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_cart.navigation.navigateToCartScreen
-import ru.moonlight.feature_catalog.navigation.navigateToCatalog
-import ru.moonlight.feature_profile.navigation.navigateToProfileScreen
+import ru.moonlight.feature_catalog_categories.navigation.navigateToCatalogCategories
+import ru.moonlight.feature_profile.navigation.navigateToProfile
 import ru.moonlight.mobile.navigation.TopLevelDestination
 import ru.moonlight.network.utils.NetworkMonitor
 
@@ -106,14 +106,14 @@ class MoonlightAppState(
 
             when (topLevelDestination) {
                 TopLevelDestination.CATALOG -> {
-                    navController.navigateToCatalog(topLevelNavOptions)
+                    navController.navigateToCatalogCategories(topLevelNavOptions)
                 }
                 TopLevelDestination.CART -> {
                     navController.navigateToCartScreen(topLevelNavOptions)
                 }
                 TopLevelDestination.PROFILE -> {
                     if (isUserAuthorized.value)
-                        navController.navigateToProfileScreen(topLevelNavOptions)
+                        navController.navigateToProfile(topLevelNavOptions)
                     else
                         navController.navigateToSignIn(topLevelNavOptions)
                 }
