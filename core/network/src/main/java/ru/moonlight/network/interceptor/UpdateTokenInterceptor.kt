@@ -11,9 +11,9 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import ru.moonlight.network.model.auth.LoginResponse
 import ru.moonlight.network.BuildConfig
 import ru.moonlight.network.api.AuthApi
-import ru.moonlight.network.model.LoginResponse
 import ru.moonlight.network.utils.SessionManager
 import javax.inject.Inject
 
@@ -85,6 +85,7 @@ internal class UpdateTokenInterceptor @Inject constructor(
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            //.addInterceptor(AuthInterceptor(sessionManager = sessionManager))
             .build()
 
         val retrofit = Retrofit.Builder()
@@ -94,7 +95,8 @@ internal class UpdateTokenInterceptor @Inject constructor(
             .build()
 
         val authApi = retrofit.create(AuthApi::class.java)
-        val response = authApi.refreshTokens(refreshToken = refreshToken)
+        val accessToken = runBlocking { return@runBlocking "Bearer ${sessionManager.accessToken.first()}"  }
+        val response = authApi.refreshTokens(accessToken = accessToken, refreshToken = refreshToken)
 
         return if (response.isSuccessful) response.body() else null
     }
