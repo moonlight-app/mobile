@@ -33,11 +33,13 @@ android {
 
 dependencies {
     //modules
-    api(project(":core:datastore"))
-    api(project(":core:network"))
     implementation(project(":core:common"))
+    implementation(project(":core:network"))
+    implementation(project(":core:datastore"))
+    implementation(project(":core:domain-model"))
 
     //hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.paging.runtime)
     kapt(libs.hilt.compiler)
 }

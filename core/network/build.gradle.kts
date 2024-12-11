@@ -45,14 +45,17 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.kotlinx.serialization)
-    // Serialization//
+    // Serialization
     implementation(libs.kotlinx.serialization.json)
     // OkHttp
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
-    //tracing
+    // Tracing
     implementation(libs.androidx.tracing)
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    // Paging
+    implementation(libs.androidx.paging.compose) // Последняя версия
+    implementation(libs.androidx.paging.runtime) // Для работы с ViewModel
 }
