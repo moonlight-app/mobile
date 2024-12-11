@@ -130,6 +130,7 @@ internal fun ProfileScreen(
                 onDismissDialog = { changePasswordDialog = false },
                 showChangePasswordDialog = changePasswordDialog,
                 email = state.email,
+                orders = state.orders,
                 name = state.name,
             )
         }
@@ -154,6 +155,7 @@ private fun Profile(
     showChangePasswordDialog: Boolean,
     email: String,
     name: String,
+    orders: List<Orders>,
     modifier: Modifier = Modifier,
 ) {
     if (showChangePasswordDialog) {
@@ -190,8 +192,7 @@ private fun Profile(
             ButtonCard(text = stringResource(R.string.profileDetails), onClick = onProfileDetailsClick)
             OrdersCard(
                 onClick = onOrderClick,
-                //TODO заменить, когда сделаю getProfileUsecase
-                list = listOf(Orders("1 order ffffffffffffffffffffffffffffffffffffffffffffffffffffff", "New"), Orders("2 order", "бла"), Orders("3 order", "New"), Orders("4 order", "New"), Orders("5 order", "New")),
+                list = orders,
             )
             ButtonCard(text = stringResource(R.string.favorites), onClick = onFavoritesClick)
             ButtonCard(text = stringResource(R.string.changePassword), onClick = onChangePasswordClick)
@@ -368,7 +369,7 @@ private fun OrderPager(
                             fraction = 1f - pageOffSet.coerceIn(0f, 1f)
                         )
                     },
-                title = order.name,
+                title = order.title,
                 status = order.status
             )
         }

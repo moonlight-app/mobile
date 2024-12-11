@@ -3,12 +3,12 @@ package ru.moonlight.feature_profile_edit.presentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
-import ru.moonlight.data.repository.ProfileRepository
+import ru.moonlight.domain.profile.UpdateProfileInteractor
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
-    private val repository: ProfileRepository,
+    private val updateProfileInteractor: UpdateProfileInteractor,
 ): BaseViewModel<ProfileEditState, Nothing>(ProfileEditState()) {
     val uiState = baseUiState
 
@@ -41,7 +41,7 @@ class ProfileEditViewModel @Inject constructor(
             updateUiState(BaseUIState.Error("Заполните все поля"))
             return@intent
         }
-        repository.changeProfile(
+        updateProfileInteractor.invoke(
             name = if (oldName == state.name) null else state.name,
             gender = if (oldGender == state.gender) null else state.gender,
             birthDate = if (oldDate == state.birthDate) null else state.birthDate,

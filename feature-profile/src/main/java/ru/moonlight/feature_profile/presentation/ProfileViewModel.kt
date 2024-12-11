@@ -1,31 +1,33 @@
 package ru.moonlight.feature_profile.presentation
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
-import ru.moonlight.data.repository.AuthRepository
-import ru.moonlight.data.repository.ProfileRepository
-import ru.moonlight.network.utils.ApiResponse
+import ru.moonlight.domain.profile.ChangePasswordInteractor
+import ru.moonlight.domain.profile.GetProfileUseCase
+import ru.moonlight.domain.profile.LogoutInteractor
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val profileRepository: ProfileRepository,
+    private val getProfileUseCase: GetProfileUseCase,
+    private val changePasswordInteractor: ChangePasswordInteractor,
+    private val logoutInteractor: LogoutInteractor,
 ): BaseViewModel<ProfileState, ProfileSideEffects>(ProfileState()) {
     val uiState = baseUiState
 
     fun loadProfile() = intent {
         updateUiState(BaseUIState.Loading)
-
-        when (val result = profileRepository.getProfile()) {
+        when (val result = getProfileUseCase.invoke()) {
             is ApiResponse.Error -> updateUiState(BaseUIState.Error(result.msg))
             is ApiResponse.Success -> {
                 reduce { state.copy(
                     email = result.data?.email!!,
                     name = result.data?.name!!,
-                    sex = result.data?.sex!!,
-                    birthDate = result.data?.birthDate!!
+                    sex = result.data?.gender!!,
+                    birthDate = result.data?.birthDate!!,
+                    orders = result.data?.orders?.map{ order -> order.mapToPresentation() } ?: emptyList(),
                 )}
                 updateUiState(BaseUIState.Success)
             }
@@ -41,7 +43,7 @@ class ProfileViewModel @Inject constructor(
     fun showChangePasswordDialog() = intent { postSideEffect(ProfileSideEffects.ChangePassword) }
 
     fun updatePassword(oldPassword: String, newPassword: String) = intent {
-        when (profileRepository.changePassword(oldPassword, newPassword)) {
+        when (changePasswordInteractor.invoke(oldPassword, newPassword)) {
             is ApiResponse.Error -> postSideEffect(ProfileSideEffects.ShowToast("Ошибка смены пароля"))
             is ApiResponse.Success -> postSideEffect(ProfileSideEffects.ShowToast("Пароль успешно изменен"))
         }
@@ -49,23 +51,19 @@ class ProfileViewModel @Inject constructor(
 
     fun logout() = intent {
         updateUiState(BaseUIState.Loading)
-        authRepository.logout()
+        logoutInteractor.invoke()
         postSideEffect(ProfileSideEffects.Logout)
     }
 
-    fun refreshToken() = intent {
-
-    }
-
-    fun deleteProfile() = intent {
-        updateUiState(BaseUIState.Loading)
-        when (val result = profileRepository.deleteProfile()) {
-            is ApiResponse.Error -> updateUiState(BaseUIState.Error(result.msg))
-            is ApiResponse.Success -> {
-                authRepository.logout()
-                postSideEffect(ProfileSideEffects.Logout)
-            }
-        }
-    }
+//    fun deleteProfile() = intent {
+//        updateUiState(BaseUIState.Loading)
+//        when (val result = profileRepository.deleteProfile()) {
+//            is ApiResponse.Error -> updateUiState(BaseUIState.Error(result.msg))
+//            is ApiResponse.Success -> {
+//                authRepository.logout()
+//                postSideEffect(ProfileSideEffects.Logout)
+//            }
+//        }
+//    }
 
 }
