@@ -8,7 +8,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.PUT
-import ru.moonlight.network.model.ProfileResponse
+import ru.moonlight.network.model.profile.ProfileResponse
 
 internal interface ProfileApi {
 

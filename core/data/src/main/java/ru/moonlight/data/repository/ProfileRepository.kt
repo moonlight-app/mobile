@@ -2,13 +2,14 @@ package ru.moonlight.data.repository
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ru.moonlight.network.model.ProfileResponse
+import ru.moonlight.common.ApiResponse
+import ru.moonlight.data.mapper.mapToDomain
+import ru.moonlight.domain_model.profile.ProfileDomainModel
 import ru.moonlight.network.service.ProfileService
-import ru.moonlight.network.utils.ApiResponse
 import javax.inject.Inject
 
 interface ProfileRepository {
-    suspend fun getProfile(): ApiResponse<ProfileResponse>
+    suspend fun getProfile(): ApiResponse<ProfileDomainModel>
     suspend fun changeProfile(
         name: String?,
         gender: String?,
@@ -26,11 +27,11 @@ internal class ProfileRepositoryImpl @Inject constructor(
     private val dispatcherIO: CoroutineDispatcher,
 ): ProfileRepository {
 
-    override suspend fun getProfile(): ApiResponse<ProfileResponse> =
+    override suspend fun getProfile(): ApiResponse<ProfileDomainModel> =
         withContext(dispatcherIO) {
             when (val response = service.getProfile()) {
                 is ApiResponse.Error -> ApiResponse.Error(msg = response.msg)
-                is ApiResponse.Success -> ApiResponse.Success(data = response.data)
+                is ApiResponse.Success -> ApiResponse.Success(data = response.data?.mapToDomain())
             }
         }
 

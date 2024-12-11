@@ -5,6 +5,7 @@ import kotlinx.serialization.SerializationException
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
+import ru.moonlight.common.ApiResponse
 import java.io.IOException
 import javax.inject.Inject
 
@@ -75,7 +76,7 @@ internal class ApiCallController @Inject constructor(
         }
     }
 
-    suspend fun safeApiCallWithoutBody(call: suspend () -> Response<ResponseBody>): ApiResponse<Nothing> {
+    suspend fun safeApiCallWithoutBody(call: suspend () -> Response<ResponseBody>): ApiResponse<Unit> {
         if (!networkMonitor.isOnline.first()) {
             return ApiResponse.Error(msg = "No internet connection")
         }

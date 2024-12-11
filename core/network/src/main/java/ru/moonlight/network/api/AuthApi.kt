@@ -7,7 +7,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
-import ru.moonlight.network.model.LoginResponse
+import ru.moonlight.network.model.auth.LoginResponse
 
 internal interface AuthApi {
 
@@ -46,8 +46,9 @@ internal interface AuthApi {
     ): Response<LoginResponse>
 
 
-    @POST("/auth/token/refresh?refresh_token={refresh_token}")
+    @POST("/auth/token/refresh")
     suspend fun refreshTokens(
+        @Header("Authorization") accessToken: String,
         @Query("refresh_token") refreshToken: String,
     ): Response<LoginResponse>
 

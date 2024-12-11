@@ -1,9 +1,9 @@
 package ru.moonlight.network.service
 
+import ru.moonlight.common.ApiResponse
+import ru.moonlight.network.model.profile.ProfileResponse
 import ru.moonlight.network.api.ProfileApi
-import ru.moonlight.network.model.ProfileResponse
 import ru.moonlight.network.utils.ApiCallController
-import ru.moonlight.network.utils.ApiResponse
 import javax.inject.Inject
 
 interface ProfileService {

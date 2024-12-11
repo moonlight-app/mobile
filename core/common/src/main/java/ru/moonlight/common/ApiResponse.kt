@@ -1,4 +1,4 @@
-package ru.moonlight.network.utils
+package ru.moonlight.common
 
 sealed class ApiResponse<T>(
     val data: T? = null,

@@ -1,4 +1,4 @@
-package ru.moonlight.network.model
+package ru.moonlight.network.model.profile
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
