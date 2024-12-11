@@ -42,7 +42,7 @@ fun MoonlightNavHost(
         profileScreen(
             onLogoutClick = {
                 val navOptions = NavOptions.Builder()
-                    .setPopUpTo(CatalogRoute, inclusive = true)
+                    .setPopUpTo(CatalogCategoriesRoute, inclusive = true)
                     .build()
 
                 navController.navigateToCatalogCategories(navOptions = navOptions)
@@ -60,7 +60,7 @@ fun MoonlightNavHost(
         signInScreen(
             onAuthorizeClick = {
                 val navOptions = NavOptions.Builder()
-                    .setPopUpTo(CatalogRoute, inclusive = false)
+                    .setPopUpTo(CatalogCategoriesRoute, inclusive = false)
                     .setLaunchSingleTop(true)
                     .setRestoreState(true)
                     .build()
