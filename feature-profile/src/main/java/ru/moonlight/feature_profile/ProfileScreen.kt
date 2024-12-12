@@ -2,6 +2,8 @@ package ru.moonlight.feature_profile
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapPosition
@@ -34,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -174,6 +177,10 @@ private fun Profile(
         containerColor = MoonlightTheme.colors.background,
         topBar = { TopAppBarComponent(title = stringResource(R.string.profile)) },
     ) { paddingValues ->
+        val pagerState = rememberPagerState(
+            pageCount = { orders.size }
+        )
+
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -306,13 +313,16 @@ fun OrdersCard(
     ) {
         Column (
             modifier = Modifier
-                .padding(MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
+                .padding(vertical = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
                 space = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical,
             )
         ) {
             Text(
+                modifier = Modifier.padding(
+                    start = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal
+                ),
                 text = stringResource(R.string.orders),
                 style = MoonlightTheme.typography.subTitle,
             )
@@ -331,15 +341,29 @@ private fun OrderPager(
         pageCount = { list.size }
     )
 
+    val flingBehavior = PagerDefaults.flingBehavior(
+        state = pagerState,
+        pagerSnapDistance = PagerSnapDistance.atMost(1),
+        snapAnimationSpec = tween(
+            easing = FastOutSlowInEasing,
+            durationMillis = 400
+        ),
+    )
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }
+            .collect { page ->
+                Log.d("PagerState", "Current page: $page")
+            }
+    }
+
     if (list.isNotEmpty()) {
         HorizontalPager(
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxWidth(),
             state = pagerState,
-            flingBehavior = PagerDefaults.flingBehavior(
-                state = pagerState,
-                pagerSnapDistance = PagerSnapDistance.atMost(0)
-            ),
             pageSpacing = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal,
+            flingBehavior = flingBehavior,
             pageSize = object : PageSize {
                 override fun Density.calculateMainAxisPageSize(
                     availableSpace: Int,
@@ -349,10 +373,16 @@ private fun OrderPager(
                 }
             },
             snapPosition = SnapPosition.Center,
+            key = { page -> page },
         ) { page ->
             val order = list[page]
             OrderItem(
                 modifier = Modifier
+                    //delete when Horizontal Pager will be fixed with contentPadding and SnapPosition.Center
+                    .padding(
+                        start = if (page == 0) MoonlightTheme.dimens.paddingBetweenComponentsHorizontal else 0.dp,
+                        end = if (page == list.size - 1) MoonlightTheme.dimens.paddingBetweenComponentsHorizontal else 0.dp
+                    )
                     .graphicsLayer {
                         val pageOffSet = (
                                 (pagerState.currentPage - page) + pagerState
@@ -363,14 +393,14 @@ private fun OrderPager(
                             stop = 1f,
                             fraction = 1f - pageOffSet.coerceIn(0f, 1f)
                         )
-                        scaleY =   lerp(
-                            start = 0.75f,
+                        scaleY = lerp(
+                            start = 0.9f,
                             stop = 1f,
                             fraction = 1f - pageOffSet.coerceIn(0f, 1f)
                         )
                     },
                 title = order.title,
-                status = order.status
+                status = order.status,
             )
         }
     }
@@ -421,6 +451,8 @@ fun OrderItem(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     text = title,
                     style = MoonlightTheme.typography.subTitle,
                     color = MoonlightTheme.colors.text,
