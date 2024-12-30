@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.moonlight.theme.MoonlightTheme
 import ru.moonlight.ui.TopAppBarComponent
-import ru.moonlight.utils.bouncingClickable
+import ru.moonlight.utils.animation.bouncingClickable
 
 @Composable
 fun CatalogCategoriesScreen(

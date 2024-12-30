@@ -5,17 +5,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
-import ru.moonlight.feature_auth.sign_in.navigation.signInScreen
-import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.confirmCodeScreen
-import ru.moonlight.feature_auth.sign_up.confirm_code.navigation.navigateToConfirmCode
-import ru.moonlight.feature_auth.sign_up.registration.navigation.navigateToRegistration
-import ru.moonlight.feature_auth.sign_up.registration.navigation.registrationScreen
-import ru.moonlight.feature_auth.sign_up.registration_complete.navigation.navigateToRegistrationComplete
-import ru.moonlight.feature_auth.sign_up.registration_complete.navigation.registrationCompleteScreen
+import ru.moonlight.feature_auth_signin.sign_in.navigation.signInScreen
+import ru.moonlight.feature_auth_signup_complete.navigation.navigateToRegistrationComplete
+import ru.moonlight.feature_auth_signup_complete.navigation.registrationCompleteScreen
+import ru.moonlight.feature_auth_signup_confirmcode.navigation.confirmCodeScreen
+import ru.moonlight.feature_auth_signup_confirmcode.navigation.navigateToConfirmCode
+import ru.moonlight.feature_auth_signup_registration.registration.navigation.navigateToRegistration
+import ru.moonlight.feature_auth_signup_registration.registration.navigation.registrationScreen
 import ru.moonlight.feature_cart.navigation.cartScreen
-import ru.moonlight.feature_catalog.navigation.CatalogRoute
-import ru.moonlight.feature_catalog.navigation.catalogScreen
-import ru.moonlight.feature_catalog.navigation.navigateToCatalog
+import ru.moonlight.feature_catalog.api.navigation.CatalogRoute
+import ru.moonlight.feature_catalog.api.navigation.catalogScreen
+import ru.moonlight.feature_catalog.api.navigation.navigateToCatalog
 import ru.moonlight.feature_catalog_categories.navigation.CatalogCategoriesRoute
 import ru.moonlight.feature_catalog_categories.navigation.catalogCategoriesScreen
 import ru.moonlight.feature_catalog_categories.navigation.navigateToCatalogCategories
@@ -106,7 +106,10 @@ fun MoonlightNavHost(
                 navController.navigateToCatalog(category = category)
             }
         )
-        catalogScreen()
+        catalogScreen(
+            onBackClick = navController::popBackStack,
+            onProductClick = { id -> TODO("navigate to product screen with id - $id") },
+        )
 
         /* Cart */
         cartScreen()

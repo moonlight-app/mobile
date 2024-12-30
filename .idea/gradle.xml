@@ -15,12 +15,21 @@
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/datastore" />
+            <option value="$PROJECT_DIR$/core/domain" />
+            <option value="$PROJECT_DIR$/core/domain-model" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/ui" />
-            <option value="$PROJECT_DIR$/feature-auth" />
+            <option value="$PROJECT_DIR$/feature-auth-signin" />
+            <option value="$PROJECT_DIR$/feature-auth-signup-complete" />
+            <option value="$PROJECT_DIR$/feature-auth-signup-confirmcode" />
+            <option value="$PROJECT_DIR$/feature-auth-signup-registration" />
             <option value="$PROJECT_DIR$/feature-cart" />
             <option value="$PROJECT_DIR$/feature-catalog" />
+            <option value="$PROJECT_DIR$/feature-catalog-categories" />
+            <option value="$PROJECT_DIR$/feature-catalog-filter" />
+            <option value="$PROJECT_DIR$/feature-catalog-sort" />
             <option value="$PROJECT_DIR$/feature-profile" />
+            <option value="$PROJECT_DIR$/feature-profile-edit" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

@@ -62,7 +62,7 @@ import ru.moonlight.ui.ButtonOutlinedComponent
 import ru.moonlight.ui.ChangePasswordDialog
 import ru.moonlight.ui.ProgressBarComponent
 import ru.moonlight.ui.TopAppBarComponent
-import ru.moonlight.utils.bouncingClickable
+import ru.moonlight.utils.animation.bouncingClickable
 import kotlin.math.absoluteValue
 
 @Composable

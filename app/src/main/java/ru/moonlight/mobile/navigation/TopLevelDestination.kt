@@ -19,7 +19,7 @@ enum class TopLevelDestination(
     val badgeCount: Int? = null,
     val route: KClass<*>,
 ) {
-    CATALOG(
+    CATALOG_CATEGORIES(
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         route = CatalogCategoriesRoute::class,

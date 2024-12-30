@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import ru.moonlight.feature_auth.sign_in.navigation.navigateToSignIn
+import ru.moonlight.feature_auth_signin.sign_in.navigation.navigateToSignIn
 import ru.moonlight.feature_cart.navigation.navigateToCartScreen
 import ru.moonlight.feature_catalog_categories.navigation.navigateToCatalogCategories
 import ru.moonlight.feature_profile.navigation.navigateToProfile
@@ -105,7 +105,7 @@ class MoonlightAppState(
             }
 
             when (topLevelDestination) {
-                TopLevelDestination.CATALOG -> {
+                TopLevelDestination.CATALOG_CATEGORIES -> {
                     navController.navigateToCatalogCategories(topLevelNavOptions)
                 }
                 TopLevelDestination.CART -> {

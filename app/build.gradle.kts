@@ -55,7 +55,10 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
-    implementation(project(":feature-auth"))
+    implementation(project(":feature-auth-signin"))
+    implementation(project(":feature-auth-signup-registration"))
+    implementation(project(":feature-auth-signup-confirmcode"))
+    implementation(project(":feature-auth-signup-complete"))
     implementation(project(":feature-catalog"))
     implementation(project(":feature-catalog-categories"))
     implementation(project(":feature-cart"))

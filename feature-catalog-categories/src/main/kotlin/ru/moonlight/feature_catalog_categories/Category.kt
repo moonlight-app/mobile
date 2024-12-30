@@ -11,10 +11,10 @@ internal class Category(
 
 internal val Context.categories: List<Category>
     get() = listOf(
-        Category(this.getString(R.string.ring), "ring", R.drawable.ring),
-        Category(this.getString(R.string.earrings), "earrings", R.drawable.earrings),
-        Category(this.getString(R.string.watch), "watch", R.drawable.watch),
-        Category(this.getString(R.string.bracelet), "bracelet", R.drawable.bracelet),
-        Category(this.getString(R.string.necklace), "necklace", R.drawable.necklace),
-        Category(this.getString(R.string.chain), "chain", R.drawable.chain),
+        Category(this.getString(R.string.ring), "ring", ru.moonlight.ui.R.drawable.ring),
+        Category(this.getString(R.string.earrings), "earrings", ru.moonlight.ui.R.drawable.earrings),
+        Category(this.getString(R.string.watch), "watch", ru.moonlight.ui.R.drawable.watch),
+        Category(this.getString(R.string.bracelet), "bracelet", ru.moonlight.ui.R.drawable.bracelet),
+        Category(this.getString(R.string.necklace), "necklace", ru.moonlight.ui.R.drawable.necklace),
+        Category(this.getString(R.string.chain), "chain", ru.moonlight.ui.R.drawable.chain),
     )
