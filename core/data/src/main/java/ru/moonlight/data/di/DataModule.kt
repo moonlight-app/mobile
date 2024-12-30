@@ -9,9 +9,12 @@ import ru.moonlight.common.di.Dispatcher
 import ru.moonlight.common.di.MoonlightDispatchers
 import ru.moonlight.data.repository.AuthRepository
 import ru.moonlight.data.repository.AuthRepositoryImpl
+import ru.moonlight.data.repository.CatalogRepository
+import ru.moonlight.data.repository.CatalogRepositoryImpl
 import ru.moonlight.data.repository.ProfileRepository
 import ru.moonlight.data.repository.ProfileRepositoryImpl
 import ru.moonlight.network.service.AuthService
+import ru.moonlight.network.service.CatalogService
 import ru.moonlight.network.service.ProfileService
 import javax.inject.Singleton
 
@@ -32,5 +35,12 @@ object DataModule {
         profileService: ProfileService,
         @Dispatcher(MoonlightDispatchers.IO) dispatcher: CoroutineDispatcher,
     ): ProfileRepository = ProfileRepositoryImpl(service = profileService, dispatcherIO = dispatcher)
+
+    @Provides
+    @Singleton
+    fun providesCatalogRepository(
+        catalogService: CatalogService,
+        @Dispatcher(MoonlightDispatchers.IO) dispatcher: CoroutineDispatcher,
+    ): CatalogRepository = CatalogRepositoryImpl(service = catalogService, dispatcherIO = dispatcher)
 
 }

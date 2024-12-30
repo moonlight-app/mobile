@@ -1,6 +1,8 @@
 package ru.moonlight.theme
 
 import android.app.Activity
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -62,6 +64,7 @@ data class MoonlightThemeDimens(
     val secondTextFieldRadius: Dp,
     val buttonRadius: Dp,
     val cardRadius: Dp,
+    val checkBoxRadius: Dp,
 
     /* size */
     val progressBarSize: Dp,
@@ -86,6 +89,7 @@ data class MoonlightThemeDimens(
 data class MoonlightThemeShapes(
     val buttonShape: RoundedCornerShape,
     val textFieldShape: RoundedCornerShape,
+    val checkBoxShape: RoundedCornerShape,
 )
 
 internal val LocalCustomColors = staticCompositionLocalOf {
@@ -126,11 +130,12 @@ internal val LocalCustomShapes = staticCompositionLocalOf {
     MoonlightThemeShapes(
         buttonShape = RoundedCornerShape(24.dp),
         textFieldShape = RoundedCornerShape(50.dp),
+        checkBoxShape = RoundedCornerShape(6.dp),
     )
 }
 
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MoonlightTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -208,6 +213,7 @@ fun MoonlightTheme(
     val customShapes = MoonlightThemeShapes(
         buttonShape = RoundedCornerShape(customDimens.buttonRadius),
         textFieldShape = RoundedCornerShape(customDimens.textFieldRadius),
+        checkBoxShape = RoundedCornerShape(customDimens.checkBoxRadius),
     )
 
     CompositionLocalProvider(
@@ -215,6 +221,7 @@ fun MoonlightTheme(
         LocalCustomTypography provides customTypography,
         LocalCustomDimens provides customDimens,
         LocalCustomShapes provides customShapes,
+        LocalOverscrollConfiguration provides null,
         content = content
     )
 }

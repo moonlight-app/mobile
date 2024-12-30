@@ -1,4 +1,4 @@
-package ru.moonlight.utils
+package ru.moonlight.utils.animation
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition

@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import ru.moonlight.network.api.AuthApi
+import ru.moonlight.network.api.CatalogApi
 import ru.moonlight.network.api.ProfileApi
 import javax.inject.Singleton
 
@@ -22,5 +23,10 @@ object ApiModule {
     @Singleton
     internal fun providesProfileApi(retrofit: Retrofit): ProfileApi =
         retrofit.create(ProfileApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun providesCatalogApi(retrofit: Retrofit): CatalogApi =
+        retrofit.create(CatalogApi::class.java)
 
 }

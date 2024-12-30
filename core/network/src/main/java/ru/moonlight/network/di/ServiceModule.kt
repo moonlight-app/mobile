@@ -5,9 +5,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.moonlight.network.api.AuthApi
+import ru.moonlight.network.api.CatalogApi
 import ru.moonlight.network.api.ProfileApi
 import ru.moonlight.network.service.AuthApiService
 import ru.moonlight.network.service.AuthService
+import ru.moonlight.network.service.CatalogApiService
+import ru.moonlight.network.service.CatalogService
 import ru.moonlight.network.service.ProfileApiService
 import ru.moonlight.network.service.ProfileService
 import ru.moonlight.network.utils.ApiCallController
@@ -32,5 +35,12 @@ object ServiceModule {
         api: ProfileApi,
         apiCallController: ApiCallController,
     ): ProfileService = ProfileApiService(api = api, apiCallController = apiCallController)
+
+    @Provides
+    @Singleton
+    internal fun providesCatalogService(
+        api: CatalogApi,
+        apiCallController: ApiCallController,
+    ): CatalogService = CatalogApiService(api = api, apiCallController = apiCallController)
 
 }
