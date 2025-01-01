@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProductTypeMetadataResponse(
-    @SerialName("popular_sizes") val popularSizes: List<Double>,
+    @SerialName("popular_sizes") val popularSizes: List<Double> = emptyList(),
     @SerialName("price_range") val priceRange: PriceRange,
-    @SerialName("product_type") val productType: String
+    @SerialName("product_type") val productType: String,
 )
 
 @Serializable

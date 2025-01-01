@@ -17,22 +17,24 @@ internal fun <T> FilterCard(
     modifier: Modifier = Modifier,
     item: @Composable (T) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = title,
-            style = MoonlightTheme.typography.button,
-            color = MoonlightTheme.colors.text,
-        )
-        GridLayout(
-            modifier = Modifier
-                .padding(top = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical),
-            items = list,
-            cellSize = cellsSize,
+    if (list.isNotEmpty()) {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
         ) {
-            item(it)
+            Text(
+                text = title,
+                style = MoonlightTheme.typography.button,
+                color = MoonlightTheme.colors.text,
+            )
+            GridLayout(
+                modifier = Modifier
+                    .padding(top = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical),
+                items = list,
+                cellSize = cellsSize,
+            ) {
+                item(it)
+            }
         }
     }
 }
