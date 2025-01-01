@@ -30,8 +30,7 @@ internal fun ShimmerProductItem(modifier: Modifier = Modifier) {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .shimmer(),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
                 MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical,

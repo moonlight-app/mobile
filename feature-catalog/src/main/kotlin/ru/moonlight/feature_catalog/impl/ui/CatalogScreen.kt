@@ -43,7 +43,11 @@ internal fun CatalogScreen(
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<CatalogViewModel>()
-    viewModel.getMetadata(productType)
+
+    LaunchedEffect(Unit) {
+        viewModel.getMetadata(productType)
+    }
+
 
     val productList = viewModel.getPagingData(productType).collectAsLazyPagingItems()
     val state by viewModel.collectAsState()
