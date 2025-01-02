@@ -11,14 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import ru.moonlight.theme.MoonlightTheme
+import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.api.widget.text.ButtonTextWidget
 
 @Composable
 internal fun SortButton(
@@ -74,16 +74,15 @@ private fun IconText(
             tint = if (isSelected) MoonlightTheme.colors.text
             else MoonlightTheme.colors.hintText
         )
-        Text(
+        ButtonTextWidget(
             modifier = Modifier
                 .padding(
                     top = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical - 1.dp,
                     bottom = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical
                 ),
             text = text,
-            color = if (isSelected) MoonlightTheme.colors.text
-            else MoonlightTheme.colors.hintText,
-            style = MoonlightTheme.typography.button,
+            textColor = if (isSelected) MoonlightTheme.colors.text
+                        else MoonlightTheme.colors.hintText,
         )
     }
 }

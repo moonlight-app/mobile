@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
 import ru.moonlight.feature_catalog_sort.impl.ui.SortButton
 import ru.moonlight.feature_catalog_sort.impl.ui.Title
-import ru.moonlight.theme.MoonlightTheme
+import ru.moonlight.api.theme.MoonlightTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
