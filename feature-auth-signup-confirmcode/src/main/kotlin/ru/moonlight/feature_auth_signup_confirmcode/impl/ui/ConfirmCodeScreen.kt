@@ -1,6 +1,5 @@
-package ru.moonlight.feature_auth_signup_confirmcode
+package ru.moonlight.feature_auth_signup_confirmcode.impl.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,24 +16,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import ru.moonlight.api.component.OTPComponent
+import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.base.BaseUIState
-import ru.moonlight.feature_auth_signup_confirmcode.presentation.ConfirmCodeSideEffect
-import ru.moonlight.feature_auth_signup_confirmcode.presentation.ConfirmCodeViewModel
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.ButtonComponent
-import ru.moonlight.ui.TextAnnotatedComponent
-import ru.moonlight.ui.TextAuthComponent
-import ru.moonlight.ui.TextFieldOTP
+import ru.moonlight.feature_auth_signup_confirmcode.impl.presentation.ConfirmCodeSideEffect
+import ru.moonlight.feature_auth_signup_confirmcode.impl.presentation.ConfirmCodeViewModel
+import ru.moonlight.feature_auth_signup_confirmcode.impl.ui.component.ContinueButton
+import ru.moonlight.feature_auth_signup_confirmcode.impl.ui.component.Logo
+import ru.moonlight.feature_auth_signup_confirmcode.impl.ui.component.NewCodeButton
 
 @Composable
-fun ConfirmCodeScreen(
+internal fun ConfirmCodeRoute(
     onContinueClick: () -> Unit,
     name: String,
     sex: String,
@@ -56,7 +53,7 @@ fun ConfirmCodeScreen(
         mutableStateOf(state.code)
     }
 
-    ConfirmCodeView(
+    ConfirmCodeScreen(
         updateCode = { newCode ->
             viewModel.updateCode(newCode)
             code = newCode
@@ -70,7 +67,7 @@ fun ConfirmCodeScreen(
 }
 
 @Composable
-private fun ConfirmCodeView(
+private fun ConfirmCodeScreen(
     updateCode: (String) -> Unit,
     onConfirmClick: () -> Unit,
     email: String,
@@ -78,7 +75,6 @@ private fun ConfirmCodeView(
     uiState: BaseUIState,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -99,30 +95,17 @@ private fun ConfirmCodeView(
             Alignment.CenterVertically
         ),
     ) {
-        TextAuthComponent(
-            subTitleText = stringResource(R.string.confirmEmail),
-            bodyText = stringResource(R.string.codeWasSendedToEmail),
-            bodyPart2Text = email,
-            bodyPart3Text = stringResource(R.string.checkEmailAndPassCode)
-        )
-        TextFieldOTP(
+        Logo(email = email)
+        OTPComponent(
             modifier = Modifier.focusRequester(focusRequester),
-            value = code,
             onValueChange = { newCode -> updateCode(newCode) },
+            value = code,
         )
-        ButtonComponent(
-            modifier = Modifier
-                .fillMaxWidth(0.55f),
+        ContinueButton(
+            onContinueClick = onConfirmClick,
             enable = uiState !is BaseUIState.Loading,
             isLoading = uiState is BaseUIState.Loading,
-            onClick = onConfirmClick,
-            text = stringResource(R.string.continuee),
         )
-        TextAnnotatedComponent(
-            onClick = { Toast.makeText(context, "${context.getText(R.string.codeWasSendedOn)} \n$email", Toast.LENGTH_SHORT).show() }, //TODO add code request
-            textPart1 = stringResource(R.string.dontGetCode),
-            textPart2 = stringResource(R.string.tryAgain),
-            textPart3 = "(timer)" //TODO add timer
-        )
+        NewCodeButton(email = email)
     }
 }

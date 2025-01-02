@@ -4,6 +4,4 @@
     <string name="codeWasSendedToEmail">Письмо с кодом подтверждения \n было отправлено на почту</string>
     <string name="checkEmailAndPassCode">Проверьте почту и введите код ниже.</string>
     <string name="codeWasSendedOn">Код отправлен на</string>
-    <string name="dontGetCode">Не пришло письмо с кодом восстановления?\n</string>
-    <string name="tryAgain">Отправить еще раз</string>
 </resources>

@@ -1,14 +1,14 @@
-package ru.moonlight.feature_auth_signup_confirmcode.presentation
+package ru.moonlight.feature_auth_signup_confirmcode.impl.presentation
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
 import ru.moonlight.data.repository.AuthRepository
-import ru.moonlight.common.ApiResponse
 import javax.inject.Inject
 
 @HiltViewModel
-class ConfirmCodeViewModel @Inject constructor(
+internal class ConfirmCodeViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ): BaseViewModel<ConfirmCodeState, ConfirmCodeSideEffect>(ConfirmCodeState()) {
     val uiState = baseUiState

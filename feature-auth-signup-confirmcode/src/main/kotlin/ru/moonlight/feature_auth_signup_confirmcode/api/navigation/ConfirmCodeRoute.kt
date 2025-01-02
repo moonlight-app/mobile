@@ -1,4 +1,4 @@
-package ru.moonlight.feature_auth_signup_confirmcode.navigation
+package ru.moonlight.feature_auth_signup_confirmcode.api.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,7 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
-import ru.moonlight.feature_auth_signup_confirmcode.ConfirmCodeScreen
+import ru.moonlight.feature_auth_signup_confirmcode.impl.ui.ConfirmCodeRoute
 
 @Serializable
 data class ConfirmCodeRoute(
@@ -34,7 +34,7 @@ fun NavGraphBuilder.confirmCodeScreen(
 ) {
     composable<ConfirmCodeRoute> {
         val args = it.toRoute<ConfirmCodeRoute>()
-        ConfirmCodeScreen(
+        ConfirmCodeRoute(
             onContinueClick = onContinueClick,
             name = args.name,
             sex = args.sex,
