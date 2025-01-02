@@ -1,4 +1,4 @@
-package ru.moonlight.feature_profile_edit.presentation
+package ru.moonlight.feature_profile_edit.impl.presentation
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.moonlight.common.base.BaseUIState
@@ -7,7 +7,7 @@ import ru.moonlight.domain.profile.UpdateProfileInteractor
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileEditViewModel @Inject constructor(
+internal class ProfileEditViewModel @Inject constructor(
     private val updateProfileInteractor: UpdateProfileInteractor,
 ): BaseViewModel<ProfileEditState, Nothing>(ProfileEditState()) {
     val uiState = baseUiState

@@ -1,9 +1,8 @@
-package ru.moonlight.feature_profile_edit
+package ru.moonlight.feature_profile_edit.impl.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -17,19 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import ru.moonlight.api.component.ConfirmExitAlerDialogComponent
+import ru.moonlight.api.component.TopAppBarComponent
+import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.toGenderOptions
-import ru.moonlight.feature_profile_edit.presentation.ProfileEditViewModel
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.AlertDialogComponent
-import ru.moonlight.ui.ButtonOutlinedComponent
-import ru.moonlight.ui.CalendarWithTextFieldLabelComponent
-import ru.moonlight.ui.DropdownMenuWithLabelComponent
-import ru.moonlight.ui.TextFieldWithLabelComponent
-import ru.moonlight.ui.TopAppBarComponent
+import ru.moonlight.feature_profile_edit.R
+import ru.moonlight.feature_profile_edit.impl.presentation.ProfileEditViewModel
+import ru.moonlight.feature_profile_edit.impl.ui.component.DateOfBirthCalendar
+import ru.moonlight.feature_profile_edit.impl.ui.component.GenderField
+import ru.moonlight.feature_profile_edit.impl.ui.component.NameTextField
+import ru.moonlight.feature_profile_edit.impl.ui.component.SaveButton
 
 @Composable
-fun ProfileEditScreen(
+internal fun ProfileEditRoute(
     onBackClick: () -> Unit,
     name: String,
     gender: String,
@@ -62,7 +62,7 @@ fun ProfileEditScreen(
 
     var showExitDialog by remember { mutableStateOf(false) }
 
-    ProfileEdit(
+    ProfileEditScreen(
         modifier = modifier,
         onBackClick = {
             if (!saveButtonEnabled) onBackClick()
@@ -102,7 +102,7 @@ fun ProfileEditScreen(
 }
 
 @Composable
-private fun ProfileEdit(
+private fun ProfileEditScreen(
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
     onNameChange: (String) -> Unit,
@@ -121,7 +121,7 @@ private fun ProfileEdit(
     var isCalendarOpen by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        AlertDialogComponent(
+        ConfirmExitAlerDialogComponent(
             onConfirmExit = onConfirmDialog,
             onDismiss = onDismissDialog,
             title = stringResource(R.string.exitWithoutSave),
@@ -150,37 +150,26 @@ private fun ProfileEdit(
                 MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical
             ),
         ) {
-            TextFieldWithLabelComponent(
-                modifier = Modifier
-                    .padding(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
-                onValueChange = onNameChange,
-                value = name,
-                label = stringResource(R.string.name),
+            NameTextField(
+                onNameChange = onNameChange,
+                name = name,
                 isError = uiState is BaseUIState.Error,
             )
-            DropdownMenuWithLabelComponent(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
-                value = gender.toGenderOptions(),
-                onSelected = { newValue -> onSexChange(newValue.name.lowercase()) },
-                label = stringResource(R.string.sex),
+            GenderField(
+                gender = gender.toGenderOptions(),
+                onGenderChoose = { newValue -> onSexChange(newValue.name.lowercase()) },
                 isError = uiState is BaseUIState.Error,
             )
-            CalendarWithTextFieldLabelComponent(
-                modifier = Modifier
-                    .padding(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
-                date = birthDate,
+            DateOfBirthCalendar(
                 onDateSelected = { date -> onBirthDateChange(date) },
-                isCalendarOpen = isCalendarOpen,
-                onClick = { isCalendarOpen = true },
+                onFieldClick = { isCalendarOpen = true },
                 onCalendarDismiss = { isCalendarOpen = false },
-                label = stringResource(R.string.birthDate),
+                date = birthDate,
+                isCalendarOpen = isCalendarOpen,
                 isError = uiState is BaseUIState.Error,
             )
-            ButtonOutlinedComponent(
-                onClick = onSaveClick,
-                text = stringResource(R.string.save),
+            SaveButton(
+                onSaveClick = onSaveClick,
                 enable = saveBtnEnabled,
             )
         }
