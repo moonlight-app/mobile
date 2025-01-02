@@ -1,4 +1,4 @@
-package ru.moonlight.feature_auth_signup_complete
+package ru.moonlight.feature_auth_signup_complete.impl.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.ButtonComponent
-import ru.moonlight.ui.TextAuthComponent
+import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.feature_auth_signup_complete.impl.ui.component.Logo
+import ru.moonlight.feature_auth_signup_complete.impl.ui.component.StartButton
 
 @Composable
-fun RegistrationCompleteScreen(
+internal fun RegistrationCompleteScreen(
     onGetStartClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -31,15 +30,7 @@ fun RegistrationCompleteScreen(
             Alignment.CenterVertically,
         ),
     ) {
-        TextAuthComponent(
-            subTitleText = stringResource(R.string.accountComplete),
-            bodyText = stringResource(R.string.accountWasCreatedAndConfirmed),
-        )
-        ButtonComponent(
-            modifier = Modifier
-                .fillMaxWidth(0.55f),
-            onClick = { onGetStartClick() },
-            text = stringResource(R.string.getStart),
-        )
+        Logo()
+        StartButton(onStartClick = onGetStartClick)
     }
 }
