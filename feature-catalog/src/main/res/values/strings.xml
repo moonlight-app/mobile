@@ -2,5 +2,4 @@
 <resources>
     <string name="catalog">Каталог</string>
     <string name="filter">Фильтр</string>
-    <string name="somethingWentWrong">Что-то пошло не так</string>
 </resources>

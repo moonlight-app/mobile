@@ -6,7 +6,7 @@ import androidx.compose.ui.res.stringResource
 import ru.moonlight.feature_catalog.R
 import ru.moonlight.feature_catalog_filters.api.CatalogFilter
 import ru.moonlight.feature_catalog_filters.api.CatalogFiltersScreen
-import ru.moonlight.ui.TopAppBarComponent
+import ru.moonlight.api.component.TopAppBarComponent
 
 @Composable
 internal fun TopAppBar(

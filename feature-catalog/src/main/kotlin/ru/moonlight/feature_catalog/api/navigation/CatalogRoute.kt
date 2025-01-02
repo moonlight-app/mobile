@@ -6,7 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
-import ru.moonlight.feature_catalog.impl.ui.CatalogScreen
+import ru.moonlight.feature_catalog.impl.ui.CatalogRoute
 
 @Serializable
 data class CatalogRoute(val category: String)
@@ -22,7 +22,7 @@ fun NavGraphBuilder.catalogScreen(
 ) {
     composable<CatalogRoute> {
         val args = it.toRoute<CatalogRoute>()
-        CatalogScreen(
+        CatalogRoute(
             productType = args.category,
             onBackClick = onBackClick,
             onProductClick = onProductClick,

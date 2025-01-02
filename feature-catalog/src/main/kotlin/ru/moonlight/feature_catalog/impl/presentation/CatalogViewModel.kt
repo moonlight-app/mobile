@@ -1,9 +1,10 @@
 package ru.moonlight.feature_catalog.impl.presentation
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
@@ -20,13 +21,12 @@ internal class CatalogViewModel @Inject constructor(
 ): BaseViewModel<CatalogState, CatalogSideEffect>(CatalogState()) {
     val uiState = baseUiState
 
-    fun getMetadata(category: String) = intent {
+    fun getCategoryMetadata(category: String) = intent {
         updateUiState(BaseUIState.Loading)
 
         val metadata = getProductMetadata(category)
         when (metadata) {
             is ApiResponse.Error -> {
-                Log.e("TAG", "getProductMetaData: ERRORRRR ${metadata.msg}", )
                 updateUiState(BaseUIState.Error(metadata.msg))
             }
             is ApiResponse.Success -> {
@@ -39,20 +39,20 @@ internal class CatalogViewModel @Inject constructor(
                         )
                     )
                 }
-                Log.e("TAG", "getProductMetaData: POPALLL", )
                 updateUiState(BaseUIState.Success)
             }
         }
     }
 
-    fun getPagingData(category: String) = getCatalogItemsPagingInterceptor(category)
+    fun getProducts(category: String) = getCatalogItemsPagingInterceptor(category)
+        .map { pagingData -> pagingData.map { product -> product.mapToPresentation() } }
         .cachedIn(viewModelScope)
 
-    fun setFilters(filters: CatalogFilter) = intent {
+    fun setCatalogFilters(filters: CatalogFilter) = intent {
         reduce { state.copy(catalogFilter = filters) }
     }
 
-    fun setSortType(sortType: CatalogSortType) = intent {
+    fun setCatalogSortType(sortType: CatalogSortType) = intent {
         reduce { state.copy(catalogSort = sortType) }
     }
 

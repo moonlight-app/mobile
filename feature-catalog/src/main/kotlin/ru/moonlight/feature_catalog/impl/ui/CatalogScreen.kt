@@ -23,20 +23,20 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.orbitmvi.orbit.compose.collectAsState
+import ru.moonlight.api.animation.TopBarInOutAnimation
+import ru.moonlight.api.component.ProductFeed
+import ru.moonlight.api.component.ProductFeedModel
+import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.api.widget.progressbar.ProgressBarWidget
 import ru.moonlight.common.base.BaseUIState
-import ru.moonlight.domain_model.catalog.CatalogProductDomainModel
 import ru.moonlight.feature_catalog.impl.presentation.CatalogViewModel
 import ru.moonlight.feature_catalog.impl.ui.component.CatalogSortBottomSheet
-import ru.moonlight.feature_catalog.impl.ui.component.ProductFeed
 import ru.moonlight.feature_catalog.impl.ui.component.TopAppBar
 import ru.moonlight.feature_catalog_filters.api.CatalogFilter
 import ru.moonlight.feature_catalog_sort.api.CatalogSortType
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.ProgressBarComponent
-import ru.moonlight.utils.animation.TopBarInOutAnimation
 
 @Composable
-internal fun CatalogScreen(
+internal fun CatalogRoute(
     onBackClick: () -> Unit,
     onProductClick: (Int) -> Unit,
     productType: String,
@@ -45,11 +45,10 @@ internal fun CatalogScreen(
     val viewModel = hiltViewModel<CatalogViewModel>()
 
     LaunchedEffect(Unit) {
-        viewModel.getMetadata(productType)
+        viewModel.getCategoryMetadata(productType)
     }
 
-
-    val productList = viewModel.getPagingData(productType).collectAsLazyPagingItems()
+    val productList = viewModel.getProducts(productType).collectAsLazyPagingItems()
     val state by viewModel.collectAsState()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -61,19 +60,19 @@ internal fun CatalogScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                ProgressBarComponent()
+                ProgressBarWidget()
             }
         }
         BaseUIState.Success -> {
-            CatalogView(
+            CatalogScreen(
                 modifier = modifier,
                 onBackClick = onBackClick,
-                onFilterApplied = viewModel::setFilters,
-                onSortApplied = viewModel::setSortType,
+                onFilterApplied = viewModel::setCatalogFilters,
+                onSortApplied = viewModel::setCatalogSortType,
                 onProductClick = onProductClick,
                 currentCatalogFilter = state.catalogFilter!!,
                 currentSortType = state.catalogSort,
-                productList = productList,
+                productFeedModelList = productList,
             )
         }
     }
@@ -81,28 +80,28 @@ internal fun CatalogScreen(
 }
 
 @Composable
-private fun CatalogView(
+private fun CatalogScreen(
     onBackClick: () -> Unit,
     onFilterApplied: (CatalogFilter) -> Unit,
     onSortApplied: (CatalogSortType) -> Unit,
     onProductClick: (Int) -> Unit,
     currentCatalogFilter: CatalogFilter,
     currentSortType: CatalogSortType,
-    productList: LazyPagingItems<CatalogProductDomainModel>,
+    productFeedModelList: LazyPagingItems<ProductFeedModel>,
     modifier: Modifier = Modifier,
 ) {
     val staggeredGridState = rememberLazyStaggeredGridState()
     var isAppBarVisible by remember { mutableStateOf(true) }
 
-    LaunchedEffect(staggeredGridState, productList) {
+    LaunchedEffect(staggeredGridState, productFeedModelList) {
         var lastScrollOffset = 0
         var lastVisibleIndex = 0
 
         snapshotFlow {
             staggeredGridState.firstVisibleItemIndex to staggeredGridState.firstVisibleItemScrollOffset
         }.collect { (currentIndex, currentScrollOffset) ->
-            val isLoading = productList.loadState.append is LoadState.Loading ||
-                    productList.loadState.refresh is LoadState.Loading
+            val isLoading = productFeedModelList.loadState.append is LoadState.Loading ||
+                    productFeedModelList.loadState.refresh is LoadState.Loading
 
             if (!isLoading) {
                 isAppBarVisible = when {
@@ -170,7 +169,7 @@ private fun CatalogView(
         ) {
             ProductFeed(
                 onProductClick = onProductClick,
-                productList = productList,
+                productFeedModelList = productFeedModelList,
                 scrollState = staggeredGridState,
             )
         }
