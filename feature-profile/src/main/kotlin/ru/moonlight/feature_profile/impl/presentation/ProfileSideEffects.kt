@@ -1,6 +1,6 @@
-package ru.moonlight.feature_profile.presentation
+package ru.moonlight.feature_profile.impl.presentation
 
-sealed class ProfileSideEffects {
+internal sealed class ProfileSideEffects {
     data object NavigateToEditProfile: ProfileSideEffects()
     data object NavigateToOrders: ProfileSideEffects()
     data object NavigateToFavorites: ProfileSideEffects()

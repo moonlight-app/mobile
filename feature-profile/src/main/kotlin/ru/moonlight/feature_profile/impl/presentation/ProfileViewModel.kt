@@ -1,4 +1,4 @@
-package ru.moonlight.feature_profile.presentation
+package ru.moonlight.feature_profile.impl.presentation
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.moonlight.common.ApiResponse
@@ -10,7 +10,7 @@ import ru.moonlight.domain.profile.LogoutInteractor
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+internal class ProfileViewModel @Inject constructor(
     private val getProfileUseCase: GetProfileUseCase,
     private val changePasswordInteractor: ChangePasswordInteractor,
     private val logoutInteractor: LogoutInteractor,
@@ -54,16 +54,5 @@ class ProfileViewModel @Inject constructor(
         logoutInteractor.invoke()
         postSideEffect(ProfileSideEffects.Logout)
     }
-
-//    fun deleteProfile() = intent {
-//        updateUiState(BaseUIState.Loading)
-//        when (val result = profileRepository.deleteProfile()) {
-//            is ApiResponse.Error -> updateUiState(BaseUIState.Error(result.msg))
-//            is ApiResponse.Success -> {
-//                authRepository.logout()
-//                postSideEffect(ProfileSideEffects.Logout)
-//            }
-//        }
-//    }
 
 }

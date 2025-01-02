@@ -1,11 +1,11 @@
-package ru.moonlight.feature_profile.navigation
+package ru.moonlight.feature_profile.api.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
-import ru.moonlight.feature_profile.ProfileScreen
+import ru.moonlight.feature_profile.impl.ui.ProfileRoute
 
 @Serializable
 data object ProfileRoute
@@ -19,7 +19,7 @@ fun NavGraphBuilder.profileScreen(
     onFavoritesClick: () -> Unit
 ) {
     composable<ProfileRoute> {
-        ProfileScreen(
+        ProfileRoute(
             onLogoutClick = onLogoutClick,
             onEditProfileClick = onEditProfileClick,
             onOrderClick = onOrderClick,

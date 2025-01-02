@@ -1,8 +1,8 @@
-package ru.moonlight.feature_profile.presentation
+package ru.moonlight.feature_profile.impl.presentation
 
 import ru.moonlight.domain_model.order.OrdersDomainModel
 
-data class ProfileState(
+internal data class ProfileState(
     val email: String = "",
     val name: String = "",
     val sex: String = "",
@@ -11,13 +11,13 @@ data class ProfileState(
 )
 
 //TODO move, when orders will be implemented
-data class Orders(
+internal data class Orders(
     val title: String,
     val imageUrl: String,
     val status: String,
 )
 
-fun OrdersDomainModel.mapToPresentation() =
+internal fun OrdersDomainModel.mapToPresentation() =
     Orders(
         title = this.title,
         imageUrl = this.imageUrl,
