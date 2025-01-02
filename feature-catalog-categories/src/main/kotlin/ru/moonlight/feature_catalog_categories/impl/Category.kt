@@ -1,7 +1,8 @@
-package ru.moonlight.feature_catalog_categories
+package ru.moonlight.feature_catalog_categories.impl
 
 import android.content.Context
 import androidx.annotation.DrawableRes
+import ru.moonlight.feature_catalog_categories.R
 
 internal class Category(
     val title: String,
