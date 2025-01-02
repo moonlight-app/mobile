@@ -28,7 +28,7 @@ import ru.moonlight.feature_catalog_filters.impl.ui.components.MaterialsView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.PriceView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.ProductSizeView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.TreasureInsertionView
-import ru.moonlight.theme.MoonlightTheme
+import ru.moonlight.api.theme.MoonlightTheme
 
 @Composable
 fun CatalogFiltersScreen(

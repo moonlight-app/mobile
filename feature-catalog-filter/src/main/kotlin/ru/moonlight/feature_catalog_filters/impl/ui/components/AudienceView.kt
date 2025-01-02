@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import ru.moonlight.api.widget.button.ButtonChipWidget
 import ru.moonlight.feature_catalog_filters.R
 import ru.moonlight.feature_catalog_filters.api.Audience
 import ru.moonlight.feature_catalog_filters.api.translateName
-import ru.moonlight.ui.ButtonChipComponent
 
 @Composable
 internal fun AudienceView(
@@ -24,7 +24,7 @@ internal fun AudienceView(
         cellsSize = 2,
         list = audiences,
     ) { audience ->
-         ButtonChipComponent(
+         ButtonChipWidget(
              onClick = { onAudienceClick(audience) },
              text = audience.translateName(context),
              selected = audience in choosenAudience,

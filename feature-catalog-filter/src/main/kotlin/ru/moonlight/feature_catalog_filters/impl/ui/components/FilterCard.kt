@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.utils.GridLayout
+import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.api.layout.GridLayout
 
 @Composable
 internal fun <T> FilterCard(

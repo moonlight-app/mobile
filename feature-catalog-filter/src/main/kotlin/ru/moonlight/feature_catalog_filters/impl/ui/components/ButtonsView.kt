@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.api.widget.button.ButtonWidget
+import ru.moonlight.api.widget.button.OutlinedButtonWidget
 import ru.moonlight.feature_catalog_filters.R
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.ButtonComponent
-import ru.moonlight.ui.ButtonOutlinedComponent
 
 @Composable
 internal fun ButtonsView(
@@ -38,13 +38,13 @@ internal fun ButtonsView(
                 .padding(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
             horizontalArrangement = Arrangement.spacedBy(MoonlightTheme.dimens.paddingBetweenComponentsHorizontal)
         ) {
-            ButtonOutlinedComponent(
+            OutlinedButtonWidget(
                 modifier = Modifier
                     .weight(1f),
                 onClick = onClearClick,
                 text = stringResource(R.string.clear),
             )
-            ButtonComponent(
+            ButtonWidget(
                 modifier = Modifier
                     .weight(1f),
                 onClick = onApplyClick,

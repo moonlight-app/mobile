@@ -3,8 +3,8 @@ package ru.moonlight.feature_catalog_filters.impl.ui.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import ru.moonlight.api.widget.button.ButtonChipWidget
 import ru.moonlight.feature_catalog_filters.R
-import ru.moonlight.ui.ButtonChipComponent
 
 @Composable
 internal fun ProductSizeView(
@@ -19,7 +19,7 @@ internal fun ProductSizeView(
         list = sizes,
         title = stringResource(R.string.size),
     ) { size ->
-        ButtonChipComponent(
+        ButtonChipWidget(
             onClick = { onSizeClick(size) },
             selected = chosenSizes.contains(size),
             text = size.toString(),

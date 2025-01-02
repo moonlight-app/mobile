@@ -11,11 +11,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import ru.moonlight.api.widget.textfield.TextFieldWidget
+import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.api.utils.keyboard.keyboardAsState
 import ru.moonlight.feature_catalog_filters.R
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.TextFieldComponent
-import ru.moonlight.utils.keyboard.clearFocusOnKeyboardDismiss
-import ru.moonlight.utils.keyboard.keyboardAsState
 
 @Composable
 internal fun PriceView(
@@ -44,32 +43,64 @@ internal fun PriceView(
                 .padding(top = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical),
             horizontalArrangement = Arrangement.spacedBy(MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
         ) {
-            TextFieldComponent(
+            MinPriceTextField(
                 modifier = Modifier
-                    .weight(1f)
-                    .clearFocusOnKeyboardDismiss(),
-                value = minPrice,
-                onValueChange = { newPrice ->
-                    onMinPriceChange(newPrice)
-                },
-                placeholder = stringResource(R.string.from),
-                keyboardType = KeyboardType.Number,
-                isError = checkMinPrice(isKeyboardOpen, maxPrice, defaultMinPrice, minPrice),
+                    .weight(1f),
+                minPrice = minPrice,
+                onPriceChange = onMinPriceChange,
+                isKeyboardOpen = isKeyboardOpen,
+                currentMaxPrice = maxPrice,
+                defaultMinPrice = defaultMinPrice
             )
-            TextFieldComponent(
+            MaxPriceTextField(
                 modifier = Modifier
-                    .weight(1f)
-                    .clearFocusOnKeyboardDismiss(),
-                value = maxPrice,
-                onValueChange = { newPrice ->
-                    onMaxPriceChange(newPrice)
-                },
-                placeholder = stringResource(R.string.to),
-                keyboardType = KeyboardType.Number,
-                isError = checkMaxPrice(isKeyboardOpen, minPrice, defaultMaxPrice, maxPrice),
+                    .weight(1f),
+                maxPrice = maxPrice,
+                onPriceChange = onMaxPriceChange,
+                isKeyboardOpen = isKeyboardOpen,
+                currentMinPrice = minPrice,
+                defaultMaxPrice = defaultMaxPrice
             )
         }
     }
+}
+
+@Composable
+private fun MinPriceTextField(
+    minPrice: String,
+    onPriceChange: (String) -> Unit,
+    isKeyboardOpen: Boolean,
+    currentMaxPrice: String,
+    defaultMinPrice: String,
+    modifier: Modifier = Modifier,
+) {
+    TextFieldWidget(
+        modifier = modifier,
+        value = minPrice,
+        onValueChange = onPriceChange,
+        placeholder = stringResource(R.string.from),
+        keyboardType = KeyboardType.Number,
+        isError = checkMinPrice(isKeyboardOpen, currentMaxPrice, defaultMinPrice, minPrice),
+    )
+}
+
+@Composable
+private fun MaxPriceTextField(
+    maxPrice: String,
+    onPriceChange: (String) -> Unit,
+    isKeyboardOpen: Boolean,
+    currentMinPrice: String,
+    defaultMaxPrice: String,
+    modifier: Modifier = Modifier,
+) {
+    TextFieldWidget(
+        modifier = modifier,
+        value = maxPrice,
+        onValueChange = onPriceChange,
+        placeholder = stringResource(R.string.to),
+        keyboardType = KeyboardType.Number,
+        isError = checkMaxPrice(isKeyboardOpen, currentMinPrice, defaultMaxPrice, maxPrice),
+    )
 }
 
 private fun checkMaxPrice(isKeyboardOpen: Boolean, minPrice: String, defaultMaxPrice: String, newMaxPrice: String): Boolean {

@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import ru.moonlight.api.component.CheckBoxWithTextComponent
 import ru.moonlight.feature_catalog_filters.R
 import ru.moonlight.feature_catalog_filters.api.Material
 import ru.moonlight.feature_catalog_filters.api.translateName
-import ru.moonlight.ui.CheckBoxWithTextComponent
 
 @Composable
 internal fun MaterialsView(
