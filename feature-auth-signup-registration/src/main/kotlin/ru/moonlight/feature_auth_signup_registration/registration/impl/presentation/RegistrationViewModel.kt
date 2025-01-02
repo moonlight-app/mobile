@@ -1,15 +1,15 @@
-package ru.moonlight.feature_auth_signup_registration.registration.presentation
+package ru.moonlight.feature_auth_signup_registration.registration.impl.presentation
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.GenderOption
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
 import ru.moonlight.data.repository.AuthRepository
-import ru.moonlight.common.ApiResponse
 import javax.inject.Inject
 
 @HiltViewModel
-class RegistrationViewModel @Inject constructor(
+internal class RegistrationViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ): BaseViewModel<RegistrationState, RegistrationSideEffect>(RegistrationState()) {
     val uiState = baseUiState

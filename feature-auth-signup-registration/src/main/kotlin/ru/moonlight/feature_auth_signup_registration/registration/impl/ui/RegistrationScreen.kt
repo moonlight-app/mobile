@@ -1,13 +1,9 @@
-package ru.moonlight.feature_auth_signup_registration.registration
+package ru.moonlight.feature_auth_signup_registration.registration.impl.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -19,28 +15,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.GenderOption
 import ru.moonlight.common.base.BaseUIState
-import ru.moonlight.feature_auth_signup_registration.R
-import ru.moonlight.feature_auth_signup_registration.registration.presentation.RegistrationSideEffect
-import ru.moonlight.feature_auth_signup_registration.registration.presentation.RegistrationViewModel
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.ButtonComponent
-import ru.moonlight.ui.CalendarWithTextFieldComponent
-import ru.moonlight.ui.DropdownMenuComponent
-import ru.moonlight.ui.TextAuthComponent
-import ru.moonlight.ui.TextFieldComponent
-import ru.moonlight.ui.TextFieldPasswordWithSupportingTextComponent
+import ru.moonlight.feature_auth_signup_registration.registration.impl.presentation.RegistrationSideEffect
+import ru.moonlight.feature_auth_signup_registration.registration.impl.presentation.RegistrationViewModel
+import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.CreateAccountButton
+import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.DateOfBirthCalendar
+import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.GenderField
+import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.LoginTextField
+import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.Logo
+import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.NameTextField
+import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.PasswordTextField
 
 @Composable
-fun RegistrationScreen(
+internal fun RegistrationRoute(
     onCreateAccountClick: (String, String, String, String, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -80,7 +74,7 @@ fun RegistrationScreen(
         mutableStateOf(state.password)
     }
 
-    Registration(
+    RegistrationScreen(
         uiState = uiState,
         name = name,
         sex = sex,
@@ -113,7 +107,7 @@ fun RegistrationScreen(
 }
 
 @Composable
-private fun Registration(
+private fun RegistrationScreen(
     uiState: BaseUIState,
     name: String,
     sex: GenderOption?,
@@ -148,74 +142,49 @@ private fun Registration(
                 Alignment.CenterVertically,
             )
         ) {
-            TextAuthComponent(subTitleText = stringResource(R.string.registration))
-            TextFieldComponent(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges)
-                    .padding(top = MoonlightTheme.dimens.paddingBetweenComponentsBigVertical),
-                value = name,
-                onValueChange = { newValue -> onNameChange(newValue) },
-                placeholder = stringResource(R.string.name),
+            Logo()
+            NameTextField(
+                onNameChange = { newValue -> onNameChange(newValue) },
+                name = name,
                 enable = uiState !is BaseUIState.Loading,
                 isError = uiState is BaseUIState.Error,
             )
-            DropdownMenuComponent(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges),
-                value = sex,
-                onSelected = { newValue -> onSexChange(newValue) },
-                placeholder = stringResource(R.string.sex),
+            GenderField(
+                onGenderChoose = { newValue -> onSexChange(newValue) },
+                gender = sex,
                 enable = uiState !is BaseUIState.Loading,
                 isError = uiState is BaseUIState.Error,
             )
-            CalendarWithTextFieldComponent(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges),
-                date = birthDate,
+            DateOfBirthCalendar(
                 onDateSelected = { date -> onBirthDateChange(date) },
-                isCalendarOpen = isCalendarOpen,
-                onClick = { isCalendarOpen = true },
+                onFieldClick = { isCalendarOpen = true },
                 onCalendarDismiss = { isCalendarOpen = false },
-                placeholder = stringResource(R.string.birthDate),
+                date = birthDate,
+                isCalendarOpen = isCalendarOpen,
                 enable = uiState !is BaseUIState.Loading,
                 isError = uiState is BaseUIState.Error,
             )
-            TextFieldComponent(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges),
-                onValueChange = { newValue -> onEmailChange(newValue) },
-                value = email,
-                placeholder = stringResource(R.string.email),
-                keyboardType = KeyboardType.Email,
+            LoginTextField(
+                onLoginChange = { newValue -> onEmailChange(newValue) },
+                login = email,
                 enable = uiState !is BaseUIState.Loading,
                 isError = uiState is BaseUIState.Error,
             )
-            TextFieldPasswordWithSupportingTextComponent(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges)
-                    .imePadding(),
-                onValueChange = { newValue -> onPasswordChange(newValue) },
-                value = password,
-                placeholder = stringResource(R.string.password),
+            PasswordTextField(
+                onPasswordChange = { newValue -> onPasswordChange(newValue) },
+                password = password,
                 enable = uiState !is BaseUIState.Loading,
                 isError = uiState is BaseUIState.Error,
                 errorText = if (uiState is BaseUIState.Error) uiState.msg ?: "" else "",
             )
         }
-        if (uiState is BaseUIState.Error) Spacer(modifier = Modifier.height(8.dp))
-        ButtonComponent(
-            modifier = Modifier
-                .navigationBarsPadding()
-                .fillMaxWidth(0.55f),
-            onClick = onRequestCodeClick,
-            text = stringResource(R.string.createAccount),
+        CreateAccountButton(
+            modifier = Modifier.padding(top = 8.dp),
+            onCreateClick = onRequestCodeClick,
             enable = uiState !is BaseUIState.Loading,
             isLoading = uiState is BaseUIState.Loading,
         )
     }
 }
+
+

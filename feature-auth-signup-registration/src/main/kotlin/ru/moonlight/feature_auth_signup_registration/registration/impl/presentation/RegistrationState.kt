@@ -1,8 +1,8 @@
-package ru.moonlight.feature_auth_signup_registration.registration.presentation
+package ru.moonlight.feature_auth_signup_registration.registration.impl.presentation
 
 import ru.moonlight.common.GenderOption
 
-data class RegistrationState(
+internal data class RegistrationState(
     val name: String = "",
     val sex: GenderOption? = null,
     val birthDate: String = "",
