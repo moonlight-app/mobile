@@ -13,7 +13,7 @@ import ru.moonlight.data.repository.AuthRepository
 import ru.moonlight.mobile.ui.MoonlightScreen
 import ru.moonlight.mobile.ui.rememberMoonlightAppState
 import ru.moonlight.network.utils.NetworkMonitor
-import ru.moonlight.theme.MoonlightTheme
+import ru.moonlight.api.theme.MoonlightTheme
 import javax.inject.Inject
 
 @AndroidEntryPoint

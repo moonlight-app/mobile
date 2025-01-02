@@ -27,13 +27,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import ru.moonlight.api.component.BadgedBoxComponent
+import ru.moonlight.api.component.BottomNavigationComponent
+import ru.moonlight.api.component.NavigationBarItemComponent
+import ru.moonlight.api.component.SnackbarComponent
+import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.mobile.R
 import ru.moonlight.mobile.navigation.MoonlightNavHost
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.BadgedBoxComponent
-import ru.moonlight.ui.BottomNavigationComponent
-import ru.moonlight.ui.NavigationBarItemComponent
-import ru.moonlight.ui.SnackbarHostComponent
 import kotlin.reflect.KClass
 
 @Composable
@@ -91,9 +91,9 @@ fun MoonlightScreen(
                 }
             },
             snackbarHost = {
-                SnackbarHostComponent(
+                SnackbarComponent(
                     modifier = Modifier
-                        .padding(bottom = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical * 3),
+                        .padding(bottom = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical * 2),
                     snackbarHostState = snackbarHostState
                 )
             },

@@ -5,24 +5,24 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
-import ru.moonlight.feature_auth_signin.sign_in.navigation.signInScreen
-import ru.moonlight.feature_auth_signup_complete.navigation.navigateToRegistrationComplete
-import ru.moonlight.feature_auth_signup_complete.navigation.registrationCompleteScreen
-import ru.moonlight.feature_auth_signup_confirmcode.navigation.confirmCodeScreen
-import ru.moonlight.feature_auth_signup_confirmcode.navigation.navigateToConfirmCode
-import ru.moonlight.feature_auth_signup_registration.registration.navigation.navigateToRegistration
-import ru.moonlight.feature_auth_signup_registration.registration.navigation.registrationScreen
+import ru.moonlight.feature_auth_signin.sign_in.api.navigation.signInScreen
+import ru.moonlight.feature_auth_signup_complete.api.navigation.navigateToRegistrationComplete
+import ru.moonlight.feature_auth_signup_complete.api.navigation.registrationCompleteScreen
+import ru.moonlight.feature_auth_signup_confirmcode.api.navigation.confirmCodeScreen
+import ru.moonlight.feature_auth_signup_confirmcode.api.navigation.navigateToConfirmCode
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.navigateToRegistration
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.registrationScreen
 import ru.moonlight.feature_cart.navigation.cartScreen
 import ru.moonlight.feature_catalog.api.navigation.CatalogRoute
 import ru.moonlight.feature_catalog.api.navigation.catalogScreen
 import ru.moonlight.feature_catalog.api.navigation.navigateToCatalog
-import ru.moonlight.feature_catalog_categories.navigation.CatalogCategoriesRoute
-import ru.moonlight.feature_catalog_categories.navigation.catalogCategoriesScreen
-import ru.moonlight.feature_catalog_categories.navigation.navigateToCatalogCategories
-import ru.moonlight.feature_profile.navigation.navigateToProfile
-import ru.moonlight.feature_profile.navigation.profileScreen
-import ru.moonlight.feature_profile_edit.navigation.navigateToProfileEdit
-import ru.moonlight.feature_profile_edit.navigation.profileEditScreen
+import ru.moonlight.feature_catalog_categories.api.navigation.CatalogCategoriesRoute
+import ru.moonlight.feature_catalog_categories.api.navigation.catalogCategoriesScreen
+import ru.moonlight.feature_catalog_categories.api.navigation.navigateToCatalogCategories
+import ru.moonlight.feature_profile.api.navigation.navigateToProfile
+import ru.moonlight.feature_profile.api.navigation.profileScreen
+import ru.moonlight.feature_profile_edit.api.navigation.navigateToProfileEdit
+import ru.moonlight.feature_profile_edit.api.navigation.profileEditScreen
 import ru.moonlight.mobile.ui.MoonlightAppState
 
 @Composable
@@ -36,7 +36,6 @@ fun MoonlightNavHost(
         modifier = modifier,
         navController = navController,
         startDestination = CatalogCategoriesRoute,
-        //startDestination = CatalogRoute,
     ) {
         /* Profile */
         profileScreen(

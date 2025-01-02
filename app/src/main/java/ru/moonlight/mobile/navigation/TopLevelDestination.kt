@@ -9,8 +9,8 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.moonlight.feature_cart.navigation.CartRoute
-import ru.moonlight.feature_catalog_categories.navigation.CatalogCategoriesRoute
-import ru.moonlight.feature_profile.navigation.ProfileRoute
+import ru.moonlight.feature_catalog_categories.api.navigation.CatalogCategoriesRoute
+import ru.moonlight.feature_profile.api.navigation.ProfileRoute
 import kotlin.reflect.KClass
 
 enum class TopLevelDestination(
