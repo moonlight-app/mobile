@@ -1,6 +1,6 @@
-package ru.moonlight.feature_auth_signin.sign_in.presentation
+package ru.moonlight.feature_auth_signin.sign_in.impl.presentation
 
-sealed class SignInSideEffect {
+internal sealed class SignInSideEffect {
     data object NavigateToProfile : SignInSideEffect()
     data object NavigateToSignUp : SignInSideEffect()
 }

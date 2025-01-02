@@ -1,14 +1,14 @@
-package ru.moonlight.feature_auth_signin.sign_in.presentation
+package ru.moonlight.feature_auth_signin.sign_in.impl.presentation
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
 import ru.moonlight.data.repository.AuthRepository
-import ru.moonlight.common.ApiResponse
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+internal class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ): BaseViewModel<SignInState, SignInSideEffect>(SignInState()) {
     val uiState = baseUiState

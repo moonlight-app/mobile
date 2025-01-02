@@ -1,11 +1,11 @@
-package ru.moonlight.feature_auth_signin.sign_in.navigation
+package ru.moonlight.feature_auth_signin.sign_in.api.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
-import ru.moonlight.feature_auth_signin.sign_in.SignInScreen
+import ru.moonlight.feature_auth_signin.sign_in.impl.ui.SignInRoute
 
 @Serializable
 data object SignInRoute
@@ -17,7 +17,7 @@ fun NavGraphBuilder.signInScreen(
     onRegistrationClick: () -> Unit,
 ) {
     composable<SignInRoute> {
-        SignInScreen(
+        SignInRoute(
             onAuthorizeClick = onAuthorizeClick,
             onRegistrationClick = onRegistrationClick,
         )

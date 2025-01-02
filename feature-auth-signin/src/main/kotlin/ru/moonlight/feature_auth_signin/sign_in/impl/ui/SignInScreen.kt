@@ -1,4 +1,4 @@
-package ru.moonlight.feature_auth_signin.sign_in
+package ru.moonlight.feature_auth_signin.sign_in.impl.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,26 +16,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.base.BaseUIState
-import ru.moonlight.feature_auth_signin.R
-import ru.moonlight.feature_auth_signin.sign_in.presentation.SignInSideEffect
-import ru.moonlight.feature_auth_signin.sign_in.presentation.SignInViewModel
-import ru.moonlight.theme.MoonlightTheme
-import ru.moonlight.ui.ButtonComponent
-import ru.moonlight.ui.ButtonOutlinedComponent
-import ru.moonlight.ui.TextAuthComponent
-import ru.moonlight.ui.TextFieldComponent
-import ru.moonlight.ui.TextFieldPasswordWithSupportingTextComponent
+import ru.moonlight.feature_auth_signin.sign_in.impl.presentation.SignInSideEffect
+import ru.moonlight.feature_auth_signin.sign_in.impl.presentation.SignInViewModel
+import ru.moonlight.feature_auth_signin.sign_in.impl.ui.component.LoginTextField
+import ru.moonlight.feature_auth_signin.sign_in.impl.ui.component.Logo
+import ru.moonlight.feature_auth_signin.sign_in.impl.ui.component.PasswordTextField
+import ru.moonlight.feature_auth_signin.sign_in.impl.ui.component.SignInButton
+import ru.moonlight.feature_auth_signin.sign_in.impl.ui.component.SignUpButton
 
 @Composable
-fun SignInScreen(
+internal fun SignInRoute(
     onAuthorizeClick: () -> Unit,
     onRegistrationClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -58,7 +54,7 @@ fun SignInScreen(
         mutableStateOf(state.password)
     }
 
-    SignInView(
+    SignInScreen(
         updateLogin = { newLogin ->
             viewModel.updateLogin(newLogin)
             email = newLogin
@@ -77,7 +73,7 @@ fun SignInScreen(
 }
 
 @Composable
-private fun SignInView(
+private fun SignInScreen(
     updateLogin: (String) -> Unit,
     updatePassword: (String) -> Unit,
     onSignInClick: () -> Unit,
@@ -109,29 +105,19 @@ private fun SignInView(
                 Alignment.CenterVertically
             ),
         ) {
-            TextAuthComponent(subTitleText = stringResource(R.string.welcome))
-            TextFieldComponent(
-                modifier = Modifier
-                    .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges)
-                    .padding(top = MoonlightTheme.dimens.paddingBetweenComponentsBigVertical),
-                onValueChange = { newLogin -> updateLogin(newLogin) },
-                value = email,
-                placeholder = stringResource(R.string.email),
-                keyboardType = KeyboardType.Email,
-                keyboardCapitalization = KeyboardCapitalization.None,
-                enable = uiState !is BaseUIState.Loading,
+            Logo()
+            LoginTextField(
+                onLoginChange = { newLogin -> updateLogin(newLogin) },
+                email = email,
+                enable =  uiState !is BaseUIState.Loading,
                 isError = uiState is BaseUIState.Error,
             )
-            TextFieldPasswordWithSupportingTextComponent(
-                modifier = Modifier
-                    .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges),
-                onValueChange = { newPassword -> updatePassword(newPassword) },
-                value = password,
-                placeholder = stringResource(R.string.password),
-                keyboardType = KeyboardType.Password,
+            PasswordTextField(
+                onPasswordChange = { newPassword -> updatePassword(newPassword) },
+                password = password,
                 enable = uiState !is BaseUIState.Loading,
                 isError = uiState is BaseUIState.Error,
-                errorText = if (uiState is BaseUIState.Error) uiState.msg ?: "" else "",
+                errorText = if (uiState is BaseUIState.Error) uiState.msg ?: "" else ""
             )
         }
         Column(
@@ -141,20 +127,14 @@ private fun SignInView(
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ButtonComponent(
-                modifier = Modifier
-                    .fillMaxWidth(0.55f),
-                onClick = onSignInClick,
-                text = stringResource(R.string.signInAccount),
+            SignInButton(
+                onSignInClick = onSignInClick,
                 enable = uiState !is BaseUIState.Loading,
                 isLoading = uiState is BaseUIState.Loading,
             )
-            ButtonOutlinedComponent(
-                modifier = Modifier
-                    .fillMaxWidth(0.55f),
-                onClick = onSignUpClick,
-                text = stringResource(R.string.createAccount),
-                enable = uiState !is BaseUIState.Loading,
+            SignUpButton(
+                onSignUpClick = onSignUpClick,
+                uiState !is BaseUIState.Loading
             )
         }
     }
