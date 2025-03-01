@@ -3,17 +3,18 @@ package ru.moonlight.feature_catalog_filters.impl.ui.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import ru.moonlight.api.component.CardWithTitleAndGrid
 import ru.moonlight.api.widget.button.ButtonChipWidget
 import ru.moonlight.feature_catalog_filters.R
 
 @Composable
 internal fun ProductSizeView(
-    onSizeClick: (Double) -> Unit,
-    sizes: List<Double>,
-    chosenSizes: List<Double>,
+    onSizeClick: (Float) -> Unit,
+    sizes: List<Float>,
+    chosenSizes: List<Float>,
     modifier: Modifier = Modifier,
 ) {
-    FilterCard(
+    CardWithTitleAndGrid(
         modifier = modifier,
         cellsSize = 4,
         list = sizes,

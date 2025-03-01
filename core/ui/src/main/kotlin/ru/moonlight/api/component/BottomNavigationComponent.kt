@@ -59,8 +59,7 @@ fun BottomNavigationComponent(
 fun BadgedBoxComponent(
     badgeCount: Int?,
     selected: Boolean,
-    selectedIcon: ImageVector,
-    unselectedIcon: ImageVector,
+    icon: ImageVector,
 ) {
     BadgedBox(
         badge = {
@@ -75,10 +74,9 @@ fun BadgedBoxComponent(
         }
     ) {
         Icon(
-            imageVector = if (selected) {
-                selectedIcon
-            } else unselectedIcon,
+            imageVector = icon,
             contentDescription = null,
+            tint = if (selected) MoonlightTheme.colors.text else MoonlightTheme.colors.hintText
         )
     }
 }

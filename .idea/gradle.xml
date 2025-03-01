@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/data" />
+            <option value="$PROJECT_DIR$/core/database" />
             <option value="$PROJECT_DIR$/core/datastore" />
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/domain-model" />
@@ -27,8 +28,12 @@
             <option value="$PROJECT_DIR$/feature-catalog" />
             <option value="$PROJECT_DIR$/feature-catalog-categories" />
             <option value="$PROJECT_DIR$/feature-catalog-filter" />
+            <option value="$PROJECT_DIR$/feature-catalog-product" />
             <option value="$PROJECT_DIR$/feature-catalog-sort" />
+            <option value="$PROJECT_DIR$/feature-favourites" />
+            <option value="$PROJECT_DIR$/feature-order" />
             <option value="$PROJECT_DIR$/feature-profile" />
+            <option value="$PROJECT_DIR$/feature-profile-changepassword" />
             <option value="$PROJECT_DIR$/feature-profile-edit" />
           </set>
         </option>

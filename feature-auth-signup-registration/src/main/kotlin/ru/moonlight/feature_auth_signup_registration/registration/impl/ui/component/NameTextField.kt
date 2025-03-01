@@ -22,8 +22,8 @@ internal fun NameTextField(
             .fillMaxWidth()
             .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges)
             .padding(top = MoonlightTheme.dimens.paddingBetweenComponentsBigVertical),
-        onValueChange = onNameChange,
-        value = name,
+        onFocusLost = onNameChange,
+        initialText = name,
         placeholder = stringResource(R.string.name),
         enable = enable,
         isError = isError,

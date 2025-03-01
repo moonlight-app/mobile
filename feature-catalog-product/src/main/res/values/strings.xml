@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="review">Обзор</string>
+    <string name="size">Размер</string>
+    <string name="material_of_product">Материал изделия</string>
+    <string name="standard">Проба</string>
+    <string name="type_of_standard">Вид пробы</string>
+    <string name="insertion">Вставка</string>
+    <string name="weight_of_product">Вес изделия</string>
+    <string name="article">Артикул</string>
+    <string name="product_params">Характеристики</string>
+    <string name="small_description">В редких случаях характеристики изделия, дизайн бирки или упаковка могут иметь отличия от представленных на фото или в описании.</string>
+    <string name="insertions">Вставки</string>
+    <string name="description">Описание</string>
+    <string name="gold">Золото</string>
+    <string name="silver">Серебро</string>
+    <string name="platinum">Платина</string>
+    <string name="whiteGold">Белое золото</string>
+    <string name="pinkGold">Розовое золото</string>
+    <string name="ceramic">Керамика</string>
+    <string name="woman">Женщинам</string>
+    <string name="man">Мужчинам</string>
+    <string name="children">Детям</string>
+    <string name="unisex">Унисекс</string>
+    <string name="brilliant">Бриллиант</string>
+    <string name="sapphire">Сапфир</string>
+    <string name="pearl">Жемчуг</string>
+    <string name="amethyst">Аметист</string>
+    <string name="cubicZirconia">Фианит</string>
+    <string name="emerald">Изумруд</string>
+    <string name="ruby">Рубин</string>
+    <string name="nothing">Ничего</string>
+    <string name="to_favourites">В избранное</string>
+    <string name="to_cart">В корзину</string>
+    <string name="go_to_cart">Перейти в корзину</string>
+    <string name="toAddProductsInCartAuthrorize">Чтобы добавить товар в корзину,\nнеобохдимо пройти авторизацию.</string>
+    <string name="signIn">Войти в аккаунт</string>
+
+</resources>

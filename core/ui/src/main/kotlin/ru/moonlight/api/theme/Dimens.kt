@@ -4,30 +4,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 internal val CompactSmallDimens = MoonlightThemeDimens(
-    buttonHeight = 52.dp,
-    smallButtonHeight = 24.dp,
-    textFieldHeight = 50.dp,
-    secondTextFieldHeight = 65.dp,
+    buttonHeight = 52.dp.div(1.5f),
+    smallButtonHeight = 24.dp.div(1.5f),
+    textFieldHeight = 50.dp.div(1.5f),
+    secondTextFieldHeight = 65.dp.div(1.5f),
     buttonBorderWidth = 2.dp,
     progressBarWidth = 4.dp,
     smallProgressBarWidth = 2.dp,
-    textFieldRadius = 50.dp,
-    secondTextFieldRadius = 15.dp,
+    textFieldRadius = 50.dp.div(1.5f),
+    secondTextFieldRadius = 15.dp.div(1.5f),
     buttonRadius = 24.dp,
     cardRadius = 24.dp,
     checkBoxRadius = 6.dp,
-    progressBarSize = 48.dp,
+    progressBarSize = 48.dp.div(1.5f),
     smallProgressBarSize = 16.dp,
-    titleTextSize = 30.sp,
-    textFieldFontSize = 16.sp,
-    secondTextFieldFontSize = 32.sp,
-    buttonFontSize = 16.sp,
-    smallButtonFontSize = 14.sp,
-    descriptionFontSize = 14.sp,
-    paddingFromEdges = 24.dp,
-    paddingBetweenComponentsHorizontal = 12.dp,
-    paddingBetweenComponentsSmallVertical = 12.dp,
-    paddingBetweenComponentsBigVertical = 36.dp,
+    titleTextSize = 30.sp.div(1.5f),
+    textFieldFontSize = 16.sp.div(1.5f),
+    secondTextFieldFontSize = 32.sp.div(1.5f),
+    buttonFontSize = 16.sp.div(1.5f),
+    smallButtonFontSize = 14.sp.div(1.5f),
+    descriptionFontSize = 14.sp.div(1.5f),
+    paddingFromEdges = 24.dp.div(1.5f),
+    paddingBetweenComponentsHorizontal = 12.dp.div(1.5f),
+    paddingBetweenComponentsSmallVertical = 12.dp.div(1.5f),
+    paddingBetweenComponentsMediumVertical = 24.dp.div(1.5f),
+    paddingBetweenComponentsBigVertical = 36.dp.div(1.5f),
 )
 
 internal val CompactMediumDimens = MoonlightThemeDimens(
@@ -54,6 +55,7 @@ internal val CompactMediumDimens = MoonlightThemeDimens(
     paddingFromEdges = 24.dp,
     paddingBetweenComponentsHorizontal = 12.dp,
     paddingBetweenComponentsSmallVertical = 12.dp,
+    paddingBetweenComponentsMediumVertical = 24.dp,
     paddingBetweenComponentsBigVertical = 36.dp,
 )
 
@@ -81,5 +83,6 @@ internal val CompactDimens = MoonlightThemeDimens(
     paddingFromEdges = 24.dp,
     paddingBetweenComponentsHorizontal = 12.dp,
     paddingBetweenComponentsSmallVertical = 12.dp,
+    paddingBetweenComponentsMediumVertical = 24.dp,
     paddingBetweenComponentsBigVertical = 36.dp,
 )

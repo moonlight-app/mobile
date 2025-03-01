@@ -13,17 +13,21 @@ data object ProfileRoute
 fun NavController.navigateToProfile(navOptions: NavOptions? = null) = navigate(route = ProfileRoute, navOptions = navOptions)
 
 fun NavGraphBuilder.profileScreen(
+    onBackClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onEditProfileClick: (String, String, String) -> Unit,
     onOrderClick: () -> Unit,
-    onFavoritesClick: () -> Unit
+    onFavoritesClick: () -> Unit,
+    onChangePasswordClick: () -> Unit,
 ) {
     composable<ProfileRoute> {
         ProfileRoute(
+            onBackClick = onBackClick,
             onLogoutClick = onLogoutClick,
             onEditProfileClick = onEditProfileClick,
             onOrderClick = onOrderClick,
             onFavoritesClick = onFavoritesClick,
+            onChangePasswordClick = onChangePasswordClick,
         )
     }
 }

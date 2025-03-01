@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -24,43 +22,35 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import ru.moonlight.api.component.OTPComponent
 import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.base.BaseUIState
-import ru.moonlight.feature_auth_signup_confirmcode.impl.presentation.ConfirmCodeSideEffect
-import ru.moonlight.feature_auth_signup_confirmcode.impl.presentation.ConfirmCodeViewModel
 import ru.moonlight.feature_auth_signup_confirmcode.impl.ui.component.ContinueButton
 import ru.moonlight.feature_auth_signup_confirmcode.impl.ui.component.Logo
 import ru.moonlight.feature_auth_signup_confirmcode.impl.ui.component.NewCodeButton
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.presentation.RegistrationAction
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.presentation.RegistrationSideEffect
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.presentation.RegistrationViewModel
 
 @Composable
 internal fun ConfirmCodeRoute(
     onContinueClick: () -> Unit,
-    name: String,
-    sex: String,
-    birthDate: String,
-    email: String,
-    password: String,
     modifier: Modifier = Modifier,
+    viewModel: RegistrationViewModel = hiltViewModel()
 ) {
-    val viewModel: ConfirmCodeViewModel = hiltViewModel()
     val state by viewModel.collectAsState()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            ConfirmCodeSideEffect.NavigateToLanding -> onContinueClick()
+            RegistrationSideEffect.NavigateToLanding -> onContinueClick()
+            RegistrationSideEffect.OnCodeConfirmed -> {}
         }
     }
 
-    var code by remember {
-        mutableStateOf(state.code)
-    }
-
     ConfirmCodeScreen(
-        updateCode = { newCode ->
-            viewModel.updateCode(newCode)
-            code = newCode
-        },
-        onConfirmClick = { viewModel.confirmCode(code = code, email = email, password = password, name = name, birthDate = birthDate, sex = sex) },
-        email = email,
-        code = code,
+        updateCode = { newCode -> viewModel.dispatch(RegistrationAction.UpdateCode(newCode)) },
+        onConfirmClick = { viewModel.dispatch(RegistrationAction.ConfirmCode()) },
+        onTryAgainClick = { viewModel.dispatch(RegistrationAction.ReRequestCode()) },
+        email = state.email,
+        code = state.code,
         uiState = uiState,
         modifier = modifier
     )
@@ -68,8 +58,9 @@ internal fun ConfirmCodeRoute(
 
 @Composable
 private fun ConfirmCodeScreen(
-    updateCode: (String) -> Unit,
     onConfirmClick: () -> Unit,
+    onTryAgainClick: () -> Unit,
+    updateCode: (String) -> Unit,
     email: String,
     code: String,
     uiState: BaseUIState,
@@ -106,6 +97,9 @@ private fun ConfirmCodeScreen(
             enable = uiState !is BaseUIState.Loading,
             isLoading = uiState is BaseUIState.Loading,
         )
-        NewCodeButton(email = email)
+        NewCodeButton(
+            onTryAgainClick = onTryAgainClick,
+            email = email,
+        )
     }
 }

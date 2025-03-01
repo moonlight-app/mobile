@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,13 +32,19 @@ internal fun ButtonTemplate(
     modifier: Modifier = Modifier,
     enable: Boolean = true,
     isLoading: Boolean = false,
+    textMaxLines: Int = 1,
     textStyle: TextStyle = MoonlightTheme.typography.button
 ) {
+    val focusManager = LocalFocusManager.current
+
     Button(
         modifier = modifier,
-        onClick = onClick,
+        onClick = {
+            focusManager.clearFocus()
+            onClick()
+        },
         enabled = (enable && !isLoading),
-        colors = ButtonDefaults.buttonColors (
+        colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor,
             disabledContainerColor = disabledColor,
@@ -62,6 +69,7 @@ internal fun ButtonTemplate(
                 text = text,
                 style = textStyle,
                 textAlign = TextAlign.Center,
+                maxLines = textMaxLines,
             )
             if (isLoading) SmallProgressBarWidget(color = progressBarColor)
         }

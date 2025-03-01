@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import ru.moonlight.api.component.CardWithTitleAndGrid
 import ru.moonlight.api.widget.button.ButtonChipWidget
 import ru.moonlight.feature_catalog_filters.R
 import ru.moonlight.feature_catalog_filters.api.Audience
@@ -18,7 +19,7 @@ internal fun AudienceView(
 ) {
     val context = LocalContext.current
 
-    FilterCard(
+    CardWithTitleAndGrid(
         modifier = modifier,
         title = stringResource(R.string.forWhom),
         cellsSize = 2,

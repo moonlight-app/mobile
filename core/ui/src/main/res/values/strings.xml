@@ -7,4 +7,20 @@
     <string name="email">Почта</string>
     <string name="password">Пароль</string>
     <string name="somethingWentWrong">Что-то пошло не так</string>
+    <string name="size">размер</string>
+    <string name="empty_cart">В корзине пусто</string>
+    <string name="take_a_look_at_catalog">Посмотрите товары в каталоге</string>
+    <string name="visit_catalog">Перейти в каталог</string>
+    <string name="order">Заказать</string>
+    <string name="catalogEmpty">Каталог пуст</string>
+    <string name="productsNotFoundByFilters">Товары по заданным фильтрам не найдены</string>
+    <string name="changeFilters">Изменить фильтры</string>
+    <string name="repeat">Повторить</string>
+    <string name="repeatTry">Повторить попытку</string>
+    <string name="appearError">Произошла ошибка</string>
+    <string name="in_delivery">В доставке</string>
+    <string name="closed">Доставлено</string>
+    <string name="count">Количество</string>
+    <string name="nothingThere">Здесь пока пусто</string>
+    <string name="youDidntAddAnythingYet">Вы еще не добавили товары в избранное.</string>
 </resources>

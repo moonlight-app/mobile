@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import ru.moonlight.api.component.CardWithTitleAndGrid
 import ru.moonlight.api.component.CheckBoxWithTextComponent
 import ru.moonlight.feature_catalog_filters.R
 import ru.moonlight.feature_catalog_filters.api.Material
@@ -18,7 +19,7 @@ internal fun MaterialsView(
 ) {
     val context = LocalContext.current
 
-    FilterCard(
+    CardWithTitleAndGrid(
         title = stringResource(R.string.materials),
         cellsSize = 2,
         list = materials,

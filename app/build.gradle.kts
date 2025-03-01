@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
     kotlin("kapt")
 }
 
@@ -32,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -55,23 +56,37 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
+    implementation(project(":core:data"))
+    implementation(project(":core:database"))
+    implementation(project(":core:common"))
     implementation(project(":feature-auth-signin"))
     implementation(project(":feature-auth-signup-registration"))
     implementation(project(":feature-auth-signup-confirmcode"))
     implementation(project(":feature-auth-signup-complete"))
     implementation(project(":feature-catalog"))
     implementation(project(":feature-catalog-categories"))
+    implementation(project(":feature-catalog-product"))
     implementation(project(":feature-cart"))
     implementation(project(":feature-profile"))
     implementation(project(":feature-profile-edit"))
-    implementation(project(":core:data"))
+    implementation(project(":feature-profile-changepassword"))
+    implementation(project(":feature-order"))
+    implementation(project(":feature-favourites"))
+
 
     implementation(libs.hilt.android)
-    implementation(libs.androidx.material3.adaptive.navigation.suite.android)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.androidx.material3.adaptive.navigation.suite.android)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.accompanist.systemuicontroller)
+
+    implementation(libs.kotlinx.serialization.json)
+
+//    //room
+//    implementation(libs.androidx.room.ktx)
+//    //kapt(libs.androidx.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

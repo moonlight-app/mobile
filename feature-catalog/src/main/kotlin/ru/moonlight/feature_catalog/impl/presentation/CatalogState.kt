@@ -6,6 +6,7 @@ import ru.moonlight.feature_catalog_filters.api.CatalogFilter
 import ru.moonlight.feature_catalog_sort.api.CatalogSortType
 
 internal data class CatalogState(
+    val catalogProductType: String = "",
     val catalogFilter: CatalogFilter? = null,
     val catalogSort: CatalogSortType = CatalogSortType.POPULARITY,
 )

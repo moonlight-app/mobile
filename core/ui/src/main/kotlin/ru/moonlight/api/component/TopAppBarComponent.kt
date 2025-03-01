@@ -65,6 +65,7 @@ fun TopAppBarComponent(
     titleContentColor: Color = MoonlightTheme.colors.text,
     navigationIconContentColor: Color = MoonlightTheme.colors.text,
     actionIconContentColor: Color = MoonlightTheme.colors.text,
+    contentUnderTitle: @Composable (() -> Unit) = {},
     content: @Composable (() -> Unit) = {},
 ) {
     Column {
@@ -130,8 +131,18 @@ fun TopAppBarComponent(
                 actionIconContentColor = actionIconContentColor,
             ),
         )
-
-        androidx.compose.animation.AnimatedVisibility(
+        AnimatedVisibility(
+            visible = !actionVisibility,
+            enter = slideInVertically() + expandVertically(
+                expandFrom = Alignment.Top
+            ) + fadeIn(
+                initialAlpha = 0.3f
+            ),
+            exit = slideOutVertically() + shrinkVertically() + fadeOut()
+        ) {
+            contentUnderTitle()
+        }
+        AnimatedVisibility(
             visible = actionVisibility,
             enter = slideInVertically() + expandVertically(
                 expandFrom = Alignment.Top

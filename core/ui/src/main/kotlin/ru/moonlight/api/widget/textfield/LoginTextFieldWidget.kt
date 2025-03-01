@@ -14,8 +14,9 @@ import ru.moonlight.ui.R
 
 @Composable
 fun LoginTextFieldWidget(
-    onValueChange: (String) -> Unit,
-    value: String,
+    onFocusLost: (String) -> Unit,
+    onKeyboardDismiss: () -> Unit = {},
+    initialText: String = "",
     modifier: Modifier = Modifier,
     placeholder: String = stringResource(R.string.email),
     singleLine: Boolean = true,
@@ -36,8 +37,9 @@ fun LoginTextFieldWidget(
     disabledTextColor: Color = MoonlightTheme.colors.disabledText,
 ) {
     TextFieldTemplate(
-        value = value,
-        onValueChange = onValueChange,
+        onFocusLost = onFocusLost,
+        onKeyboardDismiss = onKeyboardDismiss,
+        initialText = initialText,
         modifier = modifier,
         placeholder = placeholder,
         singleLine = singleLine,

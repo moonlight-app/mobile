@@ -18,8 +18,8 @@ internal fun NameTextField(
     TextFieldWithLabelWidget(
         modifier = modifier
             .padding(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
-        onValueChange = onNameChange,
-        value = name,
+        onFocusLost = onNameChange,
+        initialText = name,
         label = stringResource(R.string.name),
         isError = isError,
     )

@@ -22,15 +22,17 @@ internal fun AnnotatedTextTemplate(
     textPart3: String,
     modifier: Modifier = Modifier,
     withLineBreaks: Boolean = false,
+    isHighlightTextEnable: Boolean = true,
     textDescriptionColor: Color = MoonlightTheme.colors.hintText,
     textHighlightColor: Color = MoonlightTheme.colors.text,
+    textDisabledColor: Color = MoonlightTheme.colors.disabledText,
     textStyle: TextStyle = MoonlightTheme.typography.description,
 ) {
     val annotatedText = buildAnnotatedString {
         withStyle(style = textStyle.copy(color = textDescriptionColor).toSpanStyle()) {
             append("$textPart1 " + if (withLineBreaks) "\n" else " ")
         }
-        withStyle(style = SpanStyle(color = textHighlightColor)) {
+        withStyle(style = SpanStyle(color = if (isHighlightTextEnable) textHighlightColor else textDisabledColor)) {
             append("$textPart2 " + if (withLineBreaks) "\n" else " ")
         }
         withStyle(style = textStyle.copy(color = textDescriptionColor).toSpanStyle()) {

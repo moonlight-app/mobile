@@ -26,10 +26,7 @@ internal fun ButtonsView(
         Modifier
             .fillMaxWidth()
             .background(color = MoonlightTheme.colors.background.copy(alpha = 0.7f))
-            .padding(
-                bottom = MoonlightTheme.dimens.paddingBetweenComponentsBigVertical,
-                top = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical,
-            ),
+            .padding(vertical = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical),
         contentAlignment = Alignment.Center,
     ) {
         Row(

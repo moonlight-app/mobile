@@ -1,19 +1,22 @@
 package ru.moonlight.feature_catalog_filters.api
 
 import android.content.Context
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.moonlight.feature_catalog_filters.R
 
+@Parcelize
 data class CatalogFilter(
     val defaultMinPrice: String,
     val defaultMaxPrice: String,
-    val defaultSize: List<Double>,
+    val defaultSize: List<Float>,
     var minPrice: String = defaultMinPrice,
     var maxPrice: String = defaultMaxPrice,
-    var size: List<Double> = emptyList(),
+    var size: List<Float> = emptyList(),
     var material: List<Material> = emptyList(),
     var forWhom: List<Audience> = emptyList(),
     var treasureInsert: List<TreasureInsert> = emptyList(),
-)
+): Parcelable
 
 enum class Material {
     GOLD,

@@ -16,15 +16,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.GenderOption
 import ru.moonlight.common.base.BaseUIState
-import ru.moonlight.feature_auth_signup_registration.registration.impl.presentation.RegistrationSideEffect
-import ru.moonlight.feature_auth_signup_registration.registration.impl.presentation.RegistrationViewModel
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.presentation.RegistrationAction
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.presentation.RegistrationSideEffect
+import ru.moonlight.feature_auth_signup_registration.registration.api.navigation.presentation.RegistrationViewModel
 import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.CreateAccountButton
 import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.DateOfBirthCalendar
 import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.component.GenderField
@@ -35,74 +35,34 @@ import ru.moonlight.feature_auth_signup_registration.registration.impl.ui.compon
 
 @Composable
 internal fun RegistrationRoute(
-    onCreateAccountClick: (String, String, String, String, String) -> Unit,
+    onCreateAccountClick: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: RegistrationViewModel,
 ) {
-    val viewModel: RegistrationViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val state by viewModel.collectAsState()
+
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            RegistrationSideEffect.OnCodeConfirmed ->
-                onCreateAccountClick(
-                    state.name,
-                    state.sex!!.name.lowercase(),
-                    state.birthDate,
-                    state.email,
-                    state.password,
-                )
+            RegistrationSideEffect.OnCodeConfirmed -> onCreateAccountClick()
+            RegistrationSideEffect.NavigateToLanding -> {}
         }
     }
 
-    var name by remember {
-        mutableStateOf(state.name)
-    }
-
-    var sex by remember {
-        mutableStateOf(state.sex)
-    }
-
-    var birthDate by remember {
-        mutableStateOf(state.birthDate)
-    }
-
-    var email by remember {
-        mutableStateOf(state.email)
-    }
-
-    var password by remember {
-        mutableStateOf(state.password)
-    }
-
     RegistrationScreen(
+        modifier = modifier,
+        onNameChange = { newName -> viewModel.dispatch(RegistrationAction.UpdateName(newName)) },
+        onEmailChange = { newEmail -> viewModel.dispatch(RegistrationAction.UpdateEmail(newEmail)) },
+        onSexChange = { newSex -> viewModel.dispatch(RegistrationAction.UpdateSex(newSex)) },
+        onBirthDateChange = { newBirthDate -> viewModel.dispatch(RegistrationAction.UpdateBirthDate(newBirthDate)) },
+        onPasswordChange = { newPassword -> viewModel.dispatch(RegistrationAction.UpdatePassword(newPassword)) },
+        onRequestCodeClick = { viewModel.dispatch(RegistrationAction.RequestCode()) },
         uiState = uiState,
-        name = name,
-        sex = sex,
-        birthDate = birthDate,
-        email = email,
-        password = password,
-        onNameChange = { newName ->
-            viewModel.updateName(newName)
-            name = newName
-        },
-        onEmailChange = { newEmail ->
-            viewModel.updateEmail(newEmail)
-            email = newEmail
-        },
-        onSexChange = { newSex ->
-            viewModel.updateSex(newSex)
-            sex = newSex
-        },
-        onBirthDateChange = { newBirthDate ->
-            viewModel.updateBirthDate(newBirthDate)
-            birthDate = newBirthDate
-        },
-        onPasswordChange = { newPassword ->
-            viewModel.updatePassword(newPassword)
-            password = newPassword
-        },
-        onRequestCodeClick = viewModel::requestCode,
-        modifier = modifier
+        name = state.name,
+        sex = state.sex,
+        birthDate = state.birthDate,
+        email = state.email,
+        password = state.password,
     )
 }
 

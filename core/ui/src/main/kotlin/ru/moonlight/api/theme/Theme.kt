@@ -34,6 +34,7 @@ data class MoonlightThemeColors (
     val disabledComponent: Color,
     val disabledText: Color,
     val error: Color,
+    val border: Color,
 )
 
 @Immutable
@@ -82,6 +83,7 @@ data class MoonlightThemeDimens(
     val paddingFromEdges: Dp,
     val paddingBetweenComponentsHorizontal: Dp,
     val paddingBetweenComponentsSmallVertical: Dp,
+    val paddingBetweenComponentsMediumVertical: Dp,
     val paddingBetweenComponentsBigVertical: Dp,
 )
 
@@ -106,6 +108,7 @@ internal val LocalCustomColors = staticCompositionLocalOf {
         disabledComponent = Color.Unspecified,
         disabledText = Color.Unspecified,
         error = Color.Unspecified,
+        border = Color.Unspecified,
     )
 }
 
@@ -156,6 +159,7 @@ fun MoonlightTheme(
             disabledComponent = Gray60,
             disabledText = Gray30,
             error = Red,
+            border = Gray10,
         )
     } else {
         MoonlightThemeColors(
@@ -171,6 +175,7 @@ fun MoonlightTheme(
             disabledComponent = Gray60,
             disabledText = Gray30,
             error = Red,
+            border = Gray10,
         )
     }
 

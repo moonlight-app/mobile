@@ -1,6 +1,8 @@
 package ru.moonlight.feature_auth_signin.sign_in.impl.presentation
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
@@ -13,32 +15,56 @@ internal class SignInViewModel @Inject constructor(
 ): BaseViewModel<SignInState, SignInSideEffect>(SignInState()) {
     val uiState = baseUiState
 
-    fun login() = intent {
-        updateUiState(uiState = BaseUIState.Loading)
-        if (state.email.isEmpty() || state.password.isEmpty()) {
-            updateUiState(BaseUIState.Error("Заполните все поля"))
-            return@intent
+    fun dispatch(action: SignInAction) {
+        when (action) {
+            SignInAction.SignInClick -> login()
+            SignInAction.RegistrationClick -> signUp()
+            is SignInAction.UpdateLogin -> updateLogin(action.login)
+            is SignInAction.UpdatePassword -> updatePassword(action.password)
         }
-        when (val result = authRepository.login(state.email, state.password)) {
-            is ApiResponse.Error -> updateUiState(BaseUIState.Error(result.msg))
-            is ApiResponse.Success -> {
-                postSideEffect(sideEffect = SignInSideEffect.NavigateToProfile)
+    }
+
+    private fun login() {
+        viewModelScope.launch {
+            intent {
+                updateUiState(uiState = BaseUIState.Loading)
+                if (state.email.isEmpty() || state.password.isEmpty()) {
+                    updateUiState(BaseUIState.Error("Заполните все поля"))
+                    return@intent
+                }
+                when (val result = authRepository.login(state.email, state.password)) {
+                    is ApiResponse.Error -> updateUiState(BaseUIState.Error(result.msg))
+                    is ApiResponse.Success -> {
+                        postSideEffect(sideEffect = SignInSideEffect.NavigateToProfile)
+                    }
+                }
             }
         }
     }
 
-    fun signUp() = intent {
-        postSideEffect(sideEffect = SignInSideEffect.NavigateToSignUp)
+    private fun signUp() {
+        viewModelScope.launch {
+            intent { postSideEffect(sideEffect = SignInSideEffect.NavigateToSignUp) }
+        }
     }
 
-    fun updateLogin(login: String) = intent {
-        if (uiState.value is BaseUIState.Error) updateUiState(BaseUIState.Idle)
-        reduce { state.copy(email = login) }
+    private fun updateLogin(login: String) {
+        viewModelScope.launch {
+            intent {
+                if (uiState.value is BaseUIState.Error) updateUiState(BaseUIState.Idle)
+                reduce { state.copy(email = login) }
+            }
+
+        }
     }
 
-    fun updatePassword(password: String) = intent {
-        if (uiState.value is BaseUIState.Error) updateUiState(BaseUIState.Idle)
-        reduce { state.copy(password = password) }
+    private fun updatePassword(password: String) {
+        viewModelScope.launch {
+            intent {
+                if (uiState.value is BaseUIState.Error) updateUiState(BaseUIState.Idle)
+                reduce { state.copy(password = password) }
+            }
+        }
     }
 
 }

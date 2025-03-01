@@ -7,12 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -22,13 +29,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import ru.moonlight.api.animation.TopBarInOutAnimation
 import ru.moonlight.api.component.ProductFeed
 import ru.moonlight.api.component.ProductFeedModel
+import ru.moonlight.api.screen.ErrorScreen
 import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.api.widget.progressbar.ProgressBarWidget
 import ru.moonlight.common.base.BaseUIState
+import ru.moonlight.feature_catalog.impl.presentation.CatalogAction
+import ru.moonlight.feature_catalog.impl.presentation.CatalogSideEffect
 import ru.moonlight.feature_catalog.impl.presentation.CatalogViewModel
 import ru.moonlight.feature_catalog.impl.ui.component.CatalogSortBottomSheet
 import ru.moonlight.feature_catalog.impl.ui.component.TopAppBar
@@ -38,22 +51,38 @@ import ru.moonlight.feature_catalog_sort.api.CatalogSortType
 @Composable
 internal fun CatalogRoute(
     onBackClick: () -> Unit,
-    onProductClick: (Int) -> Unit,
+    onProductClick: (Long) -> Unit,
     productType: String,
+    isUserAuthorized: Boolean,
     modifier: Modifier = Modifier,
+    viewModel: CatalogViewModel = hiltViewModel(),
 ) {
-    val viewModel = hiltViewModel<CatalogViewModel>()
-
-    LaunchedEffect(Unit) {
-        viewModel.getCategoryMetadata(productType)
-    }
-
-    val productList = viewModel.getProducts(productType).collectAsLazyPagingItems()
     val state by viewModel.collectAsState()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val totalCountOfProducts by viewModel.totalCountOfProducts.collectAsState()
+
+    if (state.catalogFilter == null) {
+        LaunchedEffect(Unit) {
+            viewModel.dispatch(CatalogAction.LoadCatalog(productType))
+        }
+    }
+
+    val productList = viewModel.productPagingData.collectAsLazyPagingItems()
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            CatalogSideEffect.NavigateBack -> onBackClick()
+            is CatalogSideEffect.NavigateToProduct -> onProductClick(sideEffect.productId)
+        }
+    }
 
     when (uiState) {
-        is BaseUIState.Error -> {}
+        is BaseUIState.Error -> {
+            ErrorScreen(
+                onRepeatAttemptClick = {},
+                errorMsg = (uiState as BaseUIState.Error).msg ?: ""
+            )
+        }
         BaseUIState.Idle -> {}
         BaseUIState.Loading -> {
             Box(
@@ -66,32 +95,43 @@ internal fun CatalogRoute(
         BaseUIState.Success -> {
             CatalogScreen(
                 modifier = modifier,
-                onBackClick = onBackClick,
-                onFilterApplied = viewModel::setCatalogFilters,
-                onSortApplied = viewModel::setCatalogSortType,
-                onProductClick = onProductClick,
+                onBackClick = { viewModel.dispatch(CatalogAction.BackClick) },
+                onFilterApplied = { newFilter ->
+                    viewModel.dispatch(CatalogAction.UpdateCatalogFilter(newFilter))
+                },
+                onSortApplied = { newSortType ->
+                    viewModel.dispatch(CatalogAction.UpdateCatalogSortType(newSortType))
+                },
+                onProductClick = { productId -> viewModel.dispatch(CatalogAction.ProductClick(productId)) },
+                onFavouriteClick = { id, status -> viewModel.dispatch(CatalogAction.FavouriteClick(id, !status)) },
                 currentCatalogFilter = state.catalogFilter!!,
                 currentSortType = state.catalogSort,
                 productFeedModelList = productList,
+                countOfProducts = totalCountOfProducts,
+                isUserAuthorized = isUserAuthorized,
             )
         }
     }
-
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CatalogScreen(
     onBackClick: () -> Unit,
     onFilterApplied: (CatalogFilter) -> Unit,
     onSortApplied: (CatalogSortType) -> Unit,
-    onProductClick: (Int) -> Unit,
+    onProductClick: (Long) -> Unit,
+    onFavouriteClick: (id: Long, currentStatus: Boolean) -> Unit,
     currentCatalogFilter: CatalogFilter,
     currentSortType: CatalogSortType,
     productFeedModelList: LazyPagingItems<ProductFeedModel>,
+    countOfProducts: Int,
+    isUserAuthorized: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val staggeredGridState = rememberLazyStaggeredGridState()
-    var isAppBarVisible by remember { mutableStateOf(true) }
+    val coroutineScope = rememberCoroutineScope()
+    var isAppBarVisible by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(staggeredGridState, productFeedModelList) {
         var lastScrollOffset = 0
@@ -116,11 +156,15 @@ private fun CatalogScreen(
         }
     }
 
-    var filterVisibility by remember {
+    LaunchedEffect(Unit) {
+        isAppBarVisible = true // ensures that TopAppBar is visible on first render
+    }
+
+    var filterVisibility by rememberSaveable {
         mutableStateOf(false)
     }
 
-    var sortBottomSheetVisibility by remember {
+    var sortBottomSheetVisibility by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -129,49 +173,88 @@ private fun CatalogScreen(
         else onBackClick()
     }
 
-    Scaffold(
-        modifier = modifier
-            .statusBarsPadding(),
-        containerColor = MoonlightTheme.colors.background,
-        topBar = {
-            TopBarInOutAnimation(isVisible = isAppBarVisible) {
-                TopAppBar(
-                    onBackClick = {
-                        if (filterVisibility) filterVisibility = false
-                        else onBackClick()
-                    },
-                    onActionClick = { filterVisibility = !filterVisibility },
-                    onFilterApplied = { filters ->
-                        onFilterApplied(filters)
-                        if (filterVisibility) filterVisibility = false
-                    },
-                    filterVisibility = filterVisibility,
-                    currentCatalogFilter = currentCatalogFilter,
-                )
+    val refreshState = rememberPullToRefreshState()
+    var isRefreshing by remember { mutableStateOf(false) }
+
+    PullToRefreshBox(
+        modifier = modifier,
+        isRefreshing = isRefreshing,
+        state = refreshState,
+        onRefresh = {
+            coroutineScope.launch {
+                isRefreshing = true
+                delay(250)
+                productFeedModelList.refresh()
+                isRefreshing = false
             }
         },
-        bottomBar = {
-            if (sortBottomSheetVisibility) {
-                CatalogSortBottomSheet(
-                    onSortTypeChange = { newSortType ->
-                        onSortApplied(newSortType)
-                        sortBottomSheetVisibility = false
-                    },
-                    currentSortType = currentSortType,
+        indicator = {
+            Indicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                isRefreshing = isRefreshing,
+                containerColor = MoonlightTheme.colors.highlightComponent,
+                color = MoonlightTheme.colors.highlightText,
+                state = refreshState
+            )
+        },
+    ) {
+        Scaffold(
+            modifier = modifier
+                .statusBarsPadding(),
+            containerColor = MoonlightTheme.colors.background,
+            topBar = {
+                TopBarInOutAnimation(isVisible = isAppBarVisible) {
+                    TopAppBar(
+                        onBackClick = {
+                            if (filterVisibility) filterVisibility = false
+                            else onBackClick()
+                        },
+                        onActionClick = { filterVisibility = !filterVisibility },
+                        onFilterApplied = { filters ->
+                            onFilterApplied(filters)
+                            coroutineScope.launch {
+                                staggeredGridState.animateScrollToItem(0)
+                            }
+                            if (filterVisibility) filterVisibility = false
+                        },
+                        onSortClick = { sortBottomSheetVisibility = true },
+                        filterVisibility = filterVisibility,
+                        currentCatalogFilter = currentCatalogFilter,
+                        countOfItems = countOfProducts,
+                    )
+                }
+            },
+            bottomBar = {
+                if (sortBottomSheetVisibility) {
+                    CatalogSortBottomSheet(
+                        onSortTypeChange = { newSortType ->
+                            if (currentSortType != newSortType) {
+                                onSortApplied(newSortType)
+                                coroutineScope.launch {
+                                    staggeredGridState.animateScrollToItem(0)
+                                }
+                            }
+                            sortBottomSheetVisibility = false
+                        },
+                        currentSortType = currentSortType,
+                    )
+                }
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(top = paddingValues.calculateTopPadding())
+                    .fillMaxSize(),
+            ) {
+                ProductFeed(
+                    onProductClick = onProductClick,
+                    onFavouriteClick = onFavouriteClick,
+                    onChangeFiltersClick = { filterVisibility = !filterVisibility },
+                    productFeedModelList = productFeedModelList,
+                    scrollState = staggeredGridState,
+                    isFavoriteButtonVisible = isUserAuthorized,
                 )
             }
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize(),
-        ) {
-            ProductFeed(
-                onProductClick = onProductClick,
-                productFeedModelList = productFeedModelList,
-                scrollState = staggeredGridState,
-            )
         }
     }
 }

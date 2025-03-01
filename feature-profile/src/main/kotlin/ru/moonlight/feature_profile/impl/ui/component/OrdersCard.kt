@@ -2,17 +2,13 @@ package ru.moonlight.feature_profile.impl.ui.component
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
@@ -21,29 +17,34 @@ import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import ru.moonlight.api.animation.bouncingClickable
+import ru.moonlight.api.component.OrderItem
+import ru.moonlight.api.component.OrderUiModel
+import ru.moonlight.api.component.SkeletonOrderItem
+import ru.moonlight.api.component.convertStatusToUiModel
 import ru.moonlight.api.theme.MoonlightTheme
-import ru.moonlight.api.widget.text.DescriptionTextWidget
+import ru.moonlight.api.widget.button.OutlinedButtonWidget
+import ru.moonlight.api.widget.text.ButtonTextWidget
 import ru.moonlight.api.widget.text.SubTitleTextWidget
 import ru.moonlight.feature_profile.R
-import ru.moonlight.feature_profile.impl.presentation.Orders
 import kotlin.math.absoluteValue
 
 @Composable
 internal fun OrdersCard(
     onClick: () -> Unit,
-    list: List<Orders>,
+    orders: LazyPagingItems<OrderUiModel>,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -73,18 +74,35 @@ internal fun OrdersCard(
                 ),
                 text = stringResource(R.string.orders),
             )
-            OrderPager(list = list)
+
+            when {
+                orders.loadState.refresh is LoadState.Loading -> {
+                    LoadingPager()
+                }
+                orders.loadState.refresh is LoadState.Error -> {
+                    ErrorPager(
+                        onRepeatClick = orders::refresh
+                    )
+                }
+                isPagerEmpty(orders.itemCount) -> {
+                    EmptyOrderPager(
+                        modifier = modifier,
+                    )
+                }
+                else -> {
+                    FilledOrderPager(list = orders)
+                }
+            }
         }
     }
 }
 
+private fun isPagerEmpty(count: Int) = (count == 0)
+
 @Composable
-private fun OrderPager(
-    list: List<Orders>,
-    modifier: Modifier = Modifier,
-) {
+fun LoadingPager(modifier: Modifier = Modifier) {
     val pagerState = rememberPagerState(
-        pageCount = { list.size }
+        pageCount = { 2 }
     )
 
     val flingBehavior = PagerDefaults.flingBehavior(
@@ -96,7 +114,114 @@ private fun OrderPager(
         ),
     )
 
-    if (list.isNotEmpty()) {
+    HorizontalPager(
+        modifier = modifier
+            .fillMaxWidth(),
+        state = pagerState,
+        pageSpacing = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal,
+        flingBehavior = flingBehavior,
+        pageSize = object : PageSize {
+            override fun Density.calculateMainAxisPageSize(
+                availableSpace: Int,
+                pageSpacing: Int
+            ): Int {
+                return ((availableSpace - 2 * pageSpacing) * 0.90f).toInt()
+            }
+        },
+        contentPadding = PaddingValues(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
+        snapPosition = SnapPosition.Center,
+        key = { page -> page },
+    ) { page ->
+        SkeletonOrderItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .graphicsLayer {
+                    val pageOffSet = (
+                            (pagerState.currentPage - page) + pagerState
+                                .currentPageOffsetFraction
+                            ).absoluteValue
+                    alpha = lerp(
+                        start = 0.5f,
+                        stop = 1f,
+                        fraction = 1f - pageOffSet.coerceIn(0f, 1f)
+                    )
+                    scaleY = lerp(
+                        start = 0.9f,
+                        stop = 1f,
+                        fraction = 1f - pageOffSet.coerceIn(0f, 1f)
+                    )
+                },
+        )
+
+    }
+}
+
+@Composable
+private fun ErrorPager(
+    onRepeatClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column (
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(
+            space = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical,
+        ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        ButtonTextWidget(
+            text = stringResource(ru.moonlight.ui.R.string.somethingWentWrong),
+        )
+        OutlinedButtonWidget(
+            onClick = onRepeatClick,
+            text = stringResource(ru.moonlight.ui.R.string.repeat),
+        )
+    }
+}
+
+@Composable
+private fun EmptyOrderPager(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical),
+    ) {
+        ButtonTextWidget(
+            text = "У вас пока что нет заказов"
+        )
+    }
+}
+
+@Composable
+private fun FilledOrderPager(
+    list: LazyPagingItems<OrderUiModel>,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+
+    val pagerState = rememberPagerState(
+        pageCount = { list.itemCount }
+    )
+
+    val flingBehavior = PagerDefaults.flingBehavior(
+        state = pagerState,
+        pagerSnapDistance = PagerSnapDistance.atMost(1),
+        snapAnimationSpec = tween(
+            easing = FastOutSlowInEasing,
+            durationMillis = 400
+        ),
+    )
+
+    if (list.itemCount == 1) {
+        val order = list[0]
+        OrderItem(
+            modifier = modifier
+                .padding(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
+            imageUrl = order?.imageUrl ?: "",
+            title = order?.title ?: "Unknown name",
+            status = order?.status?.convertStatusToUiModel(context = context) ?: "Unknown status",
+        )
+    } else {
         HorizontalPager(
             modifier = modifier
                 .fillMaxWidth(),
@@ -120,7 +245,7 @@ private fun OrderPager(
                     //delete when Horizontal Pager will be fixed with contentPadding and SnapPosition.Center
                     .padding(
                         start = if (page == 0) MoonlightTheme.dimens.paddingBetweenComponentsHorizontal else 0.dp,
-                        end = if (page == list.size - 1) MoonlightTheme.dimens.paddingBetweenComponentsHorizontal else 0.dp
+                        end = if (page == list.itemCount - 1) MoonlightTheme.dimens.paddingBetweenComponentsHorizontal else 0.dp
                     )
                     .graphicsLayer {
                         val pageOffSet = (
@@ -138,68 +263,11 @@ private fun OrderPager(
                             fraction = 1f - pageOffSet.coerceIn(0f, 1f)
                         )
                     },
-                title = order.title,
-                status = order.status,
+                imageUrl = order?.imageUrl ?: "",
+                title = order?.title ?: "Unknown name",
+                status = order?.status?.convertStatusToUiModel(context = context) ?: "Unknown status",
             )
         }
     }
 }
 
-@Composable
-private fun OrderItem(
-    title: String,
-    status: String,
-    modifier: Modifier = Modifier
-) {
-    OutlinedCard(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        shape = MoonlightTheme.shapes.buttonShape,
-        border = BorderStroke(
-            1.dp,
-            //TODO заменить, когда в модели Orders будут понятны статусы
-            color = if (status != "бла") MoonlightTheme.colors.highlightComponent
-            else MoonlightTheme.colors.disabledComponent
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent,
-            contentColor = MoonlightTheme.colors.text,
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(MoonlightTheme.dimens.paddingBetweenComponentsHorizontal)
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            horizontalArrangement = Arrangement.spacedBy(
-                space = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal,
-                alignment = Alignment.Start,
-            ),
-            verticalAlignment = Alignment.Top
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp, 36.dp)
-                    .clip(MoonlightTheme.shapes.textFieldShape)
-                    .background(color = MoonlightTheme.colors.highlightComponent)
-            )
-            Column(
-                modifier = Modifier
-                    .height(36.dp),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                SubTitleTextWidget(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = title,
-                    maxLines = 1,
-                )
-                DescriptionTextWidget(
-                    text = status,
-                    textColor = MoonlightTheme.colors.highlightComponent,
-                )
-            }
-        }
-    }
-}

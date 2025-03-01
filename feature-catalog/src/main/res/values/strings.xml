@@ -2,4 +2,6 @@
 <resources>
     <string name="catalog">Каталог</string>
     <string name="filter">Фильтр</string>
+    <string name="item">продукт</string>
+    <string name="items">продуктов</string>
 </resources>

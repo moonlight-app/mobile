@@ -18,8 +18,8 @@ internal fun LoginTextField(
         modifier = modifier
             .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges)
             .padding(top = MoonlightTheme.dimens.paddingBetweenComponentsBigVertical),
-        onValueChange = onLoginChange,
-        value = email,
+        onFocusLost = onLoginChange,
+        initialText = email,
         enable = enable,
         isError = isError,
     )

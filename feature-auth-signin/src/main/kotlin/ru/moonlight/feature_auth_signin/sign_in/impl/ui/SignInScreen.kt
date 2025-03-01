@@ -11,9 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +19,7 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.base.BaseUIState
+import ru.moonlight.feature_auth_signin.sign_in.impl.presentation.SignInAction
 import ru.moonlight.feature_auth_signin.sign_in.impl.presentation.SignInSideEffect
 import ru.moonlight.feature_auth_signin.sign_in.impl.presentation.SignInViewModel
 import ru.moonlight.feature_auth_signin.sign_in.impl.ui.component.LoginTextField
@@ -35,8 +33,8 @@ internal fun SignInRoute(
     onAuthorizeClick: () -> Unit,
     onRegistrationClick: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
-    val viewModel = hiltViewModel<SignInViewModel>()
     val state by viewModel.collectAsState()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     viewModel.collectSideEffect { sideEffect ->
@@ -46,38 +44,24 @@ internal fun SignInRoute(
         }
     }
 
-    var email by remember {
-        mutableStateOf(state.email)
-    }
-
-    var password by remember {
-        mutableStateOf(state.password)
-    }
-
     SignInScreen(
-        updateLogin = { newLogin ->
-            viewModel.updateLogin(newLogin)
-            email = newLogin
-        },
-        updatePassword = { newPassword ->
-            viewModel.updatePassword(newPassword)
-            password = newPassword
-        },
-        onSignInClick = viewModel::login,
-        onSignUpClick = viewModel::signUp,
-        email = email,
-        password = password,
+        onSignInClick = { viewModel.dispatch(SignInAction.SignInClick) },
+        onSignUpClick = { viewModel.dispatch(SignInAction.RegistrationClick) },
+        updateLogin = { viewModel.dispatch(SignInAction.UpdateLogin(login = it)) },
+        updatePassword = { viewModel.dispatch(SignInAction.UpdatePassword(password = it)) },
         uiState = uiState,
+        email = state.email,
+        password = state.password,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun SignInScreen(
-    updateLogin: (String) -> Unit,
-    updatePassword: (String) -> Unit,
     onSignInClick: () -> Unit,
     onSignUpClick: () -> Unit,
+    updateLogin: (String) -> Unit,
+    updatePassword: (String) -> Unit,
     email: String,
     password: String,
     uiState: BaseUIState,

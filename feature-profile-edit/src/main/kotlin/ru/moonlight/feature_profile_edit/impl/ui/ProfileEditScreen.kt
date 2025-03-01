@@ -1,5 +1,6 @@
 package ru.moonlight.feature_profile_edit.impl.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,12 +17,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import ru.moonlight.api.component.ConfirmExitAlerDialogComponent
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
+import ru.moonlight.api.component.ConfirmExitAlertDialogComponent
 import ru.moonlight.api.component.TopAppBarComponent
 import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.toGenderOptions
 import ru.moonlight.feature_profile_edit.R
+import ru.moonlight.feature_profile_edit.impl.presentation.ProfileEditAction
+import ru.moonlight.feature_profile_edit.impl.presentation.ProfileEditSideEffect
 import ru.moonlight.feature_profile_edit.impl.presentation.ProfileEditViewModel
 import ru.moonlight.feature_profile_edit.impl.ui.component.DateOfBirthCalendar
 import ru.moonlight.feature_profile_edit.impl.ui.component.GenderField
@@ -37,24 +42,13 @@ internal fun ProfileEditRoute(
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<ProfileEditViewModel>()
+    val state by viewModel.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.initState(name, gender, birthDate)
+        viewModel.dispatch(ProfileEditAction.InitEditProfileState(name = name, gender = gender, birthDate = birthDate))
     }
 
     val uiState by viewModel.uiState.collectAsState(initial = BaseUIState.Loading)
-
-    var nameState by remember {
-        mutableStateOf(name)
-    }
-
-    var genderState by remember {
-        mutableStateOf(gender)
-    }
-
-    var birthDateState by remember {
-        mutableStateOf(birthDate)
-    }
 
     var saveButtonEnabled by remember {
         mutableStateOf(false)
@@ -62,43 +56,55 @@ internal fun ProfileEditRoute(
 
     var showExitDialog by remember { mutableStateOf(false) }
 
-    ProfileEditScreen(
-        modifier = modifier,
-        onBackClick = {
-            if (!saveButtonEnabled) onBackClick()
-            else showExitDialog = true
-        },
-        onSaveClick = {
-            viewModel.saveProfile(oldName = name, oldGender = gender, oldDate = birthDate )
-            onBackClick()
-        },
-        onNameChange = { newName ->
-            viewModel.updateName(newName)
-            nameState = newName
-            saveButtonEnabled = checkSaveButtonEnabled(name, newName, gender, genderState, birthDate, birthDateState)
-        },
-        onSexChange = { newGender ->
-            viewModel.updateGender(newGender)
-            genderState = newGender
-            saveButtonEnabled = checkSaveButtonEnabled(name, nameState, gender, newGender, birthDate, birthDateState)
-        },
-        onBirthDateChange = { newDate ->
-            viewModel.updateBirthDate(newDate)
-            birthDateState = newDate
-            saveButtonEnabled = checkSaveButtonEnabled(name, nameState, gender, genderState, birthDate, newDate)
-        },
-        onConfirmDialog = {
-            showExitDialog = false
-            onBackClick()
-        },
-        onDismissDialog = { showExitDialog = false },
-        showDialog = showExitDialog,
-        name = nameState,
-        gender = genderState,
-        birthDate = birthDateState,
-        uiState = uiState,
-        saveBtnEnabled = saveButtonEnabled,
-    )
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is ProfileEditSideEffect.NavigateBack -> onBackClick()
+        }
+    }
+
+    BackHandler {
+        if (!saveButtonEnabled) onBackClick()
+        else showExitDialog = true
+    }
+
+    // if gender != "" then state is initial
+    // also after init gender never equals ""
+    if (state.gender != "") {
+        ProfileEditScreen(
+            modifier = modifier,
+            onBackClick = {
+                if (!saveButtonEnabled) onBackClick()
+                else showExitDialog = true
+            },
+            onSaveClick = {
+                viewModel.dispatch(ProfileEditAction.SaveProfileChanges(oldName = name, oldGender = gender, oldDate = birthDate))
+            },
+            onNameChange = { newName ->
+                viewModel.dispatch(ProfileEditAction.UpdateName(newName))
+                saveButtonEnabled = checkSaveButtonEnabled(name, newName, gender, state.gender, birthDate, state.birthDate)
+            },
+            onSexChange = { newGender ->
+                viewModel.dispatch(ProfileEditAction.UpdateGender(newGender))
+                saveButtonEnabled = checkSaveButtonEnabled(name, state.name, gender, newGender, birthDate, state.birthDate)
+            },
+            onBirthDateChange = { newDate ->
+                viewModel.dispatch(ProfileEditAction.UpdateDateOfBirth(newDate))
+                saveButtonEnabled = checkSaveButtonEnabled(name, state.name, gender, state.gender, birthDate, newDate)
+            },
+            onConfirmDialog = {
+                showExitDialog = false
+                onBackClick()
+            },
+            onDismissDialog = { showExitDialog = false },
+            showDialog = showExitDialog,
+            name = state.name,
+            gender = state.gender,
+            birthDate = state.birthDate,
+            uiState = uiState,
+            saveBtnEnabled = saveButtonEnabled,
+        )
+    }
+
 }
 
 @Composable
@@ -121,7 +127,7 @@ private fun ProfileEditScreen(
     var isCalendarOpen by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        ConfirmExitAlerDialogComponent(
+        ConfirmExitAlertDialogComponent(
             onConfirmExit = onConfirmDialog,
             onDismiss = onDismissDialog,
             title = stringResource(R.string.exitWithoutSave),

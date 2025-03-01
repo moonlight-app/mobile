@@ -18,7 +18,8 @@ fun NavController.navigateToCatalog(
 
 fun NavGraphBuilder.catalogScreen(
     onBackClick: () -> Unit,
-    onProductClick: (Int) -> Unit,
+    onProductClick: (Long) -> Unit,
+    isUserAuthorized: Boolean,
 ) {
     composable<CatalogRoute> {
         val args = it.toRoute<CatalogRoute>()
@@ -26,6 +27,7 @@ fun NavGraphBuilder.catalogScreen(
             productType = args.category,
             onBackClick = onBackClick,
             onProductClick = onProductClick,
+            isUserAuthorized = isUserAuthorized,
         )
     }
 }

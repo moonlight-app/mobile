@@ -1,9 +1,12 @@
 package ru.moonlight.feature_catalog_sort.api
 
 import android.content.Context
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.moonlight.feature_catalog_sort.R
 
-enum class CatalogSortType {
+@Parcelize
+enum class CatalogSortType : Parcelable {
     POPULARITY,
     INCREASE_PRICE,
     DECREASE_PRICE;

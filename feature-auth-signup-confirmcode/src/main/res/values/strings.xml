@@ -4,4 +4,7 @@
     <string name="codeWasSendedToEmail">Письмо с кодом подтверждения \n было отправлено на почту</string>
     <string name="checkEmailAndPassCode">Проверьте почту и введите код ниже.</string>
     <string name="codeWasSendedOn">Код отправлен на</string>
+    <string name="resend_code">Отправить снова</string>
+    <string name="wait_time">Повторная отправка через</string>
+    <string name="sec">сек</string>
 </resources>

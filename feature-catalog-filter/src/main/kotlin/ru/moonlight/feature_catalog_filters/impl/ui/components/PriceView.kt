@@ -76,8 +76,8 @@ private fun MinPriceTextField(
 ) {
     TextFieldWidget(
         modifier = modifier,
-        value = minPrice,
-        onValueChange = onPriceChange,
+        initialText = minPrice,
+        onFocusLost = onPriceChange,
         placeholder = stringResource(R.string.from),
         keyboardType = KeyboardType.Number,
         isError = checkMinPrice(isKeyboardOpen, currentMaxPrice, defaultMinPrice, minPrice),
@@ -95,8 +95,8 @@ private fun MaxPriceTextField(
 ) {
     TextFieldWidget(
         modifier = modifier,
-        value = maxPrice,
-        onValueChange = onPriceChange,
+        initialText = maxPrice,
+        onFocusLost = onPriceChange,
         placeholder = stringResource(R.string.to),
         keyboardType = KeyboardType.Number,
         isError = checkMaxPrice(isKeyboardOpen, currentMinPrice, defaultMaxPrice, maxPrice),

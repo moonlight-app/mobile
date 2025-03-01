@@ -6,14 +6,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import ru.moonlight.impl.template.TextTemplate
 import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.impl.template.TextTemplate
 
 @Composable
 fun SecondDescriptionTextWidget(
     text: String,
     textColor: Color = MoonlightTheme.colors.text,
-    textStyle: TextStyle = MoonlightTheme.typography.description,
+    textStyle: TextStyle = MoonlightTheme.typography.secondDescription,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,

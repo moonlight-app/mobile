@@ -10,6 +10,7 @@ import ru.moonlight.ui.R
 fun TimerComponent(
     onTryAgainClick: () -> Unit,
     timerText: String,
+    isEnabled: Boolean,
     dontGetCodeText: String = stringResource(R.string.dontGetCode),
     tryAgainText: String = stringResource(R.string.tryAgain),
     modifier: Modifier = Modifier
@@ -19,6 +20,7 @@ fun TimerComponent(
         textPart1 = dontGetCodeText,
         textPart2 = tryAgainText,
         textPart3 = timerText,
+        isHighlightTextEnable = isEnabled,
         modifier = modifier,
     )
 }

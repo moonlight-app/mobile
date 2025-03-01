@@ -28,15 +28,16 @@ import ru.moonlight.api.theme.MoonlightTheme
 
 @Composable
 fun CheckBoxWidget(
-    checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit),
+    checked: Boolean,
+    modifier: Modifier = Modifier,
     checkBoxSize: Dp = 24.dp,
     checkBoxBorderWidth: Dp = 1.dp,
-    checkedColor: Color,
-    checkedBackgroundColor: Color,
-    checkmarkColor: Color,
-    uncheckedBackgroundColor: Color,
-    uncheckedColor: Color,
+    checkedBackgroundColor: Color = MoonlightTheme.colors.outlineHighlightComponent,
+    checkedColor: Color = Color.Transparent,
+    checkmarkColor: Color = MoonlightTheme.colors.text,
+    uncheckedBackgroundColor: Color = MoonlightTheme.colors.card,
+    uncheckedColor: Color = MoonlightTheme.colors.border,
     animationDuration: Int = 200
 ) {
     // Animate the background color based on the checked state
@@ -53,7 +54,7 @@ fun CheckBoxWidget(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clip(shape = MoonlightTheme.shapes.checkBoxShape)
             .size(checkBoxSize)
             .background(backgroundColor)

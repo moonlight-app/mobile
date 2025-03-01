@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="oldPassword">Старый пароль</string>
+    <string name="newPassword">Новый пароль</string>
+    <string name="confirmPassword">Подтверждение пароля</string>
+    <string name="changePassword">Сменить пароль</string>
+    <string name="oldPasswordNotEqualsToNewPassword">Пароли не совпадают</string>
+    <string name="save">Сохранить</string>
+    <string name="exitWithoutSave">Выйти без сохранения?</string>
+    <string name="areYouSureExitWithoutSaveChanges">Вы уверены, что хотите выйти без сохранения изменений?</string>
+    <string name="exit">Выйти</string>
+    <string name="cancel">Отмена</string>
+    <string name="passwordChangedSuccessfully">Пароль успешно изменен</string>
+</resources>

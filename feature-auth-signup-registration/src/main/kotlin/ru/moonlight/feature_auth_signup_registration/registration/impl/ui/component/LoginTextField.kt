@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.moonlight.api.widget.textfield.LoginTextFieldWidget
 import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.api.widget.textfield.LoginTextFieldWidget
 
 @Composable
 internal fun LoginTextField(
@@ -19,8 +19,8 @@ internal fun LoginTextField(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges),
-        onValueChange = onLoginChange,
-        value = login,
+        onFocusLost = onLoginChange,
+        initialText = login,
         enable = enable,
         isError = isError,
     )

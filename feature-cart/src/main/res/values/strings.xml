@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cart">Корзина</string>
+    <string name="order_completed">Заказ оформлен!</string>
+    <string name="thanks_for_order">Спасибо за ваш заказ!\nСледите за статусом заказа\nв разделе \'Заказы\' или посмотрите\nдругие товары в каталоге.</string>
+    <string name="authorize">Авторизация</string>
+    <string name="to_see_cart_sign_in">Для просмотра корзины\nвойдите в аккаунт</string>
+    <string name="sign_in_account">Войти в аккаунт</string>
+    <string name="visit_catalog">Перейти в каталог</string>
+</resources>

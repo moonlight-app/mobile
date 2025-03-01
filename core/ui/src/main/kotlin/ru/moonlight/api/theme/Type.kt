@@ -20,14 +20,14 @@ val titleTextStyle = TextStyle(
     fontFamily = golosFont,
     fontWeight = FontWeight.SemiBold,
     fontSize = 30.sp,
-    lineHeight = 20.sp,
+    lineHeight = 30.sp,
 )
 
 val secondTitleTextStyle = TextStyle(
     fontFamily = golosFont,
     fontWeight = FontWeight.Normal,
     fontSize = 30.sp,
-    lineHeight = 20.sp,
+    lineHeight = 30.sp,
 )
 
 val subTitleTextStyle = TextStyle(
@@ -68,6 +68,6 @@ val descriptionTextStyle = TextStyle(
 val secondDescriptionTextStyle = TextStyle(
     fontFamily = golosFont,
     fontWeight = FontWeight.Normal,
-    fontSize = 14.sp,
+    fontSize = 10.sp,
     lineHeight = 16.8.sp,
 )

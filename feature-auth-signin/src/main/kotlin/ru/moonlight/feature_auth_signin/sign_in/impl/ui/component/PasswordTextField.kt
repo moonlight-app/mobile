@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ru.moonlight.api.theme.MoonlightTheme
-import ru.moonlight.api.widget.textfield.PasswordTextFieldWithSupportingTextComponent
+import ru.moonlight.api.widget.textfield.PasswordTextFieldWithSupportingTextWidget
 
 @Composable
 internal fun PasswordTextField(
@@ -15,11 +15,11 @@ internal fun PasswordTextField(
     errorText: String,
     modifier: Modifier = Modifier,
 ) {
-    PasswordTextFieldWithSupportingTextComponent(
+    PasswordTextFieldWithSupportingTextWidget(
         modifier = modifier
             .padding(horizontal = MoonlightTheme.dimens.paddingFromEdges),
-        onValueChange = onPasswordChange,
-        value = password,
+        onFocusLost = onPasswordChange,
+        initialValue = password,
         enable = enable,
         isError = isError,
         errorText = errorText,
