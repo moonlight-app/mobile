@@ -63,7 +63,7 @@ fun CartRoute(
         viewModel.dispatch(CartAction.ClearUiState())
     }
 
-    if (cartItems.itemCount == 0) {
+    if (cartItems.itemCount == 0 && isUserAuthorize) {
         LaunchedEffect(key1 = true) {
             viewModel.dispatch(CartAction.LoadCart())
         }

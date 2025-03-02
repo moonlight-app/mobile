@@ -36,7 +36,7 @@ internal class CartViewModel @Inject constructor(
     private val repository: CartRepository,
 ): ViewModel() {
 
-    private var _uiState = MutableStateFlow<BaseUIState>(BaseUIState.Loading)
+    private var _uiState = MutableStateFlow<BaseUIState>(BaseUIState.Success)
     val uiState = _uiState.asStateFlow()
 
     private var _cartUIState = MutableStateFlow<CartUIState>(CartUIState.ChooseItems())
