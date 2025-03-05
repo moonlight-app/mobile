@@ -15,12 +15,12 @@ import ru.moonlight.common.di.Dispatcher
 import ru.moonlight.common.di.MoonlightDispatchers
 import ru.moonlight.data.mapper.mapToDomain
 import ru.moonlight.data.mapper.toDomainModel
-import ru.moonlight.data.paging.source.CatalogPagingSource
+import ru.moonlight.data.paging.mediator.ProductMediator
 import ru.moonlight.database.MoonlightDatabase
+import ru.moonlight.database.catalog.ProductEntity
 import ru.moonlight.domain_model.catalog.CatalogProductDomainModel
 import ru.moonlight.domain_model.catalog.ProductDetailsDomainModel
 import ru.moonlight.domain_model.catalog.ProductMetadataDomainModel
-import ru.moonlight.network.model.catalog.Product
 import ru.moonlight.network.service.CatalogService
 import javax.inject.Inject
 
@@ -62,41 +62,6 @@ internal class CatalogRepositoryImpl @Inject constructor(
         }
     }
 
-//    @OptIn(ExperimentalPagingApi::class)
-//    override fun getItemsByCategoryPaging(
-//        category: String,
-//        sortBy: String?,
-//        minPrice: Float?,
-//        maxPrice: Float?,
-//        sizes: List<Float>?,
-//        audiences: Int?,
-//        materials: Int?,
-//        treasures: Int?,
-//    ): Flow<PagingData<CatalogProductDomainModel>> {
-//        return Pager(
-//            config = PagingConfig(pageSize = 20),
-//            remoteMediator = ProductMediator(
-//                service = service,
-//                database = database,
-//                category = category,
-//                sortBy = sortBy,
-//                minPrice = minPrice,
-//                maxPrice = maxPrice,
-//                sizes = sizes,
-//                audiences = audiences,
-//                materials = materials,
-//                treasures = treasures,
-//            ),
-//            pagingSourceFactory = {
-//                database.productDao.productPagingSource()
-//            }
-//        ).flow
-//            .flowOn(dispatcherIO)
-//            .map { data: PagingData<ProductEntity> ->
-//                data.map { product -> product.mapToDomain() }
-//            }
-//    }
-
     @OptIn(ExperimentalPagingApi::class)
     override fun getItemsByCategoryPaging(
         category: String,
@@ -110,22 +75,24 @@ internal class CatalogRepositoryImpl @Inject constructor(
     ): Flow<PagingData<CatalogProductDomainModel>> {
         return Pager(
             config = PagingConfig(pageSize = 20),
+            remoteMediator = ProductMediator(
+                service = service,
+                database = database,
+                category = category,
+                sortBy = sortBy,
+                minPrice = minPrice,
+                maxPrice = maxPrice,
+                sizes = sizes,
+                audiences = audiences,
+                materials = materials,
+                treasures = treasures,
+            ),
             pagingSourceFactory = {
-                CatalogPagingSource(
-                    service = service,
-                    productType = category,
-                    sortBy = sortBy,
-                    minPrice = minPrice,
-                    maxPrice = maxPrice,
-                    sizes = sizes,
-                    audiences = audiences,
-                    materials = materials,
-                    treasures = treasures,
-                )
+                database.productDao.productPagingSource()
             }
         ).flow
             .flowOn(dispatcherIO)
-            .map { data: PagingData<Product> ->
+            .map { data: PagingData<ProductEntity> ->
                 data.map { product -> product.mapToDomain() }
             }
     }
