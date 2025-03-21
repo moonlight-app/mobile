@@ -1,6 +1,10 @@
 package ru.moonlight.common
 
-enum class GenderOption(val displayName: String) {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class GenderOption(val displayName: String): Parcelable {
     MALE("Мужской"),
     FEMALE("Женский");
 }

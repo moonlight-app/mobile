@@ -1,5 +1,7 @@
 package ru.moonlight.feature_auth_signup_registration.registration.api.navigation.presentation
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,8 +15,26 @@ import javax.inject.Inject
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-): BaseViewModel<RegistrationState, RegistrationSideEffect>(RegistrationState()) {
+    private val savedStateHandle: SavedStateHandle,
+): BaseViewModel<RegistrationState, RegistrationSideEffect>(restoreState(savedStateHandle)) {
     val uiState = baseUiState
+
+    init {
+        Log.e("TAG", "RegistrationViewModel cоздался", )
+    }
+
+    private companion object {
+        fun restoreState(savedStateHandle: SavedStateHandle): RegistrationState {
+            return RegistrationState(
+                name = savedStateHandle["name"] ?: "",
+                email = savedStateHandle["email"] ?: "",
+                birthDate = savedStateHandle["birthDate"] ?: "",
+                sex = savedStateHandle["sex"],
+                password = savedStateHandle["password"] ?: "",
+                code = savedStateHandle["code"] ?: ""
+            )
+        }
+    }
 
     fun dispatch(action: RegistrationAction) {
         when (action) {
@@ -61,7 +81,7 @@ class RegistrationViewModel @Inject constructor(
                 password = state.password,
                 name = state.name,
                 birthDate = state.birthDate,
-                sex = state.sex?.name ?: throw IllegalStateException("gender is null"),
+                sex = state.sex?.name ?: throw IllegalStateException("null but gender was expected"),
             )
             when (result) {
                 is ApiResponse.Error -> updateUiState(BaseUIState.Error(msg = result.msg))
@@ -77,6 +97,7 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             if (isErrorUiState) updateUiState(BaseUIState.Idle)
             reduce { state.copy(name = name) }
+            savedStateHandle["name"] = name
         }
     }
 
@@ -84,6 +105,7 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             if (isErrorUiState) updateUiState(BaseUIState.Idle)
             reduce { state.copy(birthDate = birthDate) }
+            savedStateHandle["birthDate"] = birthDate
         }
     }
 
@@ -91,6 +113,7 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             if (isErrorUiState) updateUiState(BaseUIState.Idle)
             reduce { state.copy(sex = sex) }
+            savedStateHandle["sex"] = sex
         }
     }
 
@@ -98,6 +121,7 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             if (isErrorUiState) updateUiState(BaseUIState.Idle)
             reduce { state.copy(email = email) }
+            savedStateHandle["email"] = email
         }
     }
 
@@ -105,15 +129,22 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             if (isErrorUiState) updateUiState(BaseUIState.Idle)
             reduce { state.copy(password = password) }
+            savedStateHandle["password"] = password
         }
     }
 
     private fun updateCode(code: String) = intent {
         viewModelScope.launch {
             reduce { state.copy(code = code) }
+            savedStateHandle["code"] = code
         }
     }
 
     private val isErrorUiState get() = uiState.value is BaseUIState.Error
+
+    override fun onCleared() {
+        Log.e("TAG", "onCleared: viewModel умерла", )
+        super.onCleared()
+    }
 }
 

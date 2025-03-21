@@ -32,6 +32,7 @@ import ru.moonlight.api.component.BottomNavigationComponent
 import ru.moonlight.api.component.NavigationBarItemComponent
 import ru.moonlight.api.component.SnackbarComponent
 import ru.moonlight.api.theme.MoonlightTheme
+import ru.moonlight.api.utils.keyboard.keyboardAsState
 import ru.moonlight.feature_catalog.api.navigation.CatalogRoute
 import ru.moonlight.mobile.R
 import ru.moonlight.mobile.navigation.MoonlightNavHost
@@ -46,6 +47,7 @@ fun MoonlightScreen(
     val currentDestination = appState.currentDestination
     val snackbarHostState = remember { SnackbarHostState() }
     val isOffline by appState.isOffline.collectAsStateWithLifecycle()
+    val keyboardVisible by keyboardAsState()
 
     // If user is not connected to the internet show a snack bar to inform them
     LaunchedEffect(isOffline) {
@@ -66,30 +68,32 @@ fun MoonlightScreen(
             containerColor = MoonlightTheme.colors.card,
             contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Top),
             bottomBar = {
-                AnimatedVisibility(
-                    visible = appState.isCurrentTopLevelDestination || appState.isCurrentPreTopLevelDestination,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically(),
-                ) {
-                    BottomNavigationComponent {
-                        appState.topLevelDestinations.forEach { destination ->
-                            val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
-                            NavigationBarItemComponent(
-                                selected = selected,
-                                onClick = {
-                                    if (destination == TopLevelDestination.CatalogCategories && currentDestination!!.hasRoute<CatalogRoute>()) {
-                                        appState.navController.popBackStack()
-                                    } else
-                                        appState.navigateToTopLevelDestination(destination)
-                                },
-                                icon = {
-                                    BadgedBoxComponent(
-                                        badgeCount = destination.badgeCount,
-                                        selected = selected,
-                                        icon = destination.icon.invoke(),
-                                    )
-                                }
-                            )
+                if (!keyboardVisible) {
+                    AnimatedVisibility(
+                        visible = appState.isCurrentTopLevelDestination || appState.isCurrentPreTopLevelDestination,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically(),
+                    ) {
+                        BottomNavigationComponent {
+                            appState.topLevelDestinations.forEach { destination ->
+                                val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
+                                NavigationBarItemComponent(
+                                    selected = selected,
+                                    onClick = {
+                                        if (destination == TopLevelDestination.CatalogCategories && currentDestination!!.hasRoute<CatalogRoute>()) {
+                                            appState.navController.popBackStack()
+                                        } else
+                                            appState.navigateToTopLevelDestination(destination)
+                                    },
+                                    icon = {
+                                        BadgedBoxComponent(
+                                            badgeCount = destination.badgeCount,
+                                            selected = selected,
+                                            icon = destination.icon.invoke(),
+                                        )
+                                    }
+                                )
+                            }
                         }
                     }
                 }

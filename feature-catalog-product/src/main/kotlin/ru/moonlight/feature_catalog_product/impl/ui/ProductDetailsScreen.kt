@@ -1,6 +1,7 @@
 package ru.moonlight.feature_catalog_product.impl.ui
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -105,9 +106,7 @@ internal fun ProductDetailsRoute(
                 onSizeClick = { viewModel.dispatch(ProductDetailsAction.UpdateChosenSize(it)) },
                 onFavouritesClick = { viewModel.dispatch(ProductDetailsAction.ChangeFavouritesStatus()) },
                 onCartClick = { viewModel.dispatch(ProductDetailsAction.AddToCart()) },
-                goToCartClick = {
-                    viewModel.dispatch(ProductDetailsAction.GoToCartClick())
-                },
+                goToCartClick = { viewModel.dispatch(ProductDetailsAction.GoToCartClick()) },
                 onAuthorizeClick = onAuthClick,
                 isUserAuthorized = isUserAuthorized,
                 imageUrl = state.imageUrl,
@@ -157,6 +156,7 @@ private fun ProductDetailsScreen(
     val scrollState = rememberScrollState()
     var favouritesBtnVisible by remember { mutableStateOf(true) }
     val favouritesBtnWidth by animateFloatAsState(targetValue = if (favouritesBtnVisible) 0.5f else 0f, label = "favouritesSizeAnimation")
+    val favouritesBtnHeight by animateDpAsState(targetValue = if (favouritesBtnVisible) MoonlightTheme.dimens.buttonHeight else 0.dp, label = "favouritesSizeAnimation")
     val favouritesBtnAlpha by animateFloatAsState(targetValue = if (favouritesBtnVisible) 1f else 0f, label = "favouritesAlphaAnimation")
 
 
@@ -257,7 +257,8 @@ private fun ProductDetailsScreen(
                         modifier = Modifier
                             .animateContentSize(animationSpec = tween(250))
                             .alpha(favouritesBtnAlpha)
-                            .fillMaxWidth(favouritesBtnWidth),
+                            .fillMaxWidth(favouritesBtnWidth)
+                            .height(favouritesBtnHeight),
                         onFavouritesClick = onFavouritesClick,
                         isFavourite = isFavourite,
                     )

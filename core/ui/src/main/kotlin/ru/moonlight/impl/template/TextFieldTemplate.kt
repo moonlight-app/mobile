@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -44,7 +45,7 @@ internal fun TextFieldTemplate(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
-    var text by rememberSaveable { mutableStateOf(initialText) }
+    var text by remember { mutableStateOf(initialText) }
     var isFocused by rememberSaveable { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -59,6 +60,68 @@ internal fun TextFieldTemplate(
             },
         value = text,
         onValueChange = { text = it },
+        keyboardOptions = keyboardOptions,
+        textStyle = textStyle,
+        enabled = enable,
+        isError = isError,
+        shape = MoonlightTheme.shapes.textFieldShape,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = focusedTextColor,
+            unfocusedTextColor = unfocusedTextColor,
+            focusedContainerColor = focusedContainerColor,
+            focusedLabelColor = focusedLabelColor,
+            unfocusedLabelColor = unfocusedLabelColor,
+            focusedBorderColor = focusedBorderColor,
+            unfocusedBorderColor = unfocusedBorderColor,
+            errorBorderColor = errorBorderColor,
+            errorTextColor = errorTextColor,
+            disabledBorderColor = disabledBorderColor,
+            disabledTextColor = disabledTextColor,
+        ),
+        singleLine = singleLine,
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = textStyle,
+            )
+        },
+        visualTransformation = visualTransformation,
+        trailingIcon = trailingIcon,
+    )
+}
+
+@Composable
+internal fun TextFieldTemplate2(
+    onFocusLost: (String) -> Unit,
+    onKeyboardDismiss: () -> Unit,
+    value: String,
+    modifier: Modifier = Modifier,
+    placeholder: String,
+    focusedTextColor: Color,
+    unfocusedTextColor: Color,
+    focusedContainerColor: Color,
+    focusedLabelColor: Color,
+    unfocusedLabelColor: Color,
+    focusedBorderColor: Color,
+    unfocusedBorderColor: Color,
+    errorBorderColor: Color,
+    errorTextColor: Color,
+    disabledBorderColor: Color,
+    disabledTextColor: Color,
+    singleLine: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    textStyle: TextStyle = MoonlightTheme.typography.textField,
+    enable: Boolean = true,
+    isError: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    trailingIcon: @Composable (() -> Unit)? = null,
+) {
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .clearFocusOnKeyboardDismiss(onKeyboardDismiss = onKeyboardDismiss),
+        value = value,
+        onValueChange = onFocusLost,
         keyboardOptions = keyboardOptions,
         textStyle = textStyle,
         enabled = enable,

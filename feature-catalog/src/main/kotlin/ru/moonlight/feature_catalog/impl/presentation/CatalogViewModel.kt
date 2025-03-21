@@ -98,9 +98,9 @@ internal class CatalogViewModel @Inject constructor(
                     }
                     is ApiResponse.Success -> {
                         val newFilter = CatalogFilter(
-                            defaultSize = metadata.data!!.popularSizes,
-                            defaultMinPrice = metadata.data?.minPrice.toString(),
-                            defaultMaxPrice = metadata.data?.maxPrice.toString(),
+                            defaultSize = metadata.data?.popularSizes ?: emptyList(),
+                            defaultMinPrice = metadata.data?.minPrice?.toString() ?: "",
+                            defaultMaxPrice = metadata.data?.maxPrice?.toString() ?: "" ,
                         )
                         reduce {
                             state.copy(

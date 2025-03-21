@@ -10,4 +10,5 @@
     <string name="inputNewPassword">Введите новый пароль</string>
     <string name="save">Сохранить</string>
     <string name="cancel">Отмена</string>
+    <string name="youDontGotAnyOrders">У вас пока что нет заказов</string>
 </resources>

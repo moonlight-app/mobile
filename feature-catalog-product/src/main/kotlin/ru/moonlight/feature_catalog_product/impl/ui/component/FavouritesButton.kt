@@ -16,7 +16,8 @@ fun FavouritesButton(
     OutlinedButtonWidget(
         modifier = modifier,
         onClick = onFavouritesClick,
-        text = if (isFavourite) "Из избранного" else stringResource(R.string.to_favourites),
+        text = if (isFavourite) stringResource(R.string.deleteFromFavorites) else stringResource(R.string.to_favourites),
+        textMaxLines = 2,
         contentColor = if (isFavourite) MoonlightTheme.colors.highlightComponent
                          else MoonlightTheme.colors.outlineHighlightComponent,
         borderColor = if (isFavourite) MoonlightTheme.colors.highlightComponent

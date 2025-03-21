@@ -35,5 +35,6 @@
     <string name="go_to_cart">Перейти в корзину</string>
     <string name="toAddProductsInCartAuthrorize">Чтобы добавить товар в корзину,\nнеобохдимо пройти авторизацию.</string>
     <string name="signIn">Войти в аккаунт</string>
+    <string name="deleteFromFavorites">Из избранного</string>
 
 </resources>

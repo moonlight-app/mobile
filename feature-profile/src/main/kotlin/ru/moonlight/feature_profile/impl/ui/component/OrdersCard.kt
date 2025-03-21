@@ -85,9 +85,7 @@ internal fun OrdersCard(
                     )
                 }
                 isPagerEmpty(orders.itemCount) -> {
-                    EmptyOrderPager(
-                        modifier = modifier,
-                    )
+                    EmptyOrderPager()
                 }
                 else -> {
                     FilledOrderPager(list = orders)
@@ -184,10 +182,13 @@ private fun EmptyOrderPager(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical),
+            .padding(
+                vertical = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical,
+                horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal,
+            ),
     ) {
         ButtonTextWidget(
-            text = "У вас пока что нет заказов"
+            text = stringResource(R.string.youDontGotAnyOrders)
         )
     }
 }
