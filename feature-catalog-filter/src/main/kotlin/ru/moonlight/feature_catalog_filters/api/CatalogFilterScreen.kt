@@ -18,17 +18,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.feature_catalog_filters.impl.ui.components.AudienceView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.ButtonsView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.MaterialsView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.PriceView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.ProductSizeView
 import ru.moonlight.feature_catalog_filters.impl.ui.components.TreasureInsertionView
-import ru.moonlight.api.theme.MoonlightTheme
 
 @Composable
 fun CatalogFiltersScreen(
@@ -124,12 +122,12 @@ fun CatalogFiltersScreen(
         contentAlignment = Alignment.BottomCenter
     ) {
         ButtonsView(
-            modifier = Modifier
-                .onGloballyPositioned { layoutCoordinates: LayoutCoordinates ->
-                    with(density) {
-                        heightForScroll = layoutCoordinates.size.height.toDp()
-                    }
-                },
+            modifier = Modifier,
+//                .onGloballyPositioned { layoutCoordinates: LayoutCoordinates ->
+//                    with(density) {
+//                        heightForScroll = layoutCoordinates.size.height.toDp()
+//                    }
+//                },
             onClearClick = {
                 minPrice = filters.defaultMinPrice
                 maxPrice = filters.defaultMaxPrice

@@ -11,9 +11,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import ru.moonlight.api.widget.textfield.TextFieldWidget
 import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.api.utils.keyboard.keyboardAsState
+import ru.moonlight.api.widget.textfield.TextFieldWidgetWithoutInsideState
 import ru.moonlight.feature_catalog_filters.R
 
 @Composable
@@ -74,7 +74,7 @@ private fun MinPriceTextField(
     defaultMinPrice: String,
     modifier: Modifier = Modifier,
 ) {
-    TextFieldWidget(
+    TextFieldWidgetWithoutInsideState(
         modifier = modifier,
         initialText = minPrice,
         onFocusLost = onPriceChange,
@@ -93,7 +93,7 @@ private fun MaxPriceTextField(
     defaultMaxPrice: String,
     modifier: Modifier = Modifier,
 ) {
-    TextFieldWidget(
+    TextFieldWidgetWithoutInsideState(
         modifier = modifier,
         initialText = maxPrice,
         onFocusLost = onPriceChange,

@@ -23,14 +23,14 @@ internal fun ButtonsView(
     modifier: Modifier = Modifier
 ) {
     Box(
-        Modifier
+        modifier
             .fillMaxWidth()
             .background(color = MoonlightTheme.colors.background.copy(alpha = 0.7f))
             .padding(vertical = MoonlightTheme.dimens.paddingBetweenComponentsSmallVertical),
         contentAlignment = Alignment.Center,
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MoonlightTheme.dimens.paddingBetweenComponentsHorizontal),
             horizontalArrangement = Arrangement.spacedBy(MoonlightTheme.dimens.paddingBetweenComponentsHorizontal)
