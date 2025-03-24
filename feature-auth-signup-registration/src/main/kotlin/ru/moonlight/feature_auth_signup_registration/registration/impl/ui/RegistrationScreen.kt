@@ -68,18 +68,18 @@ internal fun RegistrationRoute(
 
 @Composable
 private fun RegistrationScreen(
-    uiState: BaseUIState,
-    name: String,
-    sex: GenderOption?,
-    birthDate: String,
-    email: String,
-    password: String,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onSexChange: (GenderOption) -> Unit,
     onBirthDateChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onRequestCodeClick: () -> Unit,
+    uiState: BaseUIState,
+    name: String,
+    sex: GenderOption?,
+    birthDate: String,
+    email: String,
+    password: String,
     modifier: Modifier = Modifier,
 ) {
     var isCalendarOpen by remember { mutableStateOf(false) }
@@ -141,7 +141,7 @@ private fun RegistrationScreen(
         CreateAccountButton(
             modifier = Modifier.padding(top = 8.dp),
             onCreateClick = onRequestCodeClick,
-            enable = uiState !is BaseUIState.Loading,
+            enable = uiState !is BaseUIState.Loading && uiState !is BaseUIState.Error,
             isLoading = uiState is BaseUIState.Loading,
         )
     }

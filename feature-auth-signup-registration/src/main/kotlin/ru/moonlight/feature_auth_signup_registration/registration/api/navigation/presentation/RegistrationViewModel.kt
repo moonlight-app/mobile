@@ -10,6 +10,10 @@ import ru.moonlight.common.GenderOption
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
 import ru.moonlight.data.repository.AuthRepository
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -104,8 +108,33 @@ class RegistrationViewModel @Inject constructor(
     private fun updateBirthDate(birthDate: String) = intent {
         viewModelScope.launch {
             if (isErrorUiState) updateUiState(BaseUIState.Idle)
-            reduce { state.copy(birthDate = birthDate) }
-            savedStateHandle["birthDate"] = birthDate
+
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+            try {
+                val parsedDate = LocalDate.parse(birthDate, formatter)
+                val today = LocalDate.now()
+
+                // Проверка на будущую дату
+                if (parsedDate.isAfter(today)) {
+                    updateUiState(BaseUIState.Error("Дата рождения не может быть в будущем"))
+                    return@launch
+                }
+
+                // Расчет возраста с учетом полных лет
+                val period = Period.between(parsedDate, today)
+                if (period.years < 18) {
+                    updateUiState(BaseUIState.Error("Возраст должен быть больше 18 лет"))
+                    return@launch
+                }
+
+                // Успешный случай
+                reduce { state.copy(birthDate = birthDate) }
+                savedStateHandle["birthDate"] = birthDate
+
+            } catch (e: DateTimeParseException) {
+                updateUiState(BaseUIState.Error("Неверный формат даты. Используйте ДД.ММ.ГГГГ"))
+            }
         }
     }
 
@@ -128,6 +157,7 @@ class RegistrationViewModel @Inject constructor(
     private fun updatePassword(password: String) = intent {
         viewModelScope.launch {
             if (isErrorUiState) updateUiState(BaseUIState.Idle)
+            if (password.length < 8) updateUiState(BaseUIState.Error("Пароль должен быть не менее 8 символов"))
             reduce { state.copy(password = password) }
             savedStateHandle["password"] = password
         }
