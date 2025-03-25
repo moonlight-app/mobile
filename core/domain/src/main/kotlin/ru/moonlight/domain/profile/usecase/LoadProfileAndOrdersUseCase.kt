@@ -2,7 +2,7 @@ package ru.moonlight.domain.profile.usecase
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import ru.moonlight.data.repository.ProfileRepository
+import ru.moonlight.data.api.repository.ProfileRepository
 import ru.moonlight.domain.order.interactor.GetOrdersInteractor
 import javax.inject.Inject
 

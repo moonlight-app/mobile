@@ -1,7 +1,7 @@
 package ru.moonlight.domain.catalog.interactor
 
 import ru.moonlight.common.ApiResponse
-import ru.moonlight.data.repository.CatalogRepository
+import ru.moonlight.data.api.repository.CatalogRepository
 import ru.moonlight.domain.catalog.model.MaterialDomain
 import ru.moonlight.domain.catalog.model.TreasureDomain
 import ru.moonlight.domain.util.toEnum

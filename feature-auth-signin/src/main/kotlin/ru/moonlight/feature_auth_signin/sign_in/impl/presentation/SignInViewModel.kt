@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
-import ru.moonlight.data.repository.AuthRepository
+import ru.moonlight.data.api.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel

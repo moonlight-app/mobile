@@ -1,6 +1,6 @@
 package ru.moonlight.domain.profile.interactor
 
-import ru.moonlight.data.repository.ProfileRepository
+import ru.moonlight.data.api.repository.ProfileRepository
 import javax.inject.Inject
 
 class ChangePasswordInteractor @Inject constructor(

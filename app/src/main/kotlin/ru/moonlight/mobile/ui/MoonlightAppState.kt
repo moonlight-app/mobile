@@ -25,7 +25,7 @@ import ru.moonlight.mobile.navigation.graph.navigateToAuthGraph
 import ru.moonlight.mobile.navigation.graph.navigateToCartGraph
 import ru.moonlight.mobile.navigation.graph.navigateToCatalogGraph
 import ru.moonlight.mobile.navigation.graph.navigateToProfileGraph
-import ru.moonlight.network.utils.NetworkMonitor
+import ru.moonlight.network.impl.utils.NetworkMonitor
 
 @Composable
 fun rememberMoonlightAppState(

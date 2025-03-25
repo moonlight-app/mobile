@@ -1,6 +1,6 @@
 package ru.moonlight.domain.catalog.interactor
 
-import ru.moonlight.data.repository.CatalogRepository
+import ru.moonlight.data.api.repository.CatalogRepository
 import javax.inject.Inject
 
 class GetProductMetadataInteractor @Inject constructor(

@@ -9,7 +9,7 @@ import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.GenderOption
 import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
-import ru.moonlight.data.repository.AuthRepository
+import ru.moonlight.data.api.repository.AuthRepository
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter

@@ -1,8 +1,8 @@
 package ru.moonlight.domain.order.usecase
 
 import ru.moonlight.common.ApiResponse
-import ru.moonlight.data.repository.CartRepository
-import ru.moonlight.data.repository.OrderRepository
+import ru.moonlight.data.api.repository.CartRepository
+import ru.moonlight.data.api.repository.OrderRepository
 import javax.inject.Inject
 
 class CreateOrderUseCase @Inject constructor(

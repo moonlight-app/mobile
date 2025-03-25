@@ -1,6 +1,6 @@
 package ru.moonlight.domain.profile.interactor
 
-import ru.moonlight.data.repository.AuthRepository
+import ru.moonlight.data.api.repository.AuthRepository
 import javax.inject.Inject
 
 class LogoutInteractor @Inject constructor(

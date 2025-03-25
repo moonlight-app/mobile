@@ -1,6 +1,6 @@
 package ru.moonlight.domain.cart.interactor
 
-import ru.moonlight.data.repository.CartRepository
+import ru.moonlight.data.api.repository.CartRepository
 import javax.inject.Inject
 
 class IncreaseCountOfProductsInteractor @Inject constructor(

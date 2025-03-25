@@ -1,6 +1,6 @@
 package ru.moonlight.domain.favorite.interactor
 
-import ru.moonlight.data.repository.FavoritesRepository
+import ru.moonlight.data.api.repository.FavoritesRepository
 import javax.inject.Inject
 
 class GetFavoritesInteractor @Inject constructor(

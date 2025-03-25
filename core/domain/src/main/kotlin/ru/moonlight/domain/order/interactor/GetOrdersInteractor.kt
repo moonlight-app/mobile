@@ -1,6 +1,6 @@
 package ru.moonlight.domain.order.interactor
 
-import ru.moonlight.data.repository.OrderRepository
+import ru.moonlight.data.api.repository.OrderRepository
 import javax.inject.Inject
 
 class GetOrdersInteractor @Inject constructor(

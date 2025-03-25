@@ -23,7 +23,7 @@ import ru.moonlight.common.base.BaseUIState
 import ru.moonlight.common.base.BaseViewModel
 import ru.moonlight.common.di.CoroutineScopeAnnotation
 import ru.moonlight.common.di.MoonlightScope
-import ru.moonlight.data.repository.CatalogRepository
+import ru.moonlight.data.api.repository.CatalogRepository
 import ru.moonlight.domain.catalog.interactor.GetCatalogItemsPagingInterceptor
 import ru.moonlight.domain.catalog.interactor.GetCountOfProductsInteractor
 import ru.moonlight.domain.catalog.interactor.GetProductMetadataInteractor

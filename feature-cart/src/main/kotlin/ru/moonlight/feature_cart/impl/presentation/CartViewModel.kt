@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import ru.moonlight.api.component.CartFeedModel
 import ru.moonlight.common.ApiResponse
 import ru.moonlight.common.base.BaseUIState
-import ru.moonlight.data.repository.CartRepository
+import ru.moonlight.data.api.repository.CartRepository
 import ru.moonlight.domain.cart.interactor.ChangeChoseStatusInteractor
 import ru.moonlight.domain.cart.interactor.DecreaseCountOfProductsInteractor
 import ru.moonlight.domain.cart.interactor.DeleteProductFromCartInteractor

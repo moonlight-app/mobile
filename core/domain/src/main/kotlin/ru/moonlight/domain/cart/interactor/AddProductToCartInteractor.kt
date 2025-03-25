@@ -1,7 +1,7 @@
 package ru.moonlight.domain.cart.interactor
 
 import ru.moonlight.common.ApiResponse
-import ru.moonlight.data.repository.CartRepository
+import ru.moonlight.data.api.repository.CartRepository
 import javax.inject.Inject
 
 class AddProductToCartInteractor @Inject constructor(

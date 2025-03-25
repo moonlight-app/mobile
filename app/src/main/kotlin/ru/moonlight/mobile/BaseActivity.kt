@@ -13,11 +13,11 @@ import kotlinx.coroutines.launch
 import ru.moonlight.api.theme.MoonlightTheme
 import ru.moonlight.common.di.CoroutineScopeAnnotation
 import ru.moonlight.common.di.MoonlightScope
-import ru.moonlight.data.repository.AuthRepository
-import ru.moonlight.data.repository.CatalogRepository
+import ru.moonlight.data.api.repository.AuthRepository
+import ru.moonlight.data.api.repository.CatalogRepository
 import ru.moonlight.mobile.ui.MoonlightScreen
 import ru.moonlight.mobile.ui.rememberMoonlightAppState
-import ru.moonlight.network.utils.NetworkMonitor
+import ru.moonlight.network.impl.utils.NetworkMonitor
 import javax.inject.Inject
 
 @AndroidEntryPoint
