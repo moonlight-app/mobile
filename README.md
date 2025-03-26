@@ -3,80 +3,14 @@ Android application for jewelry store Moonlight.
 
 # Overview
 ### Image
-<div align="center" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Sign in</span>
-    <img src="/assets/img/sign_in.png" width="250" alt="Sign in"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Sign up</span>
-    <img src="/assets/img/registration.png" width="250" alt="Sign up"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Profile</span>
-    <img src="/assets/img/profile.png" width="250" alt="Profile"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Favorites</span>
-    <img src="/assets/img/favorites.png" width="250" alt="Favorites"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Catalog categories</span>
-    <img src="/assets/img/catalog_categories.png" width="250" alt="Catalog categories"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Catalog</span>
-    <img src="/assets/img/catalog.png" width="250" alt="Catalog"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Filters</span>
-    <img src="/assets/img/filters.png" width="250" alt="Filters"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Sort</span>
-    <img src="/assets/img/sort.png" width="250" alt="Sort"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Product details</span>
-    <img src="/assets/img/product_details.png" width="250" alt="Product details"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Cart</span>
-    <img src="/assets/img/cart.png" width="250" alt="Cart"/>
-  </div>
-</div>
+|                 **Sign in**<br>![Sign in](/assets/img/sign_in.png)                  | **Sign up**<br>![Sign up](/assets/img/registration.png) | **Profile**<br>![Profile](/assets/img/profile.png) | **Favorites**<br>![Favorites](/assets/img/favorites.png) |                 **Cart**<br>![Cart](/assets/img/cart.png)                  |  
+|:-----------------------------------------------------------------------------------:|:-------------------------------------------------------:|:--------------------------------------------------:|:--------------------------------------------------------:|:--------------------------------------------------------------------------:|
+| **Catalog categories**<br>![Catalog categories](/assets/img/catalog_categories.png) |   **Catalog**<br>![Catalog](/assets/img/catalog.png)    | **Filters**<br>![Filters](/assets/img/filters.png) |        **Sort**<br>![Sort](/assets/img/sort.png)         | **Product details**<br>![Product details](/assets/img/product_details.png) |
 
 ### Gif
-<div align="center" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; ">
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Registration</span>
-    <img src="/assets/gif/registration.gif" width="250" alt="Registration"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Catalog & Create order & Favorites</span>
-    <img src="/assets/gif/catalog_order_favorites.gif" width="250" alt="Catalog & Create order & Favorites"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Filters & sort</span>
-    <img src="/assets/gif/filters_sort.gif" width="250" alt="Filters & sort"/>
-  </div>
-
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <span style="margin-bottom: 8px; font-weight: bold;">Favorites</span>
-    <img src="/assets/gif/favorites.gif" width="250" alt="Favorites"/>
-  </div>
-</div>
+| Registration                      | Catalog & Create order & Favorites           | Filters & sort                    | Favorites                      |
+|-----------------------------------|----------------------------------------------|-----------------------------------|--------------------------------|
+| ![](/assets/gif/registration.gif) | ![](/assets/gif/catalog_order_favorites.gif) | ![](/assets/gif/filters_sort.gif) | ![](/assets/gif/favorites.gif) |
 
 # Built With 🛠
 - [Multi-Module Architecture](https://developer.android.com/topic/modularization)
